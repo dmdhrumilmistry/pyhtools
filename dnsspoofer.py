@@ -30,6 +30,7 @@ def forward_packets():
     # --queue-num -> jump to specfic queue number
     call('sudo iptables -I FORWARD -j NFQUEUE --queue-num 0', shell=True)
 
+    # for local host
     call('sudo iptables -I INPUT -j NFQUEUE --queue-num 0', shell=True)
     call('sudo iptables -I OUTPUT -j NFQUEUE --queue-num 0', shell=True)
     
@@ -52,8 +53,8 @@ def process_packet(packet):
     '''
     scapy_pkt = scapy.IP(packet.get_payload())
 
-    # Check for DNS layer in DNS Response Request(DNSRR) or 
-    # DNS Response Query (DNSRQ)
+    # Check for DNS layer in DNS Request Record (DNSRR) or 
+    # DNS Question Record (DNSQR)
     if scapy_pkt.haslayer(scapy.DNSRR):
         print(scapy_pkt.show())
 

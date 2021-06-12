@@ -57,20 +57,19 @@ print('[*] packet receiver configured successfully.\n')
 print('[*] Creating Queue to start receiving packets.')
 try:
     queue = netfilterqueue.NetfilterQueue()
+   # Bind queue with queue-number 0
+    queue.bind(0, process_packet)
+    queue.run()
+
 except OSError as e:
     print('[-] Run script with root priviliges.')
     print(e)
-    exit()
+
 except Exception:
     print('[-] An Exception occurred while creating queue.\n', Exception)
-    exit()
-# Bind queue with queue-number 0
-queue.bind(0, process_packet)
-queue.run()
 
+finally:
+    print('[*] Restoring previous configurations.. please be patient...')
+    reset_config()
 
-print('[*] Restoring previous configurations.. please be patient...')
-reset_config()
-
-
-print('[-] Program stopped.')
+    print('[-] Program stopped.')
