@@ -13,7 +13,6 @@
 
 from subprocess import call
 import netfilterqueue
-import scapy.all as scapy
 
 ############################### Functions ############################### 
 def forward_packets():
@@ -39,23 +38,21 @@ def reset_config():
     call('sudo iptables --flush', shell=True)
 
 
-
 def process_packet(packet):
     '''
     process received packet, everytime a packet is received.
     prints the packet received in the queue.
     '''
-    scapy_pkt = scapy.IP(packet.get_payload())
-    print(scapy_pkt.show())
-    packet.accept()
+    print(packet)
+    packet.drop()
     
 
 ############################### Main ############################### 
 
-# print('[*] configuring packet receiver...')
+print('[*] configuring packet receiver...')
 
-# forward_packets()
-# print('[*] packet receiver configured successfully.\n')
+forward_packets()
+print('[*] packet receiver configured successfully.\n')
 
 print('[*] Creating Queue to start receiving packets.')
 try:
@@ -71,7 +68,9 @@ except Exception:
 queue.bind(0, process_packet)
 queue.run()
 
+
 print('[*] Restoring previous configurations.. please be patient...')
 reset_config()
+
 
 print('[-] Program stopped.')
