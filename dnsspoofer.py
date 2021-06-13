@@ -2,7 +2,7 @@
 
 # how to forward port on linux
 # execute any of the commands below
-# 1. sudo sysctl -w net.ipv4.ip_forward = 1
+# 1. sudo sysctl -w net.ipv4.ip_forward=1
 # 2. sudo echo 1 > /proc/sys/net/ipv4/ip_forward
 
 
@@ -45,9 +45,12 @@ def get_mac(ip):
 
 	packet = brdcst / arp_req
 	responded_list = sp.srp(packet, timeout = 1, verbose = False)[0]
-
-	return responded_list[0][1].hwsrc
-
+	try: 
+		return responded_list[0][1].hwsrc
+	except IndexError:
+		print("[-] target is unreachable or it's offline")
+		print("[*] try ping or nmap to scan the target to check whether it's online")
+		exit()
 
 def spoof(target_ip, spoof_ip, args_status):
 	if args_status:
