@@ -30,9 +30,8 @@
 
 ### Features
 
-   - Helps user to setup basic SSH server
-   - Automated Setup
-   - Instructed Steps
+   - Helps user to save time
+   - Automated script
    - Secure script
 
 ##
