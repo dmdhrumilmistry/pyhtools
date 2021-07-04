@@ -1,12 +1,10 @@
 #!usr/bin/env python3
-
-
 import scapy.all as sp
 import argparse
 
 
 parser = argparse.ArgumentParser(description='search for other devices on the network')
-parser.add_argument('-ip', help='ip/ip range of the target device')
+parser.add_argument('-ip', help='ip or ip range of the target device')
 args = parser.parse_args()
 
 IP = args.ip
