@@ -1,0 +1,3 @@
+1. change ip and port to your desired values in listener.py and backdoor.py
+2. run listener.py on attackers machine.
+3. run backdoor.py on victims machine.

