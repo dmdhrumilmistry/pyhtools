@@ -32,9 +32,13 @@ class Listener:
         receive serialized data over TCP socket
         and retrieve original data.
         '''
-        bytes_json_data = self.connection.recv(1024)
-        return json.loads(bytes_json_data)
-
+        bytes_json_data = b''
+        while True:
+            try:
+                bytes_json_data += self.connection.recv(1024)
+                return json.loads(bytes_json_data)
+            except json.JSONDecodeError:
+                continue
 
     def execute_remotely(self, command):
         self.serial_send(command)
@@ -53,5 +57,5 @@ class Listener:
                 self.server.close()
                 sys.exit()
 
-            # except Exception as e:
-            #     print('[-] Exception : ', e)
+            except Exception as e:
+                print('[-] Exception : ', e)

