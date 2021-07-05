@@ -66,10 +66,7 @@ class Listener:
                 print(execution_result)
 
             except KeyboardInterrupt:
-                print('[!] ctrl+c detected. Closing and exiting server/listener')
-                self.serial_send('exit')
-                self.server.close()
-                sys.exit()
-
+                print('[!] ctrl+c detected.')
+               
             except Exception as e:
                 print('[-] Listener Exception : ', e)
