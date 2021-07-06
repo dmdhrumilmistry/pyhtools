@@ -31,6 +31,7 @@
    - Downloads Replacer
    - Network Jammer
    - Pkt Sniffer
+   - Code Injector
    
    #### Detectors
    - ARP Spoof Detector
