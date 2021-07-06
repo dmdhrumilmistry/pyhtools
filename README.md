@@ -3,6 +3,24 @@
 - The tools provided are for educational purposes only. The developers are no way responsible for misuse of information and tools provided. All the information and tools are meant to help newbies to learn new concepts. 
 - These tools are written in python3, refer installation to install/download tools and its dependencies.
 
+### Installation
+
+1. Open terminal
+
+2. Install git package
+   ```
+   $ sudo apt install git python3 -y
+   ```
+   
+3. clone the repository to your machine
+   ```
+   $ git clone https://github.com/dmdhrumilmistry/hacking_tools.git
+   ```
+  
+4. install requirements
+   ```
+   $ python3 -m pip install -r requirements.txt
+   ```
 
 ### Tools and Features 
    #### Attackers
@@ -43,24 +61,9 @@
    > **NOTE:** most of the modules are pre-installed, still to ensure the proper working of scripts, user should install the required modules using pip
       
 
-### Installation
+### How to Package a Trojan
+- [View How to create a Trojan](https://github.com/dmdhrumilmistry/hacking_tools/blob/master/malwares/Trojans/HowToCreateTrojanPackage.md)
 
-1. Open terminal
-
-2. Install git package
-   ```
-   $ sudo apt install git python3 -y
-   ```
-   
-3. clone the repository to your machine
-   ```
-   $ git clone https://github.com/dmdhrumilmistry/hacking_tools.git
-   ```
-  
-4. install requirements
-   ```
-   $ python3 -m pip install -r requirements.txt
-   ```
 
 ### Have any Ideas 💡 or issue
 - Create an issue
