@@ -60,7 +60,7 @@ def crawl_website(target_url:str)->None:
     '''
     links = map_urls(target_url)
     for link in links:
-        map_urls(link)
+        crawl_website(link)
     
     print(BRIGHT_YELLOW + f'[*] Mapped all links found on {target_url}')
 
