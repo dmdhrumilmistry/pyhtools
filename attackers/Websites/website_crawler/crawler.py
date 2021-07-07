@@ -1,7 +1,7 @@
 import requests
 import os
 from colorama import init, Style, Fore 
-
+import argparse
 
 init(autoreset=True)
 BRIGHT_WHITE = Style.BRIGHT + Fore.WHITE
@@ -9,17 +9,42 @@ BRIGHT_YELLOW = Style.BRIGHT + Fore.YELLOW
 BRIGHT_RED = Style.BRIGHT + Fore.RED
 
 
-def check_subdomain(subdomain:str, domain:str)->bool:
+def get_args()->dict:
     '''
-    checks if subdomain exists under domain
-    params: subdomain(str), domain(str) 
-    returns: bool
+    description: creates a ArgumentParser object collects 
+    arguments and returns arguments as a dict
+    params: None
+    returns: dict 
+    '''
+    parser = argparse.ArgumentParser() 
+    parser.add_argument('-t', '--target-domain', dest='target_domain', help='domain of your target eg. google.com, bing.com, facebook.com, etc.')
+    parser.add_argument('-w', '--wordlist', dest='wordlist', help='path to wordlist')
+    parser.add_argument('-m','--mode', dest='mode', help='modes : subdomain(find subdomains of the target domain), dirs(find directories of the target domain), subdir (find subdomain and directories of the target domain).')
+
+    args = parser.parse_args()
+    del parser
+    
+    args_dict = {
+        'mode' : args.mode,
+        'wordlist' : args.wordlist,
+        'target_domain':args.target_domain
+    }
+
+    return args_dict
+
+
+def request(url)->bool:
+    '''
+    description: requests for specific url and 
+    returns true if url is valid.
+    params : url(str)
+    returns : bool
     '''
     try:  
-        url = f'http://{subdomain}.{domain}'
         response = requests.get(url)
+        # print(response)
         if response.status_code == 200:
-            print(url)
+            # print(url)
             return True
         return False
     except requests.exceptions.ConnectionError:
@@ -29,30 +54,88 @@ def check_subdomain(subdomain:str, domain:str)->bool:
         return False
 
 
-def check_directories(domain, dir_name)->bool:
+def check_subdomain(domain:str, subdomain:str)->bool:
     '''
-    checks for directory for domain.
+    description: checks if subdomain exists under domain. 
+    prints generated url and returns True if url is valid
+    params: subdomain(str), domain(str) 
+    returns: bool
+    '''
+    url = f'http://{subdomain}.{domain}'
+    # print(url)
+    if request(url):
+        print('[*] Valid Subdomain : ', url)
+        return True
+    else:
+        return False
+    
+
+def check_directories(domain:str, dir_name:str)->bool:
+    '''
+    description: checks for directory for domain. 
+    prints url and returns True if generated url is valid. 
     params: domain(str), dir_name(str)
     returns : bool
     '''
+    url = f'http://{domain}/{dir_name}'
+
+    if request(url):
+        print('[*] Valid Directory : ', url)
+    else:
+        return False
+
+
+def perform_function(func, wordlist:str, domain:str)->bool:
+    '''
+    description: performs specific function on passed keyword arguements
+    params: func(function), **kwargs(keyword arguments)
+    returns: bool
+    '''
+    try:
+        print(BRIGHT_WHITE + '[*] Loading wordlists...')
+
+        print('='*25)
+        if os.path.isfile(wordlist):
+            with open(wordlist, 'r') as wordlist_file:
+                for word in wordlist_file:
+                    word = word.strip()
+                    # print(word)
+                    func(domain, word)
+        else:
+            print(BRIGHT_RED + '[-] Wordlist Not Found.')
+
+        print('='*25)
+        print(BRIGHT_YELLOW + '[*] Process Completed.')
+
+    except Exception as e:
+        print(BRIGHT_RED + '[-] Perform Exception : ', e)
+        print(BRIGHT_RED + '[!] Process Interrupted!')
 
 
 # ========== Main ===============
+
 print(BRIGHT_YELLOW + '[*] Starting crawler...')
-wordlist_file = r'D:\GithubRepos\hacking_tools\attackers\Websites\website_crawler\wordlists\test-wordlist.txt'
-target_domain = 'google.com'
 
-print(BRIGHT_WHITE + '[*] Loading wordlists...')
+args = get_args()
+# print(args)
 
-print('='*25)
-print(BRIGHT_YELLOW + '[*] Valid Subdomains :')
-if os.path.isfile(wordlist_file):
-    with open(wordlist_file, 'r') as wordlist_file:
-        for subdomain in wordlist_file:
-            subdomain = subdomain.strip()
-            check_subdomain(subdomain, target_domain)
+wordlist_file = r'{}'.format(args['wordlist'])
+target_domain = args['target_domain']
+
+#### TEST CASES ###
+# wordlist_file = r'D:\GithubRepos\hacking_tools\attackers\Websites\website_crawler\wordlists\test-wordlist.txt'
+# target_domain = r'google.com'
+
+# print(wordlist_file)
+# print(target_domain)
+# perform_function(check_subdomain, wordlist_file, target_domain)
+
+if args['mode'] == 'subdomain':
+    perform_function(check_subdomain, wordlist_file, target_domain)
+elif args['mode'] == 'dirs':
+    perform_function(check_directories, wordlist_file, target_domain)
+elif args['mode'] == 'subdirs':
+    perform_function(check_subdomain, wordlist_file, target_domain)
+    perform_function(check_directories, wordlist_file, target_domain)
 else:
-    print(BRIGHT_RED + '[-] Wordlist Not Found.')
-
-print('='*25)
-print(BRIGHT_YELLOW + '[*] Process Completed.')
+    print(BRIGHT_RED + '[-] Unkown mode: use --help or -h for help')
