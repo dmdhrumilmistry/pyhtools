@@ -2,6 +2,8 @@ import requests
 import os
 from colorama import init, Style, Fore 
 import argparse
+import sys
+
 
 init(autoreset=True)
 BRIGHT_WHITE = Style.BRIGHT + Fore.WHITE
@@ -40,14 +42,16 @@ def request(url)->bool:
     params : url(str)
     returns : bool
     '''
-    try:  
-        response = requests.get(url)
+    try:
+        response = requests.get(url, timeout=0.5)
+        # print(url)
         # print(response)
         if response.status_code == 200:
-            # print(url)
             return True
         return False
     except requests.exceptions.ConnectionError:
+        return False
+    except UnicodeError:
         return False
     except Exception as e:
         print(BRIGHT_RED + '[-] Request Exception : ', e)
@@ -103,9 +107,8 @@ def perform_function(func, wordlist:str, domain:str)->bool:
                     func(domain, word)
         else:
             print(BRIGHT_RED + '[-] Wordlist Not Found.')
-
-        print('='*25)
-        print(BRIGHT_YELLOW + '[*] Process Completed.')
+            print('='*25)
+            print(BRIGHT_YELLOW + '[*] Process Completed.')
 
     except Exception as e:
         print(BRIGHT_RED + '[-] Perform Exception : ', e)
@@ -122,20 +125,21 @@ args = get_args()
 wordlist_file = r'{}'.format(args['wordlist'])
 target_domain = args['target_domain']
 
-#### TEST CASES ###
-# wordlist_file = r'D:\GithubRepos\hacking_tools\attackers\Websites\website_crawler\wordlists\test-wordlist.txt'
-# target_domain = r'google.com'
-
-# print(wordlist_file)
-# print(target_domain)
-# perform_function(check_subdomain, wordlist_file, target_domain)
-
-if args['mode'] == 'subdomain':
-    perform_function(check_subdomain, wordlist_file, target_domain)
-elif args['mode'] == 'dirs':
-    perform_function(check_directories, wordlist_file, target_domain)
-elif args['mode'] == 'subdirs':
-    perform_function(check_subdomain, wordlist_file, target_domain)
-    perform_function(check_directories, wordlist_file, target_domain)
-else:
-    print(BRIGHT_RED + '[-] Unkown mode: use --help or -h for help')
+try:
+    if args['mode'] == 'subdomain':
+        print(BRIGHT_YELLOW + '[1] Finding subdomains')
+        perform_function(check_subdomain, wordlist_file, target_domain)
+    elif args['mode'] == 'dirs':
+        print(BRIGHT_YELLOW + '[2] Finding directories and files')
+        perform_function(check_directories, wordlist_file, target_domain)
+    elif args['mode'] == 'subdirs':
+        print(BRIGHT_YELLOW + '[1] Finding subdomains')
+        perform_function(check_subdomain, wordlist_file, target_domain)
+        
+        print(BRIGHT_YELLOW + '[2] Finding directories and files')
+        perform_function(check_directories, wordlist_file, target_domain)
+    else:
+        print(BRIGHT_RED + '[-] Unkown mode: use --help or -h for help')
+except KeyboardInterrupt:
+    print('[!] ctrl+c detected! Exiting Program..')
+    sys.exit()
