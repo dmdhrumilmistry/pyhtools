@@ -3,3 +3,4 @@ requests>=2.25.1
 argparse>=1.4.0
 #netfilterqueue : sudo pip3 install --upgrade -U git+https://github.com/kti/python-netfilterqueue
 pynput>=1.7.3
+colorama>=0.4.4
