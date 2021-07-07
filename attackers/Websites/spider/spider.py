@@ -28,9 +28,6 @@ def get_target_links(url:str):
     links = get_links(url)
     for link in links:
         link = urljoin(url, link)
-        
-        if link[-1] == '/':
-            link = link.rstrip(link[-1])
 
         if '#' in link:
             link = link.split('#')[0]
