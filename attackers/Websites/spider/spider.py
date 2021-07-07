@@ -2,6 +2,13 @@
 import requests
 import re
 from urllib.parse import *
+import argparse
+from colorama import init, Style, Fore
+
+init(autoreset=True)
+BRIGHT_RED = Style.BRIGHT + Fore.RED
+BRIGHT_WHITE = Style.BRIGHT + Fore.WHITE
+BRIGHT_YELLOW = Style.BRIGHT + Fore.YELLOW
 
 
 def get_links(url:str)->list:
@@ -62,8 +69,16 @@ def crawl_website(target_url:str)->None:
         map_urls(link)
     
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-t', '--target', dest='target_url', help='url of the target eg: https://facebook.com, https://github.com, http://bing.com')
+args = parser.parse_args()
+del parser
+
 try:
-    target_url = 'https://target_domain.com'
+    target_url = args.target_url
+    print(BRIGHT_YELLOW + '[*] Starting SPIDER...')
     crawl_website(target_url)
 except KeyboardInterrupt:
-    print('\r[!] ctrl+c detected! Exiting Spider.')
+    print(BRIGHT_YELLOW + '\r[!] ctrl+c detected! Exiting Spider.')
+except Exception as e:
+    print(BRIGHT_RED + '[-] Exception : ', e)
