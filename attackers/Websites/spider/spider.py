@@ -1,7 +1,7 @@
 #!usr/bin/env python3
 import requests
 import re
-from urllib.parse import *
+from urllib.parse import urljoin
 import argparse
 from colorama import init, Style, Fore
 
@@ -69,3 +69,5 @@ except KeyboardInterrupt:
     print(BRIGHT_YELLOW + '\r[!] ctrl+c detected! Exiting Spider.')
 except Exception as e:
     print(BRIGHT_RED + '[-] Exception : ', e)
+finally:
+    print(BRIGHT_YELLOW + "[*] Total Links Found Before Exception : ", len(target_links))
