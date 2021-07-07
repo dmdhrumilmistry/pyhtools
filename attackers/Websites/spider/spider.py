@@ -5,11 +5,6 @@ from urllib.parse import *
 import argparse
 from colorama import init, Style, Fore
 
-init(autoreset=True)
-BRIGHT_RED = Style.BRIGHT + Fore.RED
-BRIGHT_WHITE = Style.BRIGHT + Fore.WHITE
-BRIGHT_YELLOW = Style.BRIGHT + Fore.YELLOW
-
 
 def get_links(url:str)->list:
     '''
@@ -29,8 +24,7 @@ def get_target_links(url:str,links:list):
     params: links(list) from the target webpage
     returns: useful links(list) related to target webpage
     '''
-    target_links = []
-
+    global target_links
     for link in links:
         link = urljoin(url, link)
         
@@ -67,13 +61,25 @@ def crawl_website(target_url:str)->None:
     links = map_urls(target_url)
     for link in links:
         map_urls(link)
-    
 
+
+# initialize colors 
+init(autoreset=True)
+BRIGHT_RED = Style.BRIGHT + Fore.RED
+BRIGHT_WHITE = Style.BRIGHT + Fore.WHITE
+BRIGHT_YELLOW = Style.BRIGHT + Fore.YELLOW
+
+# list to save links on the whole webpage
+# to avoid repetition
+target_links = [] 
+
+# Parse arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--target', dest='target_url', help='url of the target eg: https://facebook.com, https://github.com, http://bing.com')
 args = parser.parse_args()
 del parser
 
+# start spider
 try:
     target_url = args.target_url
     print(BRIGHT_YELLOW + '[*] Starting SPIDER...')
