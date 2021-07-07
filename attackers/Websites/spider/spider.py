@@ -17,7 +17,7 @@ def get_links(url:str)->list:
     return re.findall(r'(?:href=")(.*?)"',content)
 
 
-def get_target_links(url:str,links:list):
+def get_target_links(url:str):
     '''
     description: extracts useful links and prints them which are
     only related to the target webpage.
@@ -25,6 +25,7 @@ def get_target_links(url:str,links:list):
     returns: useful links(list) related to target webpage
     '''
     global target_links
+    links = get_links(url)
     for link in links:
         link = urljoin(url, link)
         
@@ -34,35 +35,11 @@ def get_target_links(url:str,links:list):
         if '#' in link:
             link = link.split('#')[0]
 
-        if link not in target_links and url in link:
+        # print(BRIGHT_RED+ link)
+        if link not in target_links and target_url in link:
             target_links.append(link)
             print(link)
-
-    return target_links
-
-
-def map_urls(url:str)->list:
-    '''
-    description: maps all the url within the webpage.
-    params: target_url
-    returns: mapped urls of the webpage
-    '''
-    links = get_links(url)
-    target_links = get_target_links(url,links)
-    return target_links
-
-
-def crawl_website(target_url:str)->None:
-    '''
-    description: crawls through website and maps all the links.
-    params: target_url(str)
-    returns: None
-    '''
-    links = map_urls(target_url)
-    for link in links:
-        crawl_website(link)
-    
-    print(BRIGHT_YELLOW + f'[*] Mapped all links found on {target_url}')
+            get_target_links(link)
 
 
 # initialize colors 
@@ -85,7 +62,9 @@ del parser
 try:
     target_url = args.target_url
     print(BRIGHT_YELLOW + '[*] Starting SPIDER...')
-    crawl_website(target_url)
+    get_target_links(target_url)
+    print(BRIGHT_YELLOW + f'[*] Mapped all links found on {target_url}')
+    print(BRIGHT_YELLOW + "[*] Total Links Found : ", len(target_links))
 except KeyboardInterrupt:
     print(BRIGHT_YELLOW + '\r[!] ctrl+c detected! Exiting Spider.')
 except Exception as e:
