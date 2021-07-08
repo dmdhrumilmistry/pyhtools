@@ -1,21 +1,77 @@
 import scanner
+import argparse
+from colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
+import sys
 
-target_url = 'http://10.0.2.30/'
-ignore_links = ["http://10.0.2.30/dvwa/logout.php"]
 
-vuln_scanner = scanner.Scanner(target_url, ignore_links)
+def get_args():
+    '''
+    description: get arguments from the user.
+    params: None
+    returns: dictionary of arguments.
+    '''
+    parser = argparse.ArgumentParser(description='Web Application Vulnerability Scanner')
+    parser.add_argument('-t', '--target-url',dest='target_url',help='root url of the target website', required=True)
+    parser.add_argument('-ig', '--ignore-links', dest='ignore_links', help='url of wepages which are to be ignored while scanning/testing for vulnerabilities separated by commas')
+    parser.add_argument('-l','--login-link',dest='login_link',help='direct login/authentication link')
+    parser.add_argument('-ld', '--login-details', dest='login_details', help='pass login details if authentication required as username,password (separated by comma)')
+    args = parser.parse_args()
+
+    
+    if args.target_url:
+        target_url = args.target_url
+
+    login_link = None
+    if args.login_link:
+        login_link = args.login_link
+
+    login_details = None
+    if args.login_details is not None:
+        login_details = [detail.strip() for detail in args.login_details.split(',')]
+
+    ignore_links = None
+    if args.ignore_links is not None:
+        ignore_links = [link.strip() for link in args.ignore_links.split(',')]
+
+    return {
+        "target_url": target_url,
+        "ignore_links": ignore_links,
+        "login_link": login_link,
+        "login_details" : login_details,
+    }
+
+
+args = get_args()
+# print(args)
+TARGET_URL = args['target_url']
+print(BRIGHT_YELLOW + '[*] TARGET URL: ', TARGET_URL)
+
+IGNORE_LINKS = args['ignore_links']
+print(BRIGHT_YELLOW + '[*] LINKS TO BE IGNORED: ', IGNORE_LINKS)
+
+authentication_required = False
+if args['login_details'] is not None and args['login_link'] is not None:
+    try:
+        LOGIN_LINK = args['login_link']
+        print(BRIGHT_YELLOW + '[*] LOGIN LINK: ', LOGIN_LINK)
+        USERNAME = args['login_details'][0]
+        print(BRIGHT_YELLOW +'[*] USERNAME: ', USERNAME)
+        PASSWORD = args['login_details'][1]
+        print(BRIGHT_YELLOW + '[*] PASSWORD: ', PASSWORD)
+        authentication_required = True
+    except IndexError:
+        print(BRIGHT_RED + '[-] PLEASE PROVIDE ALL THE REQUIRED VALUES.')
+        print(BRIGHT_YELLOW + '[*] USE -h or --help for usage.')
+        sys.exit()
+
+print()
+
+vuln_scanner = scanner.Scanner(TARGET_URL, IGNORE_LINKS)
 
 # values for login page if required else comment these
-login_post_values = {"username":"admin", "password":"password", "Login":"submit"}
-vuln_scanner.session.post('http://10.0.2.30/dvwa/login.php', data=login_post_values)
+if authentication_required:
+    login_post_values = {"username":USERNAME, "password":PASSWORD, "Login":"submit"}
+    vuln_scanner.session.post(LOGIN_LINK, data=login_post_values)
 
-# test cases
-# forms = vuln_scanner.get_forms('http://10.0.2.30/dvwa/vulnerabilities/xss_r/')
-# is_vulnerable = vuln_scanner.is_xss_vulnerable_in_form(forms[0], 'http://10.0.2.30/dvwa/vulnerabilities/xss_r/')
-
-# print(is_vulnerable)
-
-# is_link_vuln = vuln_scanner.is_xss_vulnerable_in_link('http://10.0.2.30/dvwa/vulnerabilities/xss_r/?name=test')
-# print(is_link_vuln)
-
+# run scan
 vuln_scanner.run()

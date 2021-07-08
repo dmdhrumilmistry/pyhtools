@@ -1,0 +1,9 @@
+# test case 1: Testing on DVWA metasploitable
+# $ python3 vuln_scanner.py -t http://10.0.2.30/dvwa/ -ig http://10.0.2.30/dvwa/logout.php -l http://10.0.2.30/dvwa/login.php -ld admin,password
+# target_url = 'http://10.0.2.30/dvwa'
+# login_link = 'http://10.0.2.30/dvwa/login.php'
+# ignore_links = ["http://10.0.2.30/dvwa/logout.php"]
+# ld = ['admin','password']
+
+# Test Case 2: Testing on mutillidae 
+# $ python3 vuln_scanner.py -t http://10.0.2.30/mutillidae/   

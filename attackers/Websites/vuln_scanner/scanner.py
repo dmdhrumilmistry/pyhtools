@@ -4,13 +4,17 @@ import requests
 import re
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-from colors import *
-
+from colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
+from time import sleep
 
 class Scanner:
     def __init__(self, url:str, ignore_links:list) -> None:
         self.target_url = url
-        self.ignore_links = ignore_links
+        
+        if ignore_links:
+            self.ignore_links = ignore_links
+        else:
+            self.ignore_links = []
         
         self.session = requests.Session()
         self.target_links = []
@@ -37,14 +41,14 @@ class Scanner:
         links = self.get_links(url)
         for link in links:
             link = urljoin(url, link)
-
+            
             if '#' in link:
                 link = link.split('#')[0]
 
-            # print(BRIGHT_RED+ link)
             if link not in self.target_links and self.target_url in link and link not in self.ignore_links:
                 self.target_links.append(link)
-                print(link)
+                if requests.get(link).status_code==200:
+                    print(link)
                 self.get_target_links(link)
     
 
@@ -147,20 +151,30 @@ class Scanner:
         '''
         Starts the scanner.
         '''
-        self.get_target_links(self.target_url)
-        forms = self.get_forms(self.target_url)
-        
-        for link in self.target_links:
-            forms = self.get_forms(link)
-            for form in forms:
-                print(BRIGHT_WHITE + '[*] Scanning/Testing vuln in form of link: ', link)
-                if self.is_xss_vulnerable_in_form(form,link):
-                    print(BRIGHT_YELLOW + f'[!] Found XSS vuln in {link} form : ')
-                    print(form)
-                    print()
+        try:
+            try:
+                print(BRIGHT_WHITE + '[*] Spider is mapping website.')
+                print(BRIGHT_YELLOW + '[!] Press ctrl+c to stop mapping!')
+                self.get_target_links(self.target_url)
+            except KeyboardInterrupt:
+                print(BRIGHT_YELLOW + '\r[!] ctrl+c detected! Stopping Spider. Website mapping stopped.')
+            
+            print(BRIGHT_WHITE + '[*] Finding vulnerabilites on the mapped webpages.')
+            forms = self.get_forms(self.target_url)
+            
+            for link in self.target_links:
+                forms = self.get_forms(link)
+                for form in forms:
+                    print(BRIGHT_WHITE + '[*] Scanning/Testing vuln in form of link: ', link)
+                    if self.is_xss_vulnerable_in_form(form,link):
+                        print(BRIGHT_YELLOW + f'[!] Found XSS vuln in {link} form : ')
+                        print(form)
+                        print()
 
-            if "=" in link:
-                print(BRIGHT_WHITE + '[*] Scanning/Testing vuln from URL of link: ', link)
-                if self.is_xss_vulnerable_in_link(link):
-                    print(BRIGHT_YELLOW + '[!] Found XSS vuln in URL :', link)
-                    print()
+                if "=" in link:
+                    print(BRIGHT_WHITE + '[*] Scanning/Testing vuln from URL of link: ', link)
+                    if self.is_xss_vulnerable_in_link(link):
+                        print(BRIGHT_YELLOW + '[!] Found XSS vuln in URL :', link)
+                        print()
+        except Exception as e:
+            print(BRIGHT_RED + f'[-] Exception : {e}')
