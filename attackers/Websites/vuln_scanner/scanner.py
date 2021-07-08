@@ -1,6 +1,5 @@
 #!usr/bin/env python3
 
-from vuln_scanner.colors import BRIGHT_YELLOW
 import requests
 import re
 from urllib.parse import urljoin
@@ -55,10 +54,10 @@ class Scanner:
         params: content(str)
         returns: str
         '''
-        return content.replace(r'\n','').replace(r'\t','').replace(r'\r','')
+        return content.replace(r'\n','').replace(r'\t','').replace(r'\r','').replace(r"\'","'")
 
 
-    def get_page_content(self, url:str):
+    def get_page_content(self, url:str)->str:
         '''
         desc: extracts html code of the webpage.
         params: url(str)
@@ -114,19 +113,54 @@ class Scanner:
         return self.remove_escape_seq(str(post_response.content))
         
     
+    def is_xss_vulnerable_in_form(self, form, url)->bool:
+        '''
+        description: tests whether the passed form is xss vulnerable or not. 
+        returns True if vulnerable. 
+        params: form, url
+        returns: bool
+        '''
+        test_script_payload = "<scRipt>alert('vulnerable')</sCript>"
+        response_content = self.submit_form(form, test_script_payload, url)
+        # response = BeautifulSoup(response_content, 'html.parser')
+        # print(BRIGHT_YELLOW + '[-] RESPONSE: \n', response.prettify())
+        return test_script_payload in response_content
+
+
+    def is_xss_vulnerable_in_link(self, url):
+        '''
+        description: tests whether the passed url is xss vulnerable or not. 
+        returns True if vulnerable. 
+        params: form, url
+        returns: bool
+        '''
+        test_script_payload = "<scRipt>alert('vulnerable')</sCript>"
+        url = url.replace('=',f'={test_script_payload}')
+        response_content = self.get_page_content(url)
+        # response = BeautifulSoup(response_content, 'html.parser')
+        # print(BRIGHT_YELLOW + '[-] RESPONSE: \n', response.prettify())
+
+        return test_script_payload in response_content
+
+
     def run(self):
         '''
         Starts the scanner.
         '''
-        # self.get_target_links(self.target_url)
-        # forms = self.get_forms(self.target_url)
+        self.get_target_links(self.target_url)
+        forms = self.get_forms(self.target_url)
         
-        # response = self.submit_form(forms[0], 'helloTester', 'http://10.0.2.30/dvwa/vulnerabilities/xss_r/')
-        # print(response)
         for link in self.target_links:
             forms = self.get_forms(link)
             for form in forms:
-                print(BRIGHT_YELLOW + '[*] Scanning/Testing : ', link)
+                print(BRIGHT_WHITE + '[*] Scanning/Testing vuln in form of link: ', link)
+                if self.is_xss_vulnerable_in_form(form,link):
+                    print(BRIGHT_YELLOW + f'[!] Found XSS vuln in {link} form : ')
+                    print(form)
+                    print()
 
             if "=" in link:
-                print(BRIGHT_YELLOW + "[*] Scanning/Testing : ", link)
+                print(BRIGHT_WHITE + '[*] Scanning/Testing vuln from URL of link: ', link)
+                if self.is_xss_vulnerable_in_link(link):
+                    print(BRIGHT_YELLOW + '[!] Found XSS vuln in URL :', link)
+                    print()
