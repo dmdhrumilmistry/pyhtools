@@ -5,55 +5,97 @@ import subprocess
 import re
 import argparse
 from sys import exit
+from random import randint
+from colors import *
+
 
 def get_arguments():
+	'''
+	description: get arguments from the console.
+	params: None
+	returns: Interface, new_mac
+	'''
 	parser = argparse.ArgumentParser(description='Mac Changer')
 
-	parser.add_argument('-i', '--interface', dest = 'interface', help='Choose interface')
-	parser.add_argument('-m', '--new-mac', dest = 'new_mac', help='Choose new mac address')
+	parser.add_argument('-i', '--interface', dest='interface',
+	                    help='Choose interface')
+	parser.add_argument('-m', '--new-mac', dest='new_mac',
+	                    help='Choose new mac address or enter random to generate random mac.')
 	args = parser.parse_args()
 
 	INTERFACE = args.interface
 	NEW_MAC = args.new_mac
 	del parser
 
+	if NEW_MAC == 'random':
+		print(BRIGHT_WHITE + '[*] Generating Random Mac')
+		NEW_MAC = generate_random_mac()
+
 	return INTERFACE, NEW_MAC
 
+
+def generate_random_mac() -> str:
+	'''
+	description: generates and returns a random mac address
+	params: None
+	returns: str
+	'''
+ 	rand_mac = ''
+  	for _ in range(6):
+		rand_mac += format(randint(0,255), 'x') + ':'
+  
+	return rand_mac.rstrip(':')
+
+
 def check_args(intrfc, new_mac):
-    if not intrfc:
-        exit("[-] Please enter interface argument, use -h or --help for more info")
-    elif not new_mac:
-        exit("[-] Please enter new mac address as argument, use -h or --help for more info")
-    return True
+	'''
+	decription: checks if args are valid, prints appropriate error and exit.
+	Returns True if all parsed arguments are valid. 
+	params: interfce(interface), new_mac
+	returns: bool
+	'''
+	if not intrfc:
+	    exit(BRIGHT_RED + "[-] Please enter interface argument, use -h or --help for more info")
+	elif not new_mac:
+	    exit(BRIGHT_RED + "[-] Please enter new mac address as argument, use -h or --help for more info")
+	return True
 
 
 def change_mac(intrfc, new_mac):
-	if check_args(intrfc, new_mac):
-		try:
-			subprocess.call(['sudo', 'ifconfig', intrfc, 'down'])
-			subprocess.call(['sudo', 'ifconfig', intrfc, 'hw', 'ether',new_mac])
-			subprocess.call(['sudo', 'ifconfig', intrfc, 'up'])
-			return True
-
-		except Exception as e:
-			exit('[-] Error occured while changing MAC address')
+    '''
+    decription: changes mac address of the interface. returns True if mac changes successfully.
+    params: interface, new_mac
+    returns: True or exits program.
+    '''
+    if check_args(intrfc, new_mac):
+        try:
+            subprocess.call(['sudo', 'ifconfig', intrfc, 'down'])
+            subprocess.call(['sudo', 'ifconfig', intrfc, 'hw', 'ether',new_mac])
+            subprocess.call(['sudo', 'ifconfig', intrfc, 'up'])
+            return True
+        
+        except Exception as e:
+            exit(BRIGHT_RED +'[-] Error occured while changing MAC address')
 		
-	return False
 
-
-def check_mac_change(intrfc,new_mac, mac_change_status):
+def check_mac_change(intrfc, new_mac, mac_change_status):
+	'''
+	description: checks if mac address has been changed
+  	params: interface, new_mac, mac_change_status
+	returns: None
+	'''
 	if mac_change_status:
 	    ifconfig_result = subprocess.check_output(['sudo', 'ifconfig', intrfc])
 	    mac_regex = r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w"
 	    mac_check_result = re.search(mac_regex, str(ifconfig_result))
 	    if mac_check_result:
 	        if mac_check_result.group(0) == new_mac:
-	            print("[+] " + intrfc + " MAC successfully changed \n[+] Current Mac: " + mac_check_result.group(0))
+	            print(BRIGHT_YELLOW + f'[+]  {intrfc}  MAC successfully changed\n', BRIGHT_WHITE + f'[+] Current Mac: {mac_check_result.group(0)}')
 	        else:
-	            print("[-] " + intrfc + " MAC is not changed/ error while reading MAC address please try again")
-	            print("[+] Current Mac: " + mac_check_result.group(0))
+	            print(BRIGHT_RED + f"[-] {intrfc} MAC is not changed/ error while reading MAC address please try again")
+	            print(BRIGHT_YELLOW + "[+] Current Mac: " + mac_check_result.group(0))
 	    else:
-	        print("[-] MAC not found")
+	        print(BRIGHT_RED + "[-] MAC not found")
 
 
 INTERFACE, NEW_MAC = get_arguments()
