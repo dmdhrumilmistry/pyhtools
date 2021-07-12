@@ -8,6 +8,12 @@
 #########################################################################
 # If you encounter Import error after installing netfilter use command 
 # sudo pip3 install --upgrade -U git+https://github.com/kti/python-netfilterqueue 
+
+# OR use below commands
+
+# sudo apt install libnfnetlink-dev libnetfilter-queue-dev
+# pip3 install nfqp3
+
 #########################################################################
 
 

