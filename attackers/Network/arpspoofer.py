@@ -6,9 +6,10 @@
 # 2. sudo echo 1 > /proc/sys/net/ipv4/ip_forward
 
 
-import scapy.all as sp
+import kamene.all as sp
 import argparse
 from time import sleep
+
 
 def get_args():
 	parser = argparse.ArgumentParser('ARP spoofer')
@@ -44,7 +45,7 @@ def get_mac(ip):
 	brdcst = sp.Ether(dst='ff:ff:ff:ff:ff:ff')
 
 	packet = brdcst / arp_req
-	responded_list = sp.srp(packet, timeout = 1, verbose = False)[0]
+	responded_list = sp.srp(packet, timeout = 2, verbose = False, retry=3)[0]
 
 	return responded_list[0][1].hwsrc
 
