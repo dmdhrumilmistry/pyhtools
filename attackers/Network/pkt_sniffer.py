@@ -2,7 +2,6 @@
 
 # sudo pip install scapy_http
 import scapy.all as sp
-# from kamene.all.layers import http
 from scapy.layers import http
 import argparse
 from sys import exit
