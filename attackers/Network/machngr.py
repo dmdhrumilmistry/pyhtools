@@ -40,11 +40,11 @@ def generate_random_mac() -> str:
 	params: None
 	returns: str
 	'''
- 	rand_mac = ''
-  	for _ in range(6):
-		rand_mac += format(randint(0,255), 'x') + ':'
+	rand_mac = '00'
+	for _ in range(5):
+		rand_mac +=  ':' + format(randint(0,255), 'x')
   
-	return rand_mac.rstrip(':')
+	return rand_mac
 
 
 def check_args(intrfc, new_mac):
@@ -90,7 +90,7 @@ def check_mac_change(intrfc, new_mac, mac_change_status):
 	    mac_check_result = re.search(mac_regex, str(ifconfig_result))
 	    if mac_check_result:
 	        if mac_check_result.group(0) == new_mac:
-	            print(BRIGHT_YELLOW + f'[+]  {intrfc}  MAC successfully changed\n', BRIGHT_WHITE + f'[+] Current Mac: {mac_check_result.group(0)}')
+	            print(BRIGHT_YELLOW + f'[+] {intrfc}  MAC successfully changed\n', BRIGHT_WHITE + f'\r[+] Current Mac: {mac_check_result.group(0)}')
 	        else:
 	            print(BRIGHT_RED + f"[-] {intrfc} MAC is not changed/ error while reading MAC address please try again")
 	            print(BRIGHT_YELLOW + "[+] Current Mac: " + mac_check_result.group(0))
