@@ -53,6 +53,9 @@ def get_mac(ip):
 	except PermissionError:
 		print(BRIGHT_RED + '[-] run with sudo.')
 		exit()
+	except IndexError:
+		print(BRIGHT_YELLOW + '\r[!] Unable to find target.')
+
 
 def spoof(target_ip, spoof_ip, args_status):
 	if args_status:

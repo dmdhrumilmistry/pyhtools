@@ -69,8 +69,9 @@ def sniffer(intrfce, args_status):
 	try:
 		if args_status:
 			sp.sniff(iface=intrfce, store=False, prn=process_sniffed_pkt)
-	except Exception:
+	except Exception as e:
 		print(BRIGHT_RED + '[-] An error occured while sniffing...')
+		print(e)
 
 
 def process_sniffed_pkt(packet):
@@ -80,6 +81,7 @@ def process_sniffed_pkt(packet):
 	returns: None
 	'''
 	if packet.haslayer(http.HTTPRequest):
+		print(packet.show())
 		
 		url = get_url(packet)
 		print(BRIGHT_WHITE + '[+] Http Request >> ' + url + '\n')
@@ -93,11 +95,12 @@ if __name__ == '__main__':
 	try:
 		INTERFACE = get_args()
 		ARGS_STATUS = check_args(INTERFACE)
+		print(BRIGHT_YELLOW + f'[*] Sniffing Packets over interface {INTERFACE}')
 		sniffer(INTERFACE, ARGS_STATUS)
 	except KeyboardInterrupt:
 		print(BRIGHT_YELLOW + '\r[-] ctrl+c detected...')
 	except Exception:
 		print(BRIGHT_RED + '[-] Closing Program due to Error...')
 		print(Exception)
-
-
+	finally:
+		print(BRIGHT_RED + '\r[-] Exiting Sniffer..')
