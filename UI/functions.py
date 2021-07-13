@@ -1,11 +1,10 @@
-import colorama
 import pyfiglet
 import os
 import sys
-from colors import *
 from prettytable import PrettyTable
 import threading
 # ------------- Custom imports -----------------------
+from UI.colors import *
 import malwares.reverse_backdoor.listener as listener
 
 

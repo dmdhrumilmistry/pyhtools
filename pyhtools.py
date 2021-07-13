@@ -1,4 +1,4 @@
-import functions
+import UI.functions as UI
 
-functions.banner()
-functions.run()
+UI.banner()
+UI.run()
