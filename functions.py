@@ -4,6 +4,7 @@ import os
 import sys
 from colors import *
 from prettytable import PrettyTable
+import threading
 # ------------- Custom imports -----------------------
 import malwares.reverse_backdoor.listener as listener
 
@@ -47,7 +48,7 @@ def run():
     '''
     wanna_run = True
     while wanna_run:
-        cmd = input(' pyhtools >> ').lower().strip()
+        cmd = input(BACK_RED_BRIGHT_YELLOW + 'pyhtools >>' + RESET_COLORS + ' ').lower().strip()
         if cmd == 'close pht':
             sys.exit()
         if cmd == 'clear':
