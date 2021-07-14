@@ -1,14 +1,8 @@
 import requests
 import os
-from colorama import init, Style, Fore 
 import argparse
 import sys
-
-
-init(autoreset=True)
-BRIGHT_WHITE = Style.BRIGHT + Fore.WHITE
-BRIGHT_YELLOW = Style.BRIGHT + Fore.YELLOW
-BRIGHT_RED = Style.BRIGHT + Fore.RED
+from UI.colors import *
 
 
 def get_args()->dict:
@@ -116,30 +110,30 @@ def perform_function(func, wordlist:str, domain:str)->bool:
 
 
 # ========== Main ===============
+if __name__ == '__main__':
+    print(BRIGHT_YELLOW + '[*] Starting crawler...')
 
-print(BRIGHT_YELLOW + '[*] Starting crawler...')
+    args = get_args()
+    # print(args)
 
-args = get_args()
-# print(args)
+    wordlist_file = r'{}'.format(args['wordlist'])
+    target_domain = args['target_domain']
 
-wordlist_file = r'{}'.format(args['wordlist'])
-target_domain = args['target_domain']
-
-try:
-    if args['mode'] == 'subdomain':
-        print(BRIGHT_YELLOW + '[1] Finding subdomains')
-        perform_function(check_subdomain, wordlist_file, target_domain)
-    elif args['mode'] == 'dirs':
-        print(BRIGHT_YELLOW + '[2] Finding directories and files')
-        perform_function(check_directories, wordlist_file, target_domain)
-    elif args['mode'] == 'subdirs':
-        print(BRIGHT_YELLOW + '[1] Finding subdomains')
-        perform_function(check_subdomain, wordlist_file, target_domain)
-        
-        print(BRIGHT_YELLOW + '[2] Finding directories and files')
-        perform_function(check_directories, wordlist_file, target_domain)
-    else:
-        print(BRIGHT_RED + '[-] Unkown mode: use --help or -h for help')
-except KeyboardInterrupt:
-    print('[!] ctrl+c detected! Exiting Program..')
-    sys.exit()
+    try:
+        if args['mode'] == 'subdomain':
+            print(BRIGHT_YELLOW + '[1] Finding subdomains')
+            perform_function(check_subdomain, wordlist_file, target_domain)
+        elif args['mode'] == 'dirs':
+            print(BRIGHT_YELLOW + '[2] Finding directories and files')
+            perform_function(check_directories, wordlist_file, target_domain)
+        elif args['mode'] == 'subdirs':
+            print(BRIGHT_YELLOW + '[1] Finding subdomains')
+            perform_function(check_subdomain, wordlist_file, target_domain)
+            
+            print(BRIGHT_YELLOW + '[2] Finding directories and files')
+            perform_function(check_directories, wordlist_file, target_domain)
+        else:
+            print(BRIGHT_RED + '[-] Unkown mode: use --help or -h for help')
+    except KeyboardInterrupt:
+        print('[!] ctrl+c detected! Exiting Program..')
+        sys.exit()

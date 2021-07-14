@@ -4,7 +4,7 @@ import requests
 import re
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-from colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
+from UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
 from time import sleep
 
 class Scanner:

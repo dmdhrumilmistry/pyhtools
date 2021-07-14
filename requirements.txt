@@ -6,3 +6,4 @@ pynput>=1.7.3
 colorama>=0.4.4
 beautifulsoup4==4.9.3
 pyfiglet==0.8.post1
+prettytable==2.1.0

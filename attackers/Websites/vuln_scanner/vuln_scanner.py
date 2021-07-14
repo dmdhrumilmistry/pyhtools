@@ -1,6 +1,6 @@
 import scanner
 import argparse
-from colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
+from UI.colors import *
 import sys
 
 
@@ -41,37 +41,39 @@ def get_args():
     }
 
 
-args = get_args()
-# print(args)
-TARGET_URL = args['target_url']
-print(BRIGHT_YELLOW + '[*] TARGET URL: ', TARGET_URL)
 
-IGNORE_LINKS = args['ignore_links']
-print(BRIGHT_YELLOW + '[*] LINKS TO BE IGNORED: ', IGNORE_LINKS)
+if __name__ == '__main__':
+    args = get_args()
 
-authentication_required = False
-if args['login_details'] is not None and args['login_link'] is not None:
-    try:
-        LOGIN_LINK = args['login_link']
-        print(BRIGHT_YELLOW + '[*] LOGIN LINK: ', LOGIN_LINK)
-        USERNAME = args['login_details'][0]
-        print(BRIGHT_YELLOW +'[*] USERNAME: ', USERNAME)
-        PASSWORD = args['login_details'][1]
-        print(BRIGHT_YELLOW + '[*] PASSWORD: ', PASSWORD)
-        authentication_required = True
-    except IndexError:
-        print(BRIGHT_RED + '[-] PLEASE PROVIDE ALL THE REQUIRED VALUES.')
-        print(BRIGHT_YELLOW + '[*] USE -h or --help for usage.')
-        sys.exit()
+    TARGET_URL = args['target_url']
+    print(BRIGHT_YELLOW + '[*] TARGET URL: ', TARGET_URL)
 
-print()
+    IGNORE_LINKS = args['ignore_links']
+    print(BRIGHT_YELLOW + '[*] LINKS TO BE IGNORED: ', IGNORE_LINKS)
 
-vuln_scanner = scanner.Scanner(TARGET_URL, IGNORE_LINKS)
+    authentication_required = False
+    if args['login_details'] is not None and args['login_link'] is not None:
+        try:
+            LOGIN_LINK = args['login_link']
+            print(BRIGHT_YELLOW + '[*] LOGIN LINK: ', LOGIN_LINK)
 
-# values for login page if required else comment these
-if authentication_required:
-    login_post_values = {"username":USERNAME, "password":PASSWORD, "Login":"submit"}
-    vuln_scanner.session.post(LOGIN_LINK, data=login_post_values)
+            USERNAME = args['login_details'][0]
+            print(BRIGHT_YELLOW +'[*] USERNAME: ', USERNAME)
+            
+            PASSWORD = args['login_details'][1]
+            print(BRIGHT_YELLOW + '[*] PASSWORD: ', PASSWORD)
+            
+            authentication_required = True
+        
+        except IndexError:
+            print(BRIGHT_RED + '[-] PLEASE PROVIDE ALL THE REQUIRED VALUES.')
+            print(BRIGHT_YELLOW + '[*] USE -h or --help for usage.')
+            sys.exit()
 
-# run scan
-vuln_scanner.run()
+    print()
+
+    vuln_scanner = scanner.Scanner(TARGET_URL, IGNORE_LINKS)
+    if authentication_required:
+        login_post_values = {"username":USERNAME, "password":PASSWORD, "Login":"submit"}
+        vuln_scanner.session.post(LOGIN_LINK, data=login_post_values)
+    vuln_scanner.run()

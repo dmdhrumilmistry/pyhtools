@@ -1,12 +1,12 @@
 #!usr/bin/env/python3
 
-
 import subprocess
 import re
 import argparse
 from sys import exit
 from random import randint
-from colors import *
+from UI.colors import *
+import os
 
 
 def get_arguments():
@@ -98,6 +98,15 @@ def check_mac_change(intrfc, new_mac, mac_change_status):
 	        print(BRIGHT_RED + "[-] MAC not found")
 
 
-INTERFACE, NEW_MAC = get_arguments()
-MAC_CHANGE_STATUS = change_mac(INTERFACE, NEW_MAC)
-check_mac_change(INTERFACE, NEW_MAC, MAC_CHANGE_STATUS)
+def run_macchanger(interface, new_mac):
+	if os.name == 'posix':
+		INTERFACE, NEW_MAC = interface, new_mac
+		MAC_CHANGE_STATUS = change_mac(INTERFACE, NEW_MAC)
+		check_mac_change(INTERFACE, NEW_MAC, MAC_CHANGE_STATUS)
+	else:
+		print(BRIGHT_RED + "[\U0001f636] Mac changer only works on linux machines with admin privileges.")
+
+
+if __name__ == '__main__':
+	INTERFACE, NEW_MAC = get_arguments()
+	run_macchanger(INTERFACE, NEW_MAC)
