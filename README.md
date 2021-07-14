@@ -1,7 +1,11 @@
-# Hacking Tools
+# PyHTools
+- Python Hacking Tools (PyHTools) (pht) is a collection of python written hacking tools consisting of network scanner, arp spoofer and detector, dns spoofer, code injector, packet sniffer, network jammer, email sender, downloader, wireless password harvester credential harvester, keylogger, download&execute, and reverse_backdoor along with website login bruteforce, scraper, web spider etc. PHT also includes malwares which are undetectable by the antiviruses.
 
 - The tools provided are for educational purposes only. The developers are no way responsible for misuse of information and tools provided. All the information and tools are meant to help newbies to learn new concepts. 
+
 - These tools are written in python3, refer installation to install/download tools and its dependencies.
+
+- PyHTools comes with UI, but you can also use command line to use tools individually.
 
 ### Installation
 
@@ -14,51 +18,61 @@
    
 3. clone the repository to your machine
    ```
-   $ git clone https://github.com/dmdhrumilmistry/hacking_tools.git
+   git clone https://github.com/dmdhrumilmistry/pyhtools.git
    ```
   
 4. install requirements
    ```
-   $ python3 -m pip install -r requirements.txt
+   python3 -m pip install -r requirements.txt
    ```
+
+> There may be chances that pyfiglet will not be installed. you can use `pip3 install pyfiglet` to install pyfiglet manually
 
 ### Tools and Features 
    #### Attackers
-   - Network Scanner
-   - Mac changer
-   - ARP Spoofing 
-   - DNS spoofing 
-   - Downloads Replacer
-   - Network Jammer
-   - Pkt Sniffer
-   - Code Injector
-   
+   - `For Networks`
+      - Network Scanner
+      - Mac changer
+      - ARP Spoofing 
+      - DNS spoofing 
+      - Downloads Replacer
+      - Network Jammer
+      - Pkt Sniffer
+      - Code Injector
+   - `For Websites`
+      -  Login Guesser (Login Bruteforcer)
+      -  Web Spider
+      -  Web crawler (detects dirs | subdomains)
+      -  Web Vulnerablity Scanner
+
    #### Detectors
    - ARP Spoof Detector
    
    #### Malwares/Trojans/Payloads
-   - email sender (reporter)
-   - downloader
-   - wireless password harvester
-   - credential harvester
-   - keylogger (dlogs)
-   - reverse_backdoor
-   - download and execute
+   - Email Sender (reporter)
+   - Downloader
+   - Wireless Password Harvester
+   - Credential Harvester
+   - Keylogger (dlogs)
+   - Reverse TCP Backdoor
+   - Download and Execute
 
 
 ### Dependencies
 
-   **`Hacking Tools`** requires following programs/scripts to run properly -
+   **`PHT`** requires following programs/scripts to run properly -
    - `Python`
       - `subprocess`
       - `scapy`
+      - `kamene`
+      - `pyfiglet`
       - `argparse`
       - `re`
       - `sys`
       - `os`
       - `shutil`
       - `pyinstaller`
-      
+   
    > **NOTE:** most of the modules are pre-installed, still to ensure the proper working of scripts, user should install the required modules using pip
       
 
