@@ -15,20 +15,39 @@
 
 2. Install git package
    ```
-   $ sudo apt install git python3 -y
+   sudo apt install git python3 -y
    ```
    
 3. clone the repository to your machine
    ```
    git clone https://github.com/dmdhrumilmistry/pyhtools.git
    ```
+4. Change directory
+   ```
+   cd pyhtools
+   ```
   
-4. install requirements
+5. install requirements
    ```
    python3 -m pip install -r requirements.txt
    ```
 
-> There may be chances that pyfiglet or kamene will not be installed through requirements.txt, you can install manually using `pip3 install pyfiglet kamene`
+### Start PHTools
+
+1. change to pyhtools directory 
+   ```
+   cd pyhtools
+   ```
+2. run pyhtools.py
+   ```
+   python3 pyhtools.py
+   ```
+3. to get all the commands use `help`
+   ```
+   pyhtools >> help
+   ```
+
+> There may be chances that pyfiglet or kamene will not be installed through requirements.txt, you can install manually using `pip3 install pyfiglet kamene`.
 > If you're using Termux or windows, then use `pip` instead of `pip3`. 
 
 ### Tools and Features 
