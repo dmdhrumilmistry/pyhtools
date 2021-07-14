@@ -125,5 +125,8 @@ def run():
         elif cmd == 'arpspoofer':
             attacker.arpspoofer()
         
+        elif cmd == 'nwscan':
+            attacker.nw_scan()
+            
         else:
             print(BRIGHT_RED + '[-] Unknown command, use help to view valid commands')
