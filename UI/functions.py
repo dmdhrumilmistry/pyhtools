@@ -38,6 +38,7 @@ def print_help():
     help.align['Command'] = 'c'
     help.align['Description'] = 'l'
     # help.add_row(['',''])
+
     help.add_row(['clear','clear console'])
     help.add_row(['help','display help table'])
     help.add_row(['close pht','exit PyHackingTools'])
@@ -45,6 +46,12 @@ def print_help():
     help.add_row(['machngr','change mac address of the network interface'])
     help.add_row(['arpspoofer','spoof the target by arp poisoning'])
     help.add_row(['nwscan','scan for ip range in the network'])
+
+    help.add_row(['weblogin','bruteforce webpage login'])
+    help.add_row(['webvulnscan','scan for vulnerabilities on the website'])
+    # help.add_row(['',''])
+
+
 
     help.add_row(['listener','start listener on specific LHOST and LPORT'])
     help.add_row(['sendmail','send mail to specific email address'])
@@ -113,6 +120,7 @@ def run():
     while True:
         cmd = input(BACK_RED_BRIGHT_YELLOW + 'pyhtools >>' + RESET_COLORS + ' ').lower().strip()
         
+        # BASIC UI COMMANDS
         if cmd == 'close pht':
             wanna_run = False
             print(BRIGHT_YELLOW + "[\U0001f604] WE ARE NEVER RESPONSIBLE FOR YOUR ACTIONS!")
@@ -125,6 +133,7 @@ def run():
         elif cmd == 'help':
             print_help()
         
+        # MALWARES
         elif cmd == 'listener':
             listener_option()
         
@@ -134,6 +143,7 @@ def run():
         elif cmd == 'gen exe':
             generate_executable()
         
+        # NETWORK ATTACKERS
         elif cmd == 'machngr':
             machngr_option()
 
@@ -142,6 +152,13 @@ def run():
         
         elif cmd == 'nwscan':
             attacker.nw_scan()
+
+        # WEB ATTACKERS
+        elif cmd == 'weblogin':
+            attacker.brute_login()
+            
+        elif cmd == 'webvulnscan':
+            attacker.webvulnscan()
 
         else:
             print(BRIGHT_RED + '[-] Unknown command, use help to view valid commands')
