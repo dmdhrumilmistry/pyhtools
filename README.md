@@ -28,7 +28,8 @@
    python3 -m pip install -r requirements.txt
    ```
 
-> There may be chances that pyfiglet will not be installed. you can use `pip3 install pyfiglet` to install pyfiglet manually
+> There may be chances that pyfiglet or kamene will not be installed through requirements.txt, you can install manually using `pip3 install pyfiglet kamene`
+> If you're using Termux or windows, then use `pip` instead of `pip3`. 
 
 ### Tools and Features 
    #### Attackers
