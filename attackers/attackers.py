@@ -6,8 +6,8 @@ import attackers.Network.nwscan as nwscan
 import attackers.Network.machngr as machngr
 import attackers.Websites.login_guesser.login as web_login
 import attackers.Websites.spider.spider as spider
+import attackers.Websites.website_crawler.crawler as crawler
 from attackers.Websites.vuln_scanner.scanner import Scanner
-
 
 # NETWORK ATTACKS
 # TODO: Create functions for Network Attackers : codeinjector, dnsspoofer, download replacer, packet_sniffer.
@@ -109,6 +109,28 @@ def webspider():
     '''
     target_url = input('[+] TARGET URL : ')
     spider.start_spider(target_url)
+
+
+def webcrawldirs():
+    '''
+    description: find valid directories of the website using a wordlist
+    params: None
+    returns: None
+    '''
+    target_url = input('[+] TARGET URL : ')
+    wordlist_path = input('[+] WORDLIST PATH : ')
+    crawler.perform_function(crawler.check_directories, wordlist_path, target_url)
+
+
+def webcrawlsubdom():
+    '''
+    description: find valid subdomains of the website using a wordlist
+    params: None
+    returns: None
+    '''
+    target_url = input('[+] TARGET URL : ')
+    wordlist_path = input('[+] WORDLIST PATH : ')
+    crawler.perform_function(crawler.check_subdomain, wordlist_path, target_url)
 
 
 if __name__ == "__main__":

@@ -48,8 +48,11 @@ def print_help():
     help.add_row(['nwscan','scan for ip range in the network'])
 
     help.add_row(['webspider','maps all the links which are related to root url on the website'])
+    help.add_row(['webcrawldirs','scan for valid directories of the website using a wordlist'])
+    help.add_row(['webcrawlsubdom','scan for valid subdomains of the website using a wordlist'])
     help.add_row(['weblogin','bruteforce webpage login'])
     help.add_row(['webvulnscan','scan for vulnerabilities on the website'])
+
     # help.add_row(['',''])
 
 
@@ -158,6 +161,12 @@ def run():
         elif cmd == 'webspider':
             attacker.webspider()
 
+        elif cmd == 'webcrawldirs':
+            attacker.webcrawldirs()
+
+        elif cmd == 'webcrawlsubdom':
+            attacker.webcrawlsubdom()
+        
         elif cmd == 'weblogin':
             attacker.brute_login()
             
