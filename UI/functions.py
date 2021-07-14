@@ -47,6 +47,7 @@ def print_help():
     help.add_row(['arpspoofer','spoof the target by arp poisoning'])
     help.add_row(['nwscan','scan for ip range in the network'])
 
+    help.add_row(['webspider','maps all the links which are related to root url on the website'])
     help.add_row(['weblogin','bruteforce webpage login'])
     help.add_row(['webvulnscan','scan for vulnerabilities on the website'])
     # help.add_row(['',''])
@@ -154,6 +155,9 @@ def run():
             attacker.nw_scan()
 
         # WEB ATTACKERS
+        elif cmd == 'webspider':
+            attacker.webspider()
+
         elif cmd == 'weblogin':
             attacker.brute_login()
             

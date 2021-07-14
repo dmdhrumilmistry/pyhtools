@@ -5,13 +5,17 @@ import attackers.Network.arpspoofer as arp
 import attackers.Network.nwscan as nwscan
 import attackers.Network.machngr as machngr
 import attackers.Websites.login_guesser.login as web_login
+import attackers.Websites.spider.spider as spider
 from attackers.Websites.vuln_scanner.scanner import Scanner
+
 
 # NETWORK ATTACKS
 # TODO: Create functions for Network Attackers : codeinjector, dnsspoofer, download replacer, packet_sniffer.
 def arpspoofer():
     '''
-    perform arp poisoning attack.
+    description: perform arp poisoning attack.
+    params: None
+    returns: None
     '''
     target_ip = input('[+] TARGET IP : ')
     spoof_ip = input('[+] SPOOF IP : ')
@@ -25,7 +29,9 @@ def arpspoofer():
 
 def nw_scan():
     '''
-    perform network scan.
+    description: perform network scan.
+    params: None
+    returns: None
     '''
     ip_range = input('[+] IP RANGE : ')
     nwscan.run_nwscan(ip_range)
@@ -33,7 +39,9 @@ def nw_scan():
 
 def mac_changer():
     '''
-    changes mac of network interface.
+    description: changes mac of network interface.
+    params: None
+    returns: None
     '''
     interface = input('[+] Interface : ')
     print(BRIGHT_YELLOW + '[!] To generate random mac enter "random" (without quotes)')
@@ -92,6 +100,16 @@ def webvulnscan():
 
     vuln_scanner.run()
 
-   
+
+def webspider():
+    '''
+    description: maps all the links related to the root url
+    params: None
+    returns: None
+    '''
+    target_url = input('[+] TARGET URL : ')
+    spider.start_spider(target_url)
+
+
 if __name__ == "__main__":
     print('[*] Attackers module!. Exiting...')
