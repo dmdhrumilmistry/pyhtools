@@ -4,6 +4,7 @@ import sys
 from prettytable import PrettyTable
 # ------------- Custom imports -----------------------
 from UI.colors import *
+import attackers.attackers as attacker
 import malwares.reverse_backdoor.listener as listener
 import malwares.send_mail.send_mail as mail
 
@@ -43,7 +44,8 @@ def print_help():
     help.add_row(['close pht','exit PyHackingTools'])
     help.add_row(['listener','start listener on specific LHOST and LPORT'])
     help.add_row(['sendmail','send mail to specific email address'])
-
+    
+    help.add_row(['gen exe', 'generate executables of reverse backdoor, keylogger, etc.'])
     help.add_row(['arpspoofer','spoof the target by arp poisoning.'])
     
     print(help)
@@ -61,11 +63,37 @@ def send_mail_to(email, password, receiver, subject, body)->bool:
         print(BRIGHT_RED + '[\u274c] Unable to send mail.')
 
 
+def listener_option():
+    '''
+    executes commands to run listener option.
+    '''
+    host = input('[+] LHOST : ')
+    port = int(input('[+] LPORT : '))
+    lsnr = listener.Listener(host,port)
+    lsnr.run()
+
+
+def sendmailoption():
+    '''
+    executes commands to run send mail option.
+    '''
+    email = input('[+] gmail acc : ')
+    password = input('[+] password : ')
+    print('[!] if you want to send mail to yourself enter "self" (without quotes)')
+    receiver = input('[+] email to : ')
+    if receiver.lower() == 'self':
+        receiver = email
+    subject = input('[+] subject : ')
+    body = input('[+] body : ')
+    send_mail_to(email, password, receiver, subject, body)
+
+
 def generate_executable():
     '''
-    generate executables    
+    executes commands to generate executables   
     '''
     pass
+
 
 
 def run():
@@ -75,24 +103,27 @@ def run():
     wanna_run = True
     while wanna_run:
         cmd = input(BACK_RED_BRIGHT_YELLOW + 'pyhtools >>' + RESET_COLORS + ' ').lower().strip()
+        
         if cmd == 'close pht':
             sys.exit()
+        
         if cmd == 'clear':
             clrscr()
+        
         elif cmd == 'help':
             print_help()
+        
         elif cmd == 'listener':
-            host = input('[+] LHOST : ')
-            port = int(input('[+] LPORT : '))
-            lsnr = listener.Listener(host,port)
-            lsnr.run()
+            listener_option()
+        
         elif cmd == 'sendmail':
-            email = input('[+] gmail acc : ')
-            password = input('[+] password : ')
-            print('[!] if you want to send mail to yourself enter "self" (without quotes)')
-            receiver = input('[+] email to : ')
-            if receiver.lower() == 'self':
-                receiver = email
-            subject = input('[+] subject : ')
-            body = input('[+] body : ')
-            send_mail_to(email, password, receiver, subject, body)
+            sendmailoption()
+        
+        elif cmd == 'gen exe':
+            generate_executable()
+        
+        elif cmd == 'arpspoofer':
+            attacker.arpspoofer()
+        
+        else:
+            print(BRIGHT_RED + '[-] Unknown command, use help to view valid commands')
