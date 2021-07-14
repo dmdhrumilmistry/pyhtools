@@ -2,10 +2,10 @@ import pyfiglet
 import os
 import sys
 from prettytable import PrettyTable
-import threading
 # ------------- Custom imports -----------------------
 from UI.colors import *
 import malwares.reverse_backdoor.listener as listener
+import malwares.send_mail.send_mail as mail
 
 
 def clrscr():
@@ -34,11 +34,38 @@ def print_help():
     '''
     print(BRIGHT_WHITE + 'Python Hacking Tools (PyHTools) (pht)')
     
-    help = PrettyTable()
-    help.field_names = ['Command','Description']
-    help.add_row('arpspoofer','spoof the target by arp poisoning.')
+    help = PrettyTable(['Command','Description'])
+    help.align['Command'] = 'c'
+    help.align['Description'] = 'l'
+    # help.add_row(['',''])
+    help.add_row(['clear','clear console'])
+    help.add_row(['help','display help table'])
+    help.add_row(['close pht','exit PyHackingTools'])
+    help.add_row(['listener','start listener on specific LHOST and LPORT'])
+    help.add_row(['sendmail','send mail to specific email address'])
+
+    help.add_row(['arpspoofer','spoof the target by arp poisoning.'])
     
     print(help)
+
+
+def send_mail_to(email, password, receiver, subject, body)->bool:
+    '''
+    send mail
+    '''
+    print(BRIGHT_WHITE + '[*] Sending email...')
+    msg = f'Subject: {subject}\n{body}'
+    if mail.send_mail_to(email, receiver, password, msg):
+        print(BRIGHT_YELLOW + '[\u2714] Mail Sent')
+    else:
+        print(BRIGHT_RED + '[\u274c] Unable to send mail.')
+
+
+def generate_executable():
+    '''
+    generate executables    
+    '''
+    pass
 
 
 def run():
@@ -59,3 +86,13 @@ def run():
             port = int(input('[+] LPORT : '))
             lsnr = listener.Listener(host,port)
             lsnr.run()
+        elif cmd == 'sendmail':
+            email = input('[+] gmail acc : ')
+            password = input('[+] password : ')
+            print('[!] if you want to send mail to yourself enter "self" (without quotes)')
+            receiver = input('[+] email to : ')
+            if receiver.lower() == 'self':
+                receiver = email
+            subject = input('[+] subject : ')
+            body = input('[+] body : ')
+            send_mail_to(email, password, receiver, subject, body)
