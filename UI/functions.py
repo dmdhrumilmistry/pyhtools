@@ -113,8 +113,8 @@ def generate_executable():
     '''
     executes commands to generate executables   
     '''
-    pass
-
+    print(BRIGHT_YELLOW + '[-] Currently this feature is under test... Will update soon...')
+    print(BRIGHT_WHITE + '[*] You can use scripts from malwares to manually generate evil files...')
 
 
 def run():

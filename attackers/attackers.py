@@ -9,6 +9,7 @@ import attackers.Websites.spider.spider as spider
 import attackers.Websites.website_crawler.crawler as crawler
 from attackers.Websites.vuln_scanner.scanner import Scanner
 
+
 # NETWORK ATTACKS
 # TODO: Create functions for Network Attackers : codeinjector, dnsspoofer, download replacer, packet_sniffer.
 def arpspoofer():
@@ -54,7 +55,7 @@ def mac_changer():
 
 
 # WEBSITE ATTACKS
-# TODO: Create functions for Website Attackers : 
+# TODO: Create functions for Website Attackers : getform
 def brute_login():
     '''
     description: bruteforce website login page.
