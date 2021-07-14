@@ -21,12 +21,11 @@ def banner():
     prints PyHTools Banner
     '''
     clrscr()
-    print(BRIGHT_YELLOW + '_'*42)
     print(BRIGHT_YELLOW + pyfiglet.figlet_format('PyHTools'))
-    print(BRIGHT_YELLOW +'-'*42)
+    print(BRIGHT_YELLOW + '+' +'-'*42 + '+' )
     
-    print(BRIGHT_WHITE +'written by Dhrumil Mistry\tpht v1.0')
-    print(BRIGHT_YELLOW + '-'*42)
+    print(BRIGHT_WHITE +'| written by Dhrumil Mistry\tpht v1.0   |')
+    print(BRIGHT_YELLOW + '+' + '-'*42 + '+' )
 
 
 def print_help():
@@ -42,11 +41,15 @@ def print_help():
     help.add_row(['clear','clear console'])
     help.add_row(['help','display help table'])
     help.add_row(['close pht','exit PyHackingTools'])
+
+    help.add_row(['machngr','change mac address of the network interface'])
+    help.add_row(['arpspoofer','spoof the target by arp poisoning'])
+    help.add_row(['nwscan','scan for ip range in the network'])
+
     help.add_row(['listener','start listener on specific LHOST and LPORT'])
     help.add_row(['sendmail','send mail to specific email address'])
     
     help.add_row(['gen exe', 'generate executables of reverse backdoor, keylogger, etc.'])
-    help.add_row(['arpspoofer','spoof the target by arp poisoning.'])
     
     print(help)
 
@@ -73,7 +76,7 @@ def listener_option():
     lsnr.run()
 
 
-def sendmailoption():
+def sendmail_option():
     '''
     executes commands to run send mail option.
     '''
@@ -86,6 +89,13 @@ def sendmailoption():
     subject = input('[+] subject : ')
     body = input('[+] body : ')
     send_mail_to(email, password, receiver, subject, body)
+
+
+def machngr_option():
+    '''
+    executes commands to change mac address
+    '''
+    attacker.mac_changer()
 
 
 def generate_executable():
@@ -119,11 +129,14 @@ def run():
             listener_option()
         
         elif cmd == 'sendmail':
-            sendmailoption()
+            sendmail_option()
         
         elif cmd == 'gen exe':
             generate_executable()
         
+        elif cmd == 'machngr':
+            machngr_option()
+
         elif cmd == 'arpspoofer':
             attacker.arpspoofer()
         
@@ -132,4 +145,8 @@ def run():
 
         else:
             print(BRIGHT_RED + '[-] Unknown command, use help to view valid commands')
-            
+
+
+if __name__ == '__main__':
+    banner()
+    print(BRIGHT_YELLOW + '[\U0001f604] Run pyhtools.py to start Python Hacking Tools.')
