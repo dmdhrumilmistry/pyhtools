@@ -100,13 +100,15 @@ def run():
     '''
     start PyHTools
     '''
-    wanna_run = True
-    while wanna_run:
+    while True:
         cmd = input(BACK_RED_BRIGHT_YELLOW + 'pyhtools >>' + RESET_COLORS + ' ').lower().strip()
         
         if cmd == 'close pht':
-            sys.exit()
-        
+            wanna_run = False
+            print(BRIGHT_YELLOW + "[\U0001f604] WE ARE NEVER RESPONSIBLE FOR YOUR ACTIONS!")
+            print(BRIGHT_RED + '[-] Closing PHT....')
+            sys.exit(0)
+
         if cmd == 'clear':
             clrscr()
         
@@ -127,6 +129,7 @@ def run():
         
         elif cmd == 'nwscan':
             attacker.nw_scan()
-            
+
         else:
             print(BRIGHT_RED + '[-] Unknown command, use help to view valid commands')
+            
