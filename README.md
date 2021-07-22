@@ -78,6 +78,7 @@
    - Keylogger (dlogs)
    - Reverse TCP Backdoor
    - Download and Execute
+   - Telegram Data Harvester
 
 
 ### Dependencies
