@@ -10,14 +10,17 @@ class DMSECDecrypter:
         if key == None:
             print('[!] Invalid KEY')
             exit()
+
+        # convert key to bytes
         if type(key)==str:
             key = bytes(key, encoding='utf-8')
         self.KEY = key
-        print('[!] KEY :', self.KEY)
+        print('[!] Decrypting data using KEY :', self.KEY)
 
         # generate fernet obj for file encryption
         self.fernet = Fernet(self.KEY)
 
+        # decrypt all partitions if paths are not passed
         if paths == None:
             self.PATHS = self.__get_partitions_path()
         else:
@@ -64,12 +67,9 @@ class DMSECDecrypter:
         decrypts all the files in the specified path
         '''
         for root, dirs, files in walk(path):
-            print('-'*40)
-            print('ROOT :',root)
             for file in files:
                 file_path = join(root, file)
                 self.decrypt_file(file_path=file_path)
-            print('-'*40)
 
 
     def start(self):
@@ -78,7 +78,15 @@ class DMSECDecrypter:
 
 
 if __name__ == '__main__':
-    PATHS = [r'C:\Users\there\Desktop\tools\TermuxCustomBanner',]
+    print('[*] Decrypting....')
+
+    # specify paths to be decrypted
+    PATHS = [r'paths_to_be_decrypted',]
+
     KEY = input('[+] Enter KEY : ')
+    
+    # don't pass PATHS if all the drives are to be decrypted.
     encrypter = DMSECDecrypter(KEY, PATHS)
     encrypter.start()
+
+    print('[*] Decrypted...')
