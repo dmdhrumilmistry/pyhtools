@@ -7,4 +7,5 @@ colorama>=0.4.4
 beautifulsoup4==4.9.3
 pyfiglet==0.8.post1
 prettytable==2.1.0
-scapy-python3==0.26
+kamene==0.32
+psutil=5.8.0
