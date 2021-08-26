@@ -70,7 +70,7 @@
    #### Detectors
    - ARP Spoof Detector
    
-   #### Malwares/Trojans/Payloads
+   #### Malwares/Trojans/Payloads/Ransomwares
    - Email Sender (reporter)
    - Downloader
    - Wireless Password Harvester
@@ -78,8 +78,10 @@
    - Keylogger (dlogs)
    - Reverse TCP Backdoor
    - Download and Execute
-   - Telegram Data Harvester
+   - [Telegram Data Harvester](https://github.com/dmdhrumilmistry/pyhtools/blob/main/malwares/telegram_data_harvester/HowToUse.md)
+   - [DMSecRansomware](https://github.com/dmdhrumilmistry/pyhtools/blob/main/ransomwares/dmsec/HowToUse.md)
 
+   
 
 ### Dependencies
 
@@ -108,14 +110,14 @@
 - Fork the repo, update script and create a Pull Request
        
        
- ### Follow Me on:
+ ### Connect with me on:
   
   <p align ="left">
     <a href = "https://github.com/dmdhrumilmistry" target="_blank"><img src = "https://img.shields.io/badge/Github-dmdhrumilmistry-333"></a>
     <a href = "https://www.instagram.com/dmdhrumilmistry/" target="_blank"><img src = "https://img.shields.io/badge/Instagram-dmdhrumilmistry-833ab4"></a>
     <a href = "https://twitter.com/dmdhrumilmistry" target="_blank"><img src = "https://img.shields.io/badge/Twitter-dmdhrumilmistry-4078c0"></a><br>
-    <a href = "https://dhrumilmistrywrites.blogspot.com/" target="_blank"><img src = "https://img.shields.io/badge/YouTube-Dhrumil%20Mistry-critical"></a>
-    <a href = "https://www.youtube.com/channel/UChbjrRvbzgY3BIomUI55XDQ" target="_blank"><img src = "https://img.shields.io/badge/Blog-Dhrumil%20Mistry-bd2c00"></a>
+    <a href = "https://www.youtube.com/channel/UChbjrRvbzgY3BIomUI55XDQ" target="_blank"><img src = "https://img.shields.io/badge/YouTube-Dhrumil%20Mistry-critical"></a>
+    <a href = "https://dhrumilmistrywrites.blogspot.com/ " target="_blank"><img src = "https://img.shields.io/badge/Blog-Dhrumil%20Mistry-bd2c00"></a>
     <a href = "https://www.linkedin.com/in/dhrumil-mistry-312966192/" target="_blank"><img src = "https://img.shields.io/badge/LinkedIn-Dhrumil%20Mistry-4078c0"></a><br>
    </p>
   
