@@ -9,3 +9,4 @@ pyfiglet==0.8.post1
 prettytable==2.1.0
 kamene==0.32
 psutil=5.8.0
+pytelegrambotapi>=4.0.1
