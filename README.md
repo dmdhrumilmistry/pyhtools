@@ -15,6 +15,8 @@
 
 - PyHTools comes with UI, but you can also use command line to use tools individually.
 
+**`NOTE` : The UI hasn't been updated yet with new tools, and evil files so using cli is preferred.**
+
 ### Installation
 
 1. Open terminal
@@ -82,14 +84,15 @@
    - Wireless Password Harvester
    - Credential Harvester
    - Keylogger (dlogs)
-   - Reverse TCP Backdoor
+   - Reverse Backdoors
+      - [TCP](https://github.com/dmdhrumilmistry/pyhtools/tree/main/malwares/reverse_backdoor/TCP)
+      - [HTTP](https://github.com/dmdhrumilmistry/pyhtools/tree/main/malwares/reverse_backdoor/HTTP)
    - Download and Execute
    - [Telegram Data Harvester](https://github.com/dmdhrumilmistry/pyhtools/blob/main/malwares/telegram_data_harvester/HowToUse.md)
    - [DMSecRansomware](https://github.com/dmdhrumilmistry/pyhtools/blob/main/ransomwares/dmsec/HowToUse.md)
    - [Telegram Remote Code Executor](https://github.com/dmdhrumilmistry/pyhtools/tree/main/malwares/TelegramRemoteCodeExecutor)
   > Do not upload/send/report malwares to anti virus services such as `VirusTotal`. This will make program detectable
-
-   
+     
 
 ### Dependencies
 
