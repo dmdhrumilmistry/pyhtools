@@ -4,9 +4,9 @@ argparse>=1.4.0
 #netfilterqueue : sudo pip3 install --upgrade -U git+https://github.com/kti/python-netfilterqueue
 pynput>=1.7.3
 colorama>=0.4.4
-beautifulsoup4==4.9.3
-pyfiglet==0.8.post1
-prettytable==2.1.0
-kamene==0.32
-psutil=5.8.0
+beautifulsoup4>=4.9.3
+pyfiglet>=0.8.post1
+prettytable>=2.1.0
+kamene>=0.32
+psutil>=5.8.0
 pytelegrambotapi>=4.0.1
