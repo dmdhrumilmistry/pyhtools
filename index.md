@@ -1,37 +1,117 @@
-## Welcome to GitHub Pages
+# PyHTools
 
-You can use the [editor on GitHub](https://github.com/dmdhrumilmistry/pyhtools/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+<!-- Image Dim: 940x788 -->
+<p align="center">
+   <img src="https://github.com/dmdhrumilmistry/pyhtools/blob/main/.images/PyHTools.png?raw=true" alt="PyHtools Social Preview" width="470" height="394">
+</p>
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+- Python Hacking Tools (PyHTools) (pht) is a collection of python written hacking tools consisting of network scanner, arp spoofer and detector, dns spoofer, code injector, packet sniffer, network jammer, email sender, downloader, wireless password harvester credential harvester, keylogger, download&execute, and reverse_backdoor along with website login bruteforce, scraper, web spider etc. PHT also includes malwares which are undetectable by the antiviruses.
 
-### Markdown
+![PHT Image](https://github.com/dmdhrumilmistry/pyhtools/blob/main/.images/Windows_CLI-main.png)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- The tools provided are for educational purposes only. The developers are no way responsible for misuse of information and tools provided. All the information and tools are meant to help newbies to learn new concepts. 
 
-```markdown
-Syntax highlighted code block
+- These tools are written in python3, refer installation to install/download tools and its dependencies.
 
-# Header 1
-## Header 2
-### Header 3
+- PyHTools comes with UI, but you can also use command line to use tools individually.
 
-- Bulleted
-- List
+**`NOTE` : The UI hasn't been updated yet with new tools, and evil files so using cli is preferred.**
 
-1. Numbered
-2. List
+### Installation
 
-**Bold** and _Italic_ and `Code` text
+1. Open terminal
 
-[Link](url) and ![Image](src)
-```
+2. Install git package
+   ```
+   sudo apt install git python3 -y
+   ```
+   
+3. clone the repository to your machine
+   ```
+   git clone https://github.com/dmdhrumilmistry/pyhtools.git
+   ```
+4. Change directory
+   ```
+   cd pyhtools
+   ```
+  
+5. install requirements
+   ```
+   python3 -m pip install -r requirements.txt
+   ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+### Start PHTools
 
-### Jekyll Themes
+1. change to pyhtools directory 
+   ```
+   cd pyhtools
+   ```
+2. run pyhtools.py
+   ```
+   python3 pyhtools.py
+   ```
+3. to get all the commands use `help`
+   ```
+   pyhtools >> help
+   ```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/dmdhrumilmistry/pyhtools/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+> There may be chances that pyfiglet or kamene will not be installed through requirements.txt, you can install manually using `pip3 install pyfiglet kamene`.
+> If you're using Termux or windows, then use `pip` instead of `pip3`. 
 
-### Support or Contact
+### Tools and Features 
+   #### Attackers
+   - `For Networks`
+      - Network Scanner
+      - Mac changer
+      - ARP Spoofing 
+      - DNS spoofing 
+      - Downloads Replacer
+      - Network Jammer
+      - Pkt Sniffer
+      - Code Injector
+   - `For Websites`
+      -  Login Guesser (Login Bruteforcer)
+      -  Web Spider
+      -  Web crawler (detects dirs | subdomains)
+      -  Web Vulnerablity Scanner
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+   #### Detectors
+   - ARP Spoof Detector
+   
+   #### Malwares/Trojans/Payloads/Ransomwares
+   - Email Sender (reporter)
+   - Downloader
+   - Wireless Password Harvester
+   - Credential Harvester
+   - Keylogger (dlogs)
+   - Reverse Backdoors
+      - [TCP](https://github.com/dmdhrumilmistry/pyhtools/tree/main/malwares/reverse_backdoor/TCP)
+      - [HTTP](https://github.com/dmdhrumilmistry/pyhtools/tree/main/malwares/reverse_backdoor/HTTP)
+   - Download and Execute
+   - [Telegram Data Harvester](https://github.com/dmdhrumilmistry/pyhtools/blob/main/malwares/telegram_data_harvester/HowToUse.md)
+   - [DMSecRansomware](https://github.com/dmdhrumilmistry/pyhtools/blob/main/ransomwares/dmsec/HowToUse.md)
+   - [Telegram Remote Code Executor](https://github.com/dmdhrumilmistry/pyhtools/tree/main/malwares/TelegramRemoteCodeExecutor)
+  > Do not upload/send/report malwares to anti virus services such as `VirusTotal`. This will make program detectable
+     
+
+### Dependencies
+
+   **`PHT`** requires following programs/scripts to run properly -
+   - `Python`
+      - `subprocess`
+      - `scapy`
+      - `kamene`
+      - `pyfiglet`
+      - `argparse`
+      - `re`
+      - `sys`
+      - `os`
+      - `shutil`
+      - `pyinstaller`
+   
+   > **NOTE:** most of the modules are pre-installed, still to ensure the proper working of scripts, user should install the required modules using pip
+      
+
+### How to Package a Trojan
+- [View How to create a Trojan](https://github.com/dmdhrumilmistry/hacking_tools/blob/master/malwares/Trojans/HowToCreateTrojanPackage.md)
+  
