@@ -78,7 +78,7 @@
    #### Detectors
    - ARP Spoof Detector
    
-   #### Malwares/Trojans/Payloads/Ransomwares
+   #### Malwares/Trojans/Payloads/Ransomwares/Worms
    - Email Sender (reporter)
    - Downloader
    - Wireless Password Harvester
@@ -91,6 +91,7 @@
    - [Telegram Data Harvester](https://github.com/dmdhrumilmistry/pyhtools/blob/main/malwares/telegram_data_harvester/HowToUse.md)
    - [DMSecRansomware](https://github.com/dmdhrumilmistry/pyhtools/blob/main/ransomwares/dmsec/HowToUse.md)
    - [Telegram Remote Code Executor](https://github.com/dmdhrumilmistry/pyhtools/tree/main/malwares/TelegramRemoteCodeExecutor)
+   - DirCloner
   > Do not upload/send/report malwares to anti virus services such as `VirusTotal`. This will make program detectable
      
 
