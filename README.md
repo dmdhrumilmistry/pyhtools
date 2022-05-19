@@ -15,49 +15,57 @@
 
 **`NOTE` : The UI hasn't been updated yet with new tools, and evil files so using cli is preferred.**
 
+### How To Videos
+
+-  Gain access to remote shell over the Internet using HTTP Backdoor
+
+   [![YT Thumbnail](https://img.youtube.com/vi/Wg-PiywAqyw/maxresdefault.jpg)](https://youtu.be/Wg-PiywAqyw)
+
 ### Installation
 
 1. Open terminal
 
 2. Install git package
-   ```
+   ```bash
    sudo apt install git python3 -y
    ```
    
 3. clone the repository to your machine
-   ```
+   ```bash
    git clone https://github.com/dmdhrumilmistry/pyhtools.git
    ```
 4. Change directory
-   ```
+   ```bash
    cd pyhtools
    ```
   
 5. install requirements
-   ```
+   ```bash
    python3 -m pip install -r requirements.txt
    ```
 
 ### Start PHTools
 
 1. change to pyhtools directory 
-   ```
+   ```bash
    cd pyhtools
    ```
 2. run pyhtools.py
-   ```
+   ```bash
    python3 pyhtools.py
    ```
 3. to get all the commands use `help`
-   ```
+   ```bash
    pyhtools >> help
    ```
 
 > There may be chances that pyfiglet or kamene will not be installed through requirements.txt, you can install manually using `pip3 install pyfiglet kamene`.
 > If you're using Termux or windows, then use `pip` instead of `pip3`. 
 
-### Tools and Features 
+### Tools and Features
+
    #### Attackers
+   
    - `For Networks`
       - Network Scanner
       - Mac changer
@@ -74,9 +82,11 @@
       -  Web Vulnerablity Scanner
 
    #### Detectors
+   
    - ARP Spoof Detector
    
    #### Malwares/Trojans/Payloads/Ransomwares/Worms
+   
    - Email Sender (reporter)
    - Downloader
    - Wireless Password Harvester
@@ -90,7 +100,8 @@
    - [DMSecRansomware](https://github.com/dmdhrumilmistry/pyhtools/blob/main/ransomwares/dmsec/HowToUse.md)
    - [Telegram Remote Code Executor](https://github.com/dmdhrumilmistry/pyhtools/tree/main/malwares/TelegramRemoteCodeExecutor)
    - DirCloner
-  > Do not upload/send/report malwares to anti virus services such as `VirusTotal`. This will make program detectable
+   
+  > **NOTE:** Do not upload/send/report malwares to anti virus services such as `VirusTotal`. This will make program detectable
      
 
 ### Dependencies
@@ -112,22 +123,28 @@
       
 
 ### How to Package a Trojan
+
 - [View How to create a Trojan](https://github.com/dmdhrumilmistry/hacking_tools/blob/master/malwares/Trojans/HowToCreateTrojanPackage.md)
 
 
 ### Have any Ideas 💡 or issue
+
 - Create an issue
 - Fork the repo, update script and create a Pull Request
        
-       
- ### Connect with me on:
-  
-  <p align ="left">
-    <a href = "https://github.com/dmdhrumilmistry" target="_blank"><img src = "https://img.shields.io/badge/Github-dmdhrumilmistry-333"></a>
-    <a href = "https://www.instagram.com/dmdhrumilmistry/" target="_blank"><img src = "https://img.shields.io/badge/Instagram-dmdhrumilmistry-833ab4"></a>
-    <a href = "https://twitter.com/dmdhrumilmistry" target="_blank"><img src = "https://img.shields.io/badge/Twitter-dmdhrumilmistry-4078c0"></a><br>
-    <a href = "https://www.youtube.com/channel/UChbjrRvbzgY3BIomUI55XDQ" target="_blank"><img src = "https://img.shields.io/badge/YouTube-Dhrumil%20Mistry-critical"></a>
-    <a href = "https://dhrumilmistrywrites.blogspot.com/ " target="_blank"><img src = "https://img.shields.io/badge/Blog-Dhrumil%20Mistry-bd2c00"></a>
-    <a href = "https://www.linkedin.com/in/dhrumil-mistry-312966192/" target="_blank"><img src = "https://img.shields.io/badge/LinkedIn-Dhrumil%20Mistry-4078c0"></a><br>
-   </p>
+### Connect With Me
+
+<p align ="center">
+    <table>
+      <tr>
+        <td><a hrf = "https://github.com/dmdhrumilmistry" target="_blank"><img src = "https://img.shields.io/badge/Github-dmdhrumilmistry-333"></a></td>
+        <td><a href = "https://www.instagram.com/dmdhrumilmistry/" target="_blank"><img src = "https://img.shields.io/badge/Instagram-dmdhrumilmistry-833ab4"></a></td>
+        <td><a href = "https://twitter.com/dmdhrumilmistry" target="_blank"><img src = "https://img.shields.io/badge/Twitter-dmdhrumilmistry-4078c0"></a></td>
+      </tr>
+      <tr>
+        <td><a href = "https://www.youtube.com/channel/UChbjrRvbzgY3BIomUI55XDQ" target="_blank"><img src = "https://img.shields.io/badge/YouTube-Dhrumil%20Mistry-critical"></a></td>
+        <td><a href = "https://dhrumilmistrywrites.blogspot.com/ " target="_blank"><img src = "https://img.shields.io/badge/Blog-Dhrumil%20Mistry-bd2c00"></a></td>
+        <td><a href = "https://www.linkedin.com/in/dmdhrumilmistry/" target="_blank"><img src = "https://img.shields.io/badge/LinkedIn-Dhrumil%20Mistry-4078c0"></a></td>
+    </table>
+</p>
   
