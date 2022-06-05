@@ -34,7 +34,7 @@ def is_vulnerable(url: str) -> bool:
     response = get(url=url)
     content = response.content.lower()
 
-    if response.status_code != 200 or b'error' in content or b'on line' in content or b'at line' in content:
+    if response.status_code not in (200, 404) or b'error' in content or b'on line' in content or b'at line' in content:
         return True
 
     return False
@@ -54,7 +54,7 @@ def enumerate_tests(url):
         payload_url = url + payload
 
         if is_vulnerable(payload_url):
-            print(f'[URL] {payload_url}')
+            print(f'[URL] "{payload_url}"')
             print(f'[PAYLOAD] {payload}')
             print('-'*40)
             vuln_links += 1
