@@ -134,6 +134,11 @@
 
 - [View How to create a Trojan](https://github.com/dmdhrumilmistry/hacking_tools/blob/master/malwares/Trojans/HowToCreateTrojanPackage.md)
 
+### TODO
+
+- [ ] Create package and upload to PyPi
+
+
 ### Have any Ideas 💡 or issue
 
 - Create an issue
