@@ -2,7 +2,7 @@ import requests
 import os
 import argparse
 import sys
-from UI.colors import *
+from pyhtools.UI.colors import *
 
 
 def get_args()->dict:
@@ -79,6 +79,7 @@ def check_directories(domain:str, dir_name:str)->bool:
 
     if request(url):
         print('[*] Valid Directory : ', url)
+        return True
     else:
         return False
 

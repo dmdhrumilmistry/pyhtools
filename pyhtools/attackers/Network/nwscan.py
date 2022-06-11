@@ -1,8 +1,7 @@
 #!usr/bin/env python3
 import kamene.all as sp
 import argparse
-from UI.colors import *
-# from colors import *
+from pyhtools.UI.colors import *
 
 
 def get_args():

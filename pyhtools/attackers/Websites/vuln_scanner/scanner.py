@@ -4,8 +4,8 @@ import requests
 import re
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-from UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
-from time import sleep
+from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
+
 
 class Scanner:
     def __init__(self, url:str, ignore_links:list) -> None:
@@ -131,20 +131,21 @@ class Scanner:
         return test_script_payload in response_content
 
 
-    def is_xss_vulnerable_in_link(self, url):
+    def is_xss_vulnerable_in_link(self, url, payload=None):
         '''
         description: tests whether the passed url is xss vulnerable or not. 
         returns True if vulnerable. 
-        params: form, url
+        params: form, url, payload
         returns: bool
         '''
-        test_script_payload = "<scRipt>alert('vulnerable')</sCript>"
-        url = url.replace('=',f'={test_script_payload}')
+        if payload is None:
+            payload = "<scRipt>alert('vulnerable')</sCript>"
+        url = url.replace('=',f'={payload}')
         response_content = self.get_page_content(url)
         # response = BeautifulSoup(response_content, 'html.parser')
         # print(BRIGHT_YELLOW + '[-] RESPONSE: \n', response.prettify())
 
-        return test_script_payload in response_content
+        return payload in response_content
 
 
     def run(self):

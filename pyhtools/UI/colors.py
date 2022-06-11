@@ -1,4 +1,3 @@
-#!usr/bin/env python3
 from colorama import init, Style, Fore, Back
 
 init(autoreset=True)

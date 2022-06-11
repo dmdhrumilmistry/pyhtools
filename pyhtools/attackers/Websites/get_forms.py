@@ -1,11 +1,10 @@
-#!usr/bin/env python3
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 # Beta Tool
 def remove_escape_seq(content:str)->str:
-    r'''
+    '''
     desc: removes \r \t \n from the html parsed content if present.
     params: content(str)
     returns: str

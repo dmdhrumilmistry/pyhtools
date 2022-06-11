@@ -4,7 +4,7 @@ import requests
 import re
 from urllib.parse import urljoin
 import argparse
-from UI.colors import *
+from pyhtools.UI.colors import *
 
 
 # list to save links on the whole webpage

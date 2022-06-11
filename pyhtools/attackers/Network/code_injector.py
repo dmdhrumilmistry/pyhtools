@@ -1,5 +1,3 @@
-#!usr/bin/env python3
-
 #########################################################################
 # Author : Dhrumil Mistry
 #########################################################################
@@ -14,7 +12,8 @@ from subprocess import call
 import netfilterqueue
 import scapy.all as scapy
 from re import search, sub
-from colors import *
+from pyhtools.UI.colors import *
+
 
 ############################### Functions ############################### 
 def forward_packets():

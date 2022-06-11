@@ -2,7 +2,7 @@
 import requests
 import os
 import sys
-from UI.colors import *
+from pyhtools.UI.colors import *
 
 def bruteforce_login(target_url:str, wordlist_file:str, post_values:dict):
     # tested on DVWA web app.

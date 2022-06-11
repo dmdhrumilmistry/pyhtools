@@ -1,13 +1,13 @@
-#!usr/bin/env python3
-from UI.colors import *
 import json
-import attackers.Network.arpspoofer as arp
-import attackers.Network.nwscan as nwscan
-import attackers.Network.machngr as machngr
-import attackers.Websites.login_guesser.login as web_login
-import attackers.Websites.spider.spider as spider
-import attackers.Websites.website_crawler.crawler as crawler
-from attackers.Websites.vuln_scanner.scanner import Scanner
+import pyhtools.attackers.Network.arpspoofer as arp
+import pyhtools.attackers.Network.nwscan as nwscan
+import pyhtools.attackers.Network.machngr as machngr
+import pyhtools.attackers.Websites.login_guesser as web_login
+import pyhtools.attackers.Websites.spider as spider
+import pyhtools.attackers.Websites.crawler as crawler
+
+from pyhtools.UI.colors import *
+from pyhtools.attackers.Websites.vuln_scanner.scanner import Scanner
 
 
 # NETWORK ATTACKS
@@ -45,12 +45,13 @@ def mac_changer():
     returns: None
     '''
     interface = input('[+] Interface : ')
-    print(BRIGHT_YELLOW + '[!] To generate random mac enter "random" (without quotes)')
+    print(BRIGHT_YELLOW +
+          '[!] To generate random mac enter "random" (without quotes)')
     new_mac = input('[+] New Mac : ')
     if new_mac == 'random':
         print(BRIGHT_WHITE + '[*] Generating Random Mac')
         new_mac = machngr.generate_random_mac()
-    
+
     machngr.run_macchanger(interface, new_mac)
 
 
@@ -64,7 +65,8 @@ def brute_login():
     '''
     target_url = input('[+] TARGET URL : ')
     wordlist_file = input('[+] WORDLIST PATH : ')
-    print(BRIGHT_YELLOW + '[!] Enter string in post values, eg. {"username":"admin", "password":"", "Login":"submit"} (inspect element in your webbrowser)')
+    print(BRIGHT_YELLOW +
+          '[!] Enter string in post values, eg. {"username":"admin", "password":"", "Login":"submit"} (inspect element in your webbrowser)')
     post_data = input('[+] POST VALUES : ') .strip()
     post_values = json.loads(post_data)
 
@@ -79,24 +81,27 @@ def webvulnscan():
     '''
     target_url = input('[+] TARGET URL : ')
 
-    
-    print(BRIGHT_YELLOW + '[!] Enter links to be ignored separated by commas(,)')
+    print(BRIGHT_YELLOW +
+          '[!] Enter links to be ignored separated by commas(,)')
     ignore_links = input('[+] IGNORE LINKS : ')
 
     ignore_links = [link.strip() for link in ignore_links.split(',')]
 
     vuln_scanner = Scanner(target_url, ignore_links)
 
-    auth_required = input('[+] AUTH REQUIRED? (y/n) (default=n): ').lower().strip()
+    auth_required = input(
+        '[+] AUTH REQUIRED? (y/n) (default=n): ').lower().strip()
     login_link = ''
-    login_post_values =''
+    login_post_values = ''
     if auth_required == 'y':
-        login_link  = input('[+] LOGIN LINK : ')
-        print(BRIGHT_YELLOW + "[!] Enter login post values, eg: {'username':'yourusername', 'password':'yourpassword', 'login':'submit'}")
-        print(BRIGHT_WHITE + '[!] Inspect element in webbrowser to extract values, they might vary for every website.')
+        login_link = input('[+] LOGIN LINK : ')
+        print(BRIGHT_YELLOW +
+              "[!] Enter login post values, eg: {'username':'yourusername', 'password':'yourpassword', 'login':'submit'}")
+        print(BRIGHT_WHITE +
+              '[!] Inspect element in webbrowser to extract values, they might vary for every website.')
         login_post_values = input('[+] LOGIN POST VALUES : ')
         login_post_values = json.loads(login_post_values)
-        
+
         vuln_scanner.session.post(login_link, data=login_post_values)
 
     vuln_scanner.run()
@@ -120,7 +125,8 @@ def webcrawldirs():
     '''
     target_url = input('[+] TARGET URL : ')
     wordlist_path = input('[+] WORDLIST PATH : ')
-    crawler.perform_function(crawler.check_directories, wordlist_path, target_url)
+    crawler.perform_function(crawler.check_directories,
+                             wordlist_path, target_url)
 
 
 def webcrawlsubdom():
@@ -131,7 +137,8 @@ def webcrawlsubdom():
     '''
     target_url = input('[+] TARGET URL : ')
     wordlist_path = input('[+] WORDLIST PATH : ')
-    crawler.perform_function(crawler.check_subdomain, wordlist_path, target_url)
+    crawler.perform_function(crawler.check_subdomain,
+                             wordlist_path, target_url)
 
 
 if __name__ == "__main__":
