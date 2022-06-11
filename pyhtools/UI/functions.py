@@ -180,6 +180,7 @@ def run():
                       '[-] Unknown command, use help to view valid commands')
 
     except (EOFError, KeyboardInterrupt):
+        print()
         print(BRIGHT_YELLOW +
               "[\U0001f604] WE ARE NEVER RESPONSIBLE FOR YOUR ACTIONS!")
         print(BRIGHT_RED + '[-] Closing PHT....')
