@@ -1,6 +1,7 @@
 beautifulsoup4>=4.9.3
 colorama>=0.4.4
 #netfilterqueue (for linux devices only): sudo pip3 install --upgrade -U git+https://github.com/kti/python-netfilterqueue
+nuitka
 kamene>=0.32
 scapy>=2.4.5
 psutil>=5.8.0
@@ -8,4 +9,6 @@ prettytable>=2.1.0
 pynput>=1.7.3
 pyfiglet>=0.8.post1
 pytelegrambotapi>=4.0.1
+pyinstaller
 requests>=2.25.1
+# wmi # for windows process management
