@@ -1,11 +1,8 @@
-#!usr/bin/env python 
-
-# sudo pip install scapy_http
-import scapy.all as sp
+import scapy.all as sp # sudo pip install scapy_http (python2)
 from scapy.layers import http
 import argparse
 from sys import exit
-from colors import *
+from pyhtools.UI.colors import *
 
 
 def get_args():

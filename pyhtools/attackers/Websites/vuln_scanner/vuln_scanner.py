@@ -1,6 +1,6 @@
 import scanner
 import argparse
-from UI.colors import *
+from pyhtools.UI.colors import *
 import sys
 
 

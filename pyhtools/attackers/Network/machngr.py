@@ -5,7 +5,7 @@ import re
 import argparse
 from sys import exit
 from random import randint
-from UI.colors import *
+from pyhtools.UI.colors import *
 import os
 
 
