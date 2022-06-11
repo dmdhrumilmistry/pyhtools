@@ -1,6 +1,0 @@
-mail
-docs
-developer
-drive
-test
-beta

@@ -6,7 +6,7 @@
 
 ![PHT Image](.images/Windows_CLI-main.png)
 
-- The tools provided are for educational purposes only. The developers are no way responsible for misuse of information and tools provided. All the information and tools are meant to help newbies to learn new concepts.
+- The tools provided are for educational purposes only. The developers are no way responsible for misuse of information and tools provided. All the information and tools are meant to help users to learn concepts. Use tools wisely!
 
 - These tools are written in python3, refer installation to install/download tools and its dependencies.
 
@@ -20,60 +20,55 @@
 
    [![YT Thumbnail](https://img.youtube.com/vi/Wg-PiywAqyw/maxresdefault.jpg)](https://youtu.be/Wg-PiywAqyw)
 
-### Installation
+## Installation
 
-1. Open terminal
+- Open terminal
 
-2. Install git package
+- Install git package
 
    ```bash
    sudo apt install git python3 -y
    ```
 
-3. clone the repository to your machine
+- clone the repository to your machine
 
    ```bash
    git clone https://github.com/dmdhrumilmistry/pyhtools.git
    ```
 
-4. Change directory
+- Change directory
 
    ```bash
    cd pyhtools
    ```
   
-5. install requirements
+- install requirements
 
    ```bash
    python3 -m pip install -r requirements.txt
    ```
 
-### Start PHTools
+## Start PHTools
 
-1. change to pyhtools directory
-
-   ```bash
-   cd pyhtools
-   ```
-
-2. run pyhtools.py
+- run pyhtools.py
 
    ```bash
-   python3 pyhtools.py
+   python3 -m pyhtools
    ```
 
-3. to get all the commands use `help`
+- to get all the commands use `help`
 
    ```bash
    pyhtools >> help
    ```
 
-> There may be chances that pyfiglet or kamene will not be installed through requirements.txt, you can install manually using `pip3 install pyfiglet kamene`.
-> If you're using Termux or windows, then use `pip` instead of `pip3`.
+> There may be chances that pyfiglet or kamene will not be installed through requirements.txt, you can install manually using `pip3 install pyfiglet kamene`.  
+> If you're using Termux or windows, then use `pip` instead of `pip3`.  
+> Few features are only for linux os, hence they might not work on windows and require admin priviliges.
 
-### Tools and Features
+## Tools and Features
 
-#### Attackers
+### Attackers
 
 - `For Networks`
   - Network Scanner
@@ -90,11 +85,11 @@
   - Web crawler (detects dirs | subdomains)
   - Web Vulnerablity Scanner
 
-#### Detectors
+### Detectors
 
 - ARP Spoof Detector
 
-#### Malwares/Trojans/Payloads/Ransomwares/Worms
+### Malwares/Trojans/Payloads/Ransomwares/Worms
 
 - Email Sender (reporter)
 - Downloader
@@ -112,7 +107,7 @@
 
   > **NOTE:** Do not upload/send/report malwares to anti virus services such as `VirusTotal`. This will make program detectable
 
-### Dependencies
+## Dependencies
 
    **`PHT`** requires following programs/scripts to run properly -
 
@@ -130,20 +125,16 @@
 
    > **NOTE:** most of the modules are pre-installed, still to ensure the proper working of scripts, user should install the required modules using pip
 
-### How to Package a Trojan
+## How to Package a Trojan
 
 - [View How to create a Trojan](https://github.com/dmdhrumilmistry/hacking_tools/blob/master/malwares/Trojans/HowToCreateTrojanPackage.md)
 
-### TODO
-
-- [ ] Create package and upload to PyPi
-
-### Have any Ideas 💡 or issue
+## Have any Ideas 💡 or issue
 
 - Create an issue
 - Fork the repo, update script and create a Pull Request
 
-### Connect With Me
+## Connect With Me
 
 ||Platforms||
 |:-:|:-:|:-:|

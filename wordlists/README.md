@@ -2,9 +2,10 @@
 
 Below wordlists are for testing purpose:
 
-- files-and-dirs-wordlist.txt
-- subdomains-wordlist.txt
-- test-wordlist.txt
+- Common
+  - pass.txt (passwords)
+  - web-dirs-files.txt (website directories and files discovery)
+  - web-subdomains.txt (website domain discovery)
 
 ## To Get/Generate Wordlists
 
