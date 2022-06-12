@@ -1,11 +1,11 @@
 from pyhtools.UI.colors import *
 from prettytable import PrettyTable
+from pyhtools.evil_files.malwares.utils import send_mail
 import pyfiglet
 import os
 import sys
 import pyhtools.attackers.attackers as attacker
-import pyhtools.malwares.reverse_backdoor.TCP.listener as listener
-import pyhtools.malwares.send_mail.send_mail as mail
+import pyhtools.evil_files.malwares.reverse_backdoor.TCP.listener as listener
 
 
 def clrscr():
@@ -23,7 +23,7 @@ def banner():
     print(BRIGHT_YELLOW + pyfiglet.figlet_format('PyHTools'))
     print(BRIGHT_YELLOW + '+' + '-'*42 + '+')
 
-    print(BRIGHT_WHITE + '| written by Dhrumil Mistry\tpht v1.0   |')
+    print(BRIGHT_WHITE + '| written by Dhrumil Mistry\tpht v1.0.1 |')
     print(BRIGHT_YELLOW + '+' + '-'*42 + '+')
 
 
@@ -72,7 +72,7 @@ def send_mail_to(email, password, receiver, subject, body) -> bool:
     '''
     print(BRIGHT_WHITE + '[*] Sending email...')
     msg = f'Subject: {subject}\n{body}'
-    if mail.send_mail_to(email, receiver, password, msg):
+    if send_mail(email, receiver, password, msg):
         print(BRIGHT_YELLOW + '[\u2714] Mail Sent')
     else:
         print(BRIGHT_RED + '[\u274c] Unable to send mail.')
