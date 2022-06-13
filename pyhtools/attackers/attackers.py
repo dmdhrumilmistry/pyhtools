@@ -3,10 +3,10 @@ import pyhtools.attackers.network.arpspoofer as arp
 import pyhtools.attackers.network.nwscan as nwscan
 import pyhtools.attackers.network.machngr as machngr
 import pyhtools.attackers.web.login_guesser as web_login
-import pyhtools.attackers.web.spider as spider
 
 from pyhtools.UI.colors import *
 from pyhtools.attackers.web.vuln_scanner.scanner import Scanner
+from pyhtools.attackers.web.spider import Spider
 from pyhtools.attackers.web.webdiscover import Discoverer
 
 
@@ -114,7 +114,14 @@ def webspider():
     returns: None
     '''
     target_url = input('[+] TARGET URL : ')
-    spider.start_spider(target_url)
+    spider = Spider()
+
+    print(f'{BRIGHT_YELLOW}[*] Starting Spider... Press Ctrl+C to interrupt')
+    discovered_links = spider.start(
+        target_url=target_url,
+        print_links=True
+    )
+    print(f'[*] Total Links Found: {len(discovered_links)}')
 
 
 def webcrawldirs():

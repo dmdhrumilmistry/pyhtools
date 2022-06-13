@@ -1,22 +1,18 @@
-#!usr/bin/env python3
-from os import name
 import requests
 import re
-from urllib.parse import urljoin
 import argparse
+
+from urllib.parse import urljoin
 from pyhtools.UI.colors import *
 
 
-# list to save links on the whole webpage
-# to avoid repetition
-target_links = [] 
+class Spider:
+    def __init__(self) -> None:
+        # list to save links on the whole webpage
+        # to avoid repetition
+        self.target_links = []
 
-def start_spider(target_url):
-    '''
-    description: starts spider
-    '''
-
-    def get_links(url:str)->list:
+    def get_links(self, url: str) -> list:
         '''
         description: extracts links from the whole webpage.
         params: url(str) of the webpage
@@ -24,49 +20,52 @@ def start_spider(target_url):
         '''
         response = requests.get(url)
         content = str(response.content)
-        return re.findall(r'(?:href=")(.*?)"',content)
+        return re.findall(r'(?:href=")(.*?)"', content)
 
-
-    def get_target_links(url:str):
+    def get_target_links(self, url: str, print_link: bool = True):
         '''
         description: extracts useful links and prints them which are
         only related to the target webpage.
         params: links(list) from the target webpage
         returns: useful links(list) related to target webpage
         '''
-        global target_links
-        links = get_links(url)
+        target_links = self.target_links
+        links = self.get_links(url)
+
         for link in links:
             link = urljoin(url, link)
 
             if '#' in link:
                 link = link.split('#')[0]
 
-            # print(BRIGHT_RED+ link)
-            if link not in target_links and target_url in link:
+            if link not in target_links and url in link:
                 target_links.append(link)
-                print(link)
-                get_target_links(link)
+                if print_link:
+                    print(link)
+                self.get_target_links(url=link, print_link=print_link)
 
-    try:
-        print(BRIGHT_YELLOW + '[*] Starting SPIDER...')
-        get_target_links(target_url)
-        print(BRIGHT_YELLOW + f'[*] Mapped all links found on {target_url}')
-        print(BRIGHT_YELLOW + "[*] Total Links Found : ", len(target_links))
-    except KeyboardInterrupt:
-        print(BRIGHT_YELLOW + '\r[!] ctrl+c detected! Exiting Spider.')
-    except Exception as e:
-        print(BRIGHT_RED + '[-] Exception : ', e)
-    finally:
-        print(BRIGHT_YELLOW + "[*] Total Links Found Before Exception : ", len(target_links))
+    def start(self, target_url:str, print_links: bool = True):
+        '''
+        description: starts spider
+        '''
+        # try:
+        self.get_target_links(target_url, print_links)
+
+        # except Exception as e:
+            # print(f'{BRIGHT_RED}[!] Exception: {e}')
+
+        # finally:
+        return self.target_links
 
 
 if __name__ == '__main__':
     # Parse arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('-t', '--target', dest='target_url', help='url of the target eg: https://facebook.com, https://github.com, http://bing.com')
+    parser.add_argument('-t', '--target', dest='target_url', required=True,
+                        help='url of the target eg: https://facebook.com, https://github.com, http://bing.com')
     args = parser.parse_args()
-    del parser
 
     target_url = args.target_url
-    start_spider(target_url)
+    spider = Spider()
+    discovered_links = spider.start(target_url=target_url, print_links=True)
+    print(f'[*] Total Links Found: {len(discovered_links)}')
