@@ -1,13 +1,13 @@
 import json
-import pyhtools.attackers.Network.arpspoofer as arp
-import pyhtools.attackers.Network.nwscan as nwscan
-import pyhtools.attackers.Network.machngr as machngr
-import pyhtools.attackers.Websites.login_guesser as web_login
-import pyhtools.attackers.Websites.spider as spider
-import pyhtools.attackers.Websites.crawler as crawler
+import pyhtools.attackers.network.arpspoofer as arp
+import pyhtools.attackers.network.nwscan as nwscan
+import pyhtools.attackers.network.machngr as machngr
+import pyhtools.attackers.web.login_guesser as web_login
 
 from pyhtools.UI.colors import *
-from pyhtools.attackers.Websites.vuln_scanner.scanner import Scanner
+from pyhtools.attackers.web.vuln_scanner.scanner import Scanner
+from pyhtools.attackers.web.spider import Spider
+from pyhtools.attackers.web.webdiscover import Discoverer
 
 
 # NETWORK ATTACKS
@@ -34,7 +34,7 @@ def nw_scan():
     params: None
     returns: None
     '''
-    ip_range = input('[+] IP RANGE : ')
+    ip_range = input('[+] IP (192.168.10.1/24): ')
     nwscan.run_nwscan(ip_range)
 
 
@@ -114,7 +114,14 @@ def webspider():
     returns: None
     '''
     target_url = input('[+] TARGET URL : ')
-    spider.start_spider(target_url)
+    spider = Spider()
+
+    print(f'{BRIGHT_YELLOW}[*] Starting Spider... Press Ctrl+C to interrupt')
+    discovered_links = spider.start(
+        target_url=target_url,
+        print_links=True
+    )
+    print(f'[*] Total Links Found: {len(discovered_links)}')
 
 
 def webcrawldirs():
@@ -123,10 +130,9 @@ def webcrawldirs():
     params: None
     returns: None
     '''
-    target_url = input('[+] TARGET URL : ')
-    wordlist_path = input('[+] WORDLIST PATH : ')
-    crawler.perform_function(crawler.check_directories,
-                             wordlist_path, target_url)
+    domain = input('[+] DOMAIN (duckduckgo.com): ')
+    wordlist_path = input('[+] WORDLIST PATH: ')
+    Discoverer.check_dirs(domain=domain, wordlist=wordlist_path)
 
 
 def webcrawlsubdom():
@@ -135,11 +141,6 @@ def webcrawlsubdom():
     params: None
     returns: None
     '''
-    target_url = input('[+] TARGET URL : ')
+    domain = input('[+] DOMAIN (duckduckgo.com) : ')
     wordlist_path = input('[+] WORDLIST PATH : ')
-    crawler.perform_function(crawler.check_subdomain,
-                             wordlist_path, target_url)
-
-
-if __name__ == "__main__":
-    print('[*] Attackers module!. Exiting...')
+    Discoverer.check_subdomains(domain=domain, wordlist=wordlist_path)

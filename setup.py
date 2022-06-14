@@ -21,7 +21,8 @@ setup(
     install_requires=[
         'beautifulsoup4',
         'colorama',
-        # 'netfilterqueue',
+        # 'netfilterqueue', # (for linux devices only): sudo pip3 install -U git+https://github.com/kti/python-netfilterqueue
+        'nuitka',
         'kamene',
         'scapy',
         'psutil',
@@ -29,6 +30,7 @@ setup(
         'pynput',
         'pyfiglet',
         'pytelegrambotapi',
+        'pyinstaller',
         'requests',
     ],
     classifiers=[
