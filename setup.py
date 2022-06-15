@@ -32,6 +32,7 @@ setup(
         'pytelegrambotapi',
         'pyinstaller',
         'requests',
+        'zstandard',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
