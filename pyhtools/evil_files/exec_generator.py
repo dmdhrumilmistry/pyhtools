@@ -18,10 +18,9 @@ class ExecutableGenerator:
     creates executable
     '''
 
-    def __init__(self, file_path: str, output_filename: str = None, output_dir: str = None, icon: str = None, compiler: Compilers = Compilers.DEFAULT, onefile: bool = True, remove_output: bool = True,) -> None:
+    def __init__(self, file_path: str, output_dir: str = None, icon: str = None, compiler: Compilers = Compilers.DEFAULT, onefile: bool = True, remove_output: bool = True,) -> None:
         # file options
         self.__file = file_path
-        self.__output_filename = output_filename
 
         # set options
         self.__options = {
@@ -55,13 +54,10 @@ class ExecutableGenerator:
             if value_type is bool and value:
                 cmd = f'--{key} '
             elif value_type is str:
-                cmd = f'--{key}="{value}" '
+                cmd = f'--{key} "{value}" '
 
             # add option to command
             command += cmd
-        
-        if self.__output_filename:
-            pass
 
         # add file name and return
         command += f'{self.__file}'
@@ -69,4 +65,5 @@ class ExecutableGenerator:
 
     def generate_executable(self):
         command = self.__generate_command()
+        print(command)
         return call(command.split(), shell=True)

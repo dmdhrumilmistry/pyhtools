@@ -149,3 +149,4 @@ cython_debug/
 *.exe
 *.build
 *.dist
+*exectuables*
