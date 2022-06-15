@@ -54,7 +54,7 @@ class ExecutableGenerator:
             if value_type is bool and value:
                 cmd = f'--{key} '
             elif value_type is str:
-                cmd = f'--{key} "{value}" '
+                cmd = f'--{key}={value} '
 
             # add option to command
             command += cmd
@@ -65,5 +65,4 @@ class ExecutableGenerator:
 
     def generate_executable(self):
         command = self.__generate_command()
-        print(command)
         return call(command.split(), shell=True)
