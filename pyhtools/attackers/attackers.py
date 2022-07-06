@@ -1,7 +1,7 @@
 import json
-import pyhtools.attackers.network.arpspoofer as arp
-import pyhtools.attackers.network.nwscan as nwscan
-import pyhtools.attackers.network.machngr as machngr
+import pyhtools.attackers.Network.arpspoofer as arp
+import pyhtools.attackers.Network.nwscan as nwscan
+import pyhtools.attackers.Network.machngr as machngr
 import pyhtools.attackers.web.login_guesser as web_login
 
 from pyhtools.UI.colors import *
