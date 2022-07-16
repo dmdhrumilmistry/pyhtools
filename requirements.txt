@@ -1,8 +1,10 @@
 beautifulsoup4>=4.9.3
 colorama>=0.4.4
+frida-tools>=10.8.0
 #netfilterqueue (for linux devices only): sudo pip3 install --upgrade -U git+https://github.com/kti/python-netfilterqueue
 kamene>=0.32
 nuitka
+pure-python-adb
 pyfiglet>=0.8.post1
 pynput>=1.7.3
 pytelegrambotapi>=4.0.1
