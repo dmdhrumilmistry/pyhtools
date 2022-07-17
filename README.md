@@ -64,7 +64,7 @@
   python3 -m pip install -e .
   ```
 
-## Start PHTools
+## Start PyHTools
 
 - run pyhtools.py
 
