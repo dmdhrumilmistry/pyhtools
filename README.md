@@ -18,7 +18,7 @@
 
 - Gain access to remote shell over the Internet using HTTP Backdoor
 
-   [![YT Thumbnail](https://img.youtube.com/vi/Wg-PiywAqyw/maxresdefault.jpg)](https://youtu.be/Wg-PiywAqyw)
+  [![YT Thumbnail](https://img.youtube.com/vi/Wg-PiywAqyw/maxresdefault.jpg)](https://youtu.be/Wg-PiywAqyw)
 
 ## Installation
 
@@ -26,47 +26,47 @@
 
 - Install git package
 
-   ```bash
-   sudo apt install git python3 -y
-   ```
+  ```bash
+  sudo apt install git python3 -y
+  ```
 
 - clone the repository to your machine
 
-   ```bash
-   git clone https://github.com/dmdhrumilmistry/pyhtools.git
-   ```
+  ```bash
+  git clone https://github.com/dmdhrumilmistry/pyhtools.git
+  ```
 
 - Change directory
 
-   ```bash
-   cd pyhtools
-   ```
-  
+  ```bash
+  cd pyhtools
+  ```
+
 - install requirements
 
-   ```bash
-   python3 -m pip install -r requirements.txt
-   ```
+  ```bash
+  python3 -m pip install -r requirements.txt
+  ```
 
 ## Start PHTools
 
 - run pyhtools.py
 
-   ```bash
-   python3 -m pyhtools
-   ```
+  ```bash
+  python3 -m pyhtools
+  ```
 
 - to get all the commands use `help`
 
-   ```bash
-   pyhtools >> help
-   ```
+  ```bash
+  pyhtools >> help
+  ```
 
 > There may be chances that pyfiglet or kamene will not be installed through requirements.txt, you can install manually using `pip3 install pyfiglet kamene`.  
 > If you're using Termux or windows, then use `pip` instead of `pip3`.  
 > Few features are only for linux os, hence they might not work on windows and require admin priviliges.
 
-## Tools and Features
+## Package Tools and Features
 
 ### Attackers
 
@@ -84,6 +84,9 @@
   - Web Spider
   - Web crawler (detects dirs | subdomains)
   - Web Vulnerablity Scanner
+- `For Android`
+  - mitm
+    - Custom Certificate Pinner
 
 ### Detectors
 
@@ -107,27 +110,11 @@
 
   > **NOTE:** Do not upload/send/report malwares to anti virus services such as `VirusTotal`. This will make program detectable
 
-## Dependencies
+## How to Package a Evil Files
 
-   **`PHT`** requires following programs/scripts to run properly -
-
-- `Python`
-  - `subprocess`
-  - `scapy`
-  - `kamene`
-  - `pyfiglet`
-  - `argparse`
-  - `re`
-  - `sys`
-  - `os`
-  - `shutil`
-  - `pyinstaller`
-
-   > **NOTE:** most of the modules are pre-installed, still to ensure the proper working of scripts, user should install the required modules using pip
-
-## How to Package a Trojan
-
-- [View How to create a Trojan](https://github.com/dmdhrumilmistry/hacking_tools/blob/master/malwares/Trojans/HowToCreateTrojanPackage.md)
+- [Example Script](./examples/EvilFiles)
+- [View How to create a Trojan](./HowTo/Malwares/CreateTrojanPackage.md)
+- [Generator Script](./examples/EvilFiles/generatorScript.py)
 
 ## Have any Ideas 💡 or issue
 
@@ -136,7 +123,7 @@
 
 ## Connect With Me
 
-||Platforms||
-|:-:|:-:|:-:|
-|[![GitHub](https://img.shields.io/badge/Github-dmdhrumilmistry-333)](https://github.com/dmdhrumilmistry)|[![LinkedIn](https://img.shields.io/badge/LinkedIn-Dhrumil%20Mistry-4078c0)](https://linkedin.com/in/dmdhrumilmistry)|[![Twitter](https://img.shields.io/badge/Twitter-dmdhrumilmistry-4078c0)](https://twitter.com/dmdhrumilmistry)|
-|[![Instagram](https://img.shields.io/badge/Instagram-dmdhrumilmistry-833ab4)](https://instagram.com/dmdhrumilmistry/)|[![Blog](https://img.shields.io/badge/Blog-Dhrumil%20Mistry-bd2c00)](https://dhrumilmistrywrites.blogspot.com/)|[![Youtube](https://img.shields.io/badge/YouTube-Dhrumil%20Mistry-critical)](https://www.youtube.com/channel/UChbjrRvbzgY3BIomUI55XDQ)|
+|                                                                                                                       |                                                       Platforms                                                       |                                                                                                                                        |
+| :-------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------: |
+|       [![GitHub](https://img.shields.io/badge/Github-dmdhrumilmistry-333)](https://github.com/dmdhrumilmistry)        | [![LinkedIn](https://img.shields.io/badge/LinkedIn-Dhrumil%20Mistry-4078c0)](https://linkedin.com/in/dmdhrumilmistry) |             [![Twitter](https://img.shields.io/badge/Twitter-dmdhrumilmistry-4078c0)](https://twitter.com/dmdhrumilmistry)             |
+| [![Instagram](https://img.shields.io/badge/Instagram-dmdhrumilmistry-833ab4)](https://instagram.com/dmdhrumilmistry/) |    [![Blog](https://img.shields.io/badge/Blog-Dhrumil%20Mistry-bd2c00)](https://dhrumilmistrywrites.blogspot.com/)    | [![Youtube](https://img.shields.io/badge/YouTube-Dhrumil%20Mistry-critical)](https://www.youtube.com/channel/UChbjrRvbzgY3BIomUI55XDQ) |
