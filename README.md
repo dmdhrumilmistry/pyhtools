@@ -116,15 +116,15 @@
 - Credential Harvester
 - Keylogger (dlogs)
 - Reverse Backdoors
-  - [TCP](https://github.com/dmdhrumilmistry/pyhtools/tree/main/malwares/reverse_backdoor/TCP)
-  - [HTTP](https://github.com/dmdhrumilmistry/pyhtools/tree/main/malwares/reverse_backdoor/HTTP)
+  - TCP
+  - HTTP
 - Download and Execute
-- [Telegram Data Harvester](https://github.com/dmdhrumilmistry/pyhtools/blob/main/malwares/telegram_data_harvester/HowToUse.md)
-- [DMSecRansomware](https://github.com/dmdhrumilmistry/pyhtools/blob/main/ransomwares/dmsec/HowToUse.md)
-- [Telegram Remote Code Executor](https://github.com/dmdhrumilmistry/pyhtools/tree/main/malwares/TelegramRemoteCodeExecutor)
+- Telegram Data Harvester
+- DMSecRansomware
+- Telegram Remote Code Executor
 - DirCloner
 
-  > **NOTE:** Do not upload/send/report malwares to anti virus services such as `VirusTotal`. This will make program detectable
+> **NOTE:** Do not upload/send/report malwares to anti virus services such as `VirusTotal`. This will make program detectable
 
 ## How to Package a Evil Files
 
