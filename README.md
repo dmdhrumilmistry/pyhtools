@@ -129,6 +129,7 @@
 ## TODO
 
 - [ ] Implement Backdoor using SSH protocol
+- [ ] Create Backdoor handler for TCP and HTTP
 
 
 ## How to Package a Evil Files
