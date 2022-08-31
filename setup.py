@@ -25,6 +25,7 @@ setup(
         # 'netfilterqueue', #(for linux devices only): sudo pip3 install --upgrade -U git+https://github.com/kti/python-netfilterqueue,
         'kamene>=0.32',
         'nuitka',
+        'paramiko>=2.11.0',
         'pure-python-adb',
         'pyfiglet>=0.8.post1',
         'pynput>=1.7.3',
