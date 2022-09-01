@@ -1,10 +1,8 @@
 # PyHTools
 
-![Image](.images/PyHTools.png)
+![Image](.images/PyHTools-without-bg.png)
 
 - Python Hacking Tools (PyHTools) (pht) is a collection of python written hacking tools consisting of network scanner, arp spoofer and detector, dns spoofer, code injector, packet sniffer, network jammer, email sender, downloader, wireless password harvester credential harvester, keylogger, download&execute, and reverse_backdoor along with website login bruteforce, scraper, web spider etc. PHT also includes malwares which are undetectable by the antiviruses.
-
-![PHT Image](.images/Windows_CLI-main.png)
 
 - The tools provided are for educational purposes only. The developers are no way responsible for misuse of information and tools provided. All the information and tools are meant to help users to learn concepts. Use tools wisely!
 
@@ -27,7 +25,7 @@
 - Install main branch using pip
 
   ```bash
-  pip install https://github.com/dmdhrumilmistry/pyhtools.git
+  pip install git+https://github.com/dmdhrumilmistry/pyhtools.git
   ```
 
 - Install Release from PyPi
@@ -128,9 +126,8 @@
 
 ## TODO
 
-- [ ] Implement Backdoor using SSH protocol
+- [x] Implement Backdoor using SSH protocol
 - [ ] Create Backdoor handler for TCP and HTTP
-
 
 ## How to Package a Evil Files
 
@@ -148,4 +145,4 @@
 |                                                                                                                       |                                                       Platforms                                                       |                                                                                                                                        |
 | :-------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------: |
 |       [![GitHub](https://img.shields.io/badge/Github-dmdhrumilmistry-333)](https://github.com/dmdhrumilmistry)        | [![LinkedIn](https://img.shields.io/badge/LinkedIn-Dhrumil%20Mistry-4078c0)](https://linkedin.com/in/dmdhrumilmistry) |             [![Twitter](https://img.shields.io/badge/Twitter-dmdhrumilmistry-4078c0)](https://twitter.com/dmdhrumilmistry)             |
-| [![Instagram](https://img.shields.io/badge/Instagram-dmdhrumilmistry-833ab4)](https://instagram.com/dmdhrumilmistry/) |    [![Blog](https://img.shields.io/badge/Blog-Dhrumil%20Mistry-bd2c00)](https://dmdhrumilmistry.github.io/blog)    | [![Youtube](https://img.shields.io/badge/YouTube-Dhrumil%20Mistry-critical)](https://www.youtube.com/channel/UChbjrRvbzgY3BIomUI55XDQ) |
+| [![Instagram](https://img.shields.io/badge/Instagram-dmdhrumilmistry-833ab4)](https://instagram.com/dmdhrumilmistry/) |     [![Blog](https://img.shields.io/badge/Blog-Dhrumil%20Mistry-bd2c00)](https://dmdhrumilmistry.github.io/blog)      | [![Youtube](https://img.shields.io/badge/YouTube-Dhrumil%20Mistry-critical)](https://www.youtube.com/channel/UChbjrRvbzgY3BIomUI55XDQ) |
