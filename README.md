@@ -1,6 +1,6 @@
 # PyHTools
 
-![Image](.images/PyHTools-without-bg.png)
+![PyHTools Logo](https://i.ibb.co/CtwVV5T/Py-HTools-without-bg-cropped.png)
 
 - Python Hacking Tools (PyHTools) (pht) is a collection of python written hacking tools consisting of network scanner, arp spoofer and detector, dns spoofer, code injector, packet sniffer, network jammer, email sender, downloader, wireless password harvester credential harvester, keylogger, download&execute, and reverse_backdoor along with website login bruteforce, scraper, web spider etc. PHT also includes malwares which are undetectable by the antiviruses.
 
@@ -10,7 +10,7 @@
 
 - PyHTools comes with UI, but you can also use command line to use tools individually.
 
-**`NOTE` : The UI hasn't been updated yet with new tools, and evil files so using cli is preferred.**
+**`NOTE` : The UI hasn't been updated yet with new tools, Refer examples for more information**
 
 ## How To Videos
 
