@@ -9,7 +9,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='PyHTools',
-    version='1.0.1',
+    version='1.1.0',
     author='Dhrumil Mistry',
     author_email='contact@dmdhrumilmistry.me',
     license='MIT License',
