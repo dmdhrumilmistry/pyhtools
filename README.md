@@ -124,10 +124,9 @@
 
 > **NOTE:** Do not upload/send/report malwares to anti virus services such as `VirusTotal`. This will make program detectable
 
-## TODO
+## Project Updates
 
-- [x] Implement Backdoor using SSH protocol
-- [ ] Create Backdoor handler for TCP and HTTP
+- [View](https://github.com/users/dmdhrumilmistry/projects/2/views/1)
 
 ## How to Package a Evil Files
 
