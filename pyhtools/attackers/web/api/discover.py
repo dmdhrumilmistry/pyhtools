@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from urllib import request
 from aiohttp import ClientSession
 from json import JSONDecodeError, dumps as to_json
 from os.path import isfile
@@ -33,7 +34,9 @@ class APIdiscover:
 
     async def check_endpoint(self, endpoint: str):
         '''
-        description: checks if endpoint is valid or not
+        description: checks if endpoint is valid or not, returns dict containing endpoint information
+        args: endpoint(str): api endpoint
+        returns: dict or None
         '''
         assert isinstance(endpoint, str)
 
@@ -46,22 +49,24 @@ class APIdiscover:
 
                     logger.debug(f'{url}\t{response.status}')
 
-                    res_headers = {}
-                    for header_key in response.headers.keys():
-                        res_headers[header_key] = response.headers.get(
-                            header_key)
-
                     res_body = (await response.read()).decode('utf-8')
 
                     await asyncio.sleep(self._delay)
                     return {
                         "endpoint": endpoint,
                         "status": response.status,
-                        "res_headers": res_headers,
+                        "req_url": str(response.request_info.real_url),
+                        "req_method": response.request_info.method,
+                        "req_headers": dict(response.request_info.headers),
+                        "res_headers": dict(response.headers),
                         "res_body": res_body,
                     }
 
     async def get_endpoints(self):
+        '''
+        description: returns endpoints from wordlist file
+        returns: list
+        '''
         endpoints = None
         with open(self.wordlist_path, 'r') as f:
             endpoints = [str(endpoint).strip() for endpoint in f.readlines()]
@@ -69,6 +74,11 @@ class APIdiscover:
         return endpoints
 
     async def save_result_to_file(self, results: list[dict], file_path: str,):
+        '''
+        description: saves json result to file
+        args: results(list of dict)
+        returns: bool
+        '''
         assert isinstance(results, list)
         assert isinstance(file_path, str)
 
