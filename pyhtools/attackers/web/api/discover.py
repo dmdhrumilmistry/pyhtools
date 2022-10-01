@@ -46,10 +46,19 @@ class APIdiscover:
 
                     logger.debug(f'{url}\t{response.status}')
 
+                    res_headers = {}
+                    for header_key in response.headers.keys():
+                        res_headers[header_key] = response.headers.get(
+                            header_key)
+
+                    res_body = (await response.read()).decode('utf-8')
+
                     await asyncio.sleep(self._delay)
                     return {
                         "endpoint": endpoint,
-                        "status": response.status
+                        "status": response.status,
+                        "res_headers": res_headers,
+                        "res_body": res_body,
                     }
 
     async def get_endpoints(self):
@@ -81,7 +90,9 @@ class APIdiscover:
         tasks = []
         for endpoint in endpoints:
             tasks.append(
-                self.check_endpoint(endpoint=endpoint)
+                asyncio.ensure_future(
+                    self.check_endpoint(endpoint=endpoint)
+                )
             )
 
         results = await asyncio.gather(*tasks)
