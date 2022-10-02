@@ -1,4 +1,3 @@
-from argparse import ArgumentParser
 from aiohttp import ClientSession
 from json import JSONDecodeError, dumps as to_json
 from os.path import isfile
@@ -20,9 +19,12 @@ if os_name == 'nt':
 
 
 class APIdiscover:
-    def __init__(self, base_url: str, wordlist_path: str, match_codes: list[int], rate_limit: int = 20, delay: float = 0.05, output_file_path: str = None) -> None:
+    def __init__(self, base_url: str, wordlist_path: str, match_codes: list[int], rate_limit: int = 20, delay: float = 0.05, output_file_path: str = None, headers: dict = None) -> None:
         assert isinstance(base_url, str)
         assert isinstance(wordlist_path, str) and isfile(wordlist_path)
+        assert isinstance(match_codes, list)
+        assert isinstance(rate_limit, int)
+        assert isinstance(delay, float)
 
         self.base_url = base_url
         self.wordlist_path = wordlist_path
@@ -30,6 +32,8 @@ class APIdiscover:
         self.match_codes = match_codes
         self._delay = delay
         self._semaphore = asyncio.Semaphore(rate_limit)
+        self._headers = headers
+
 
     async def check_endpoint(self, endpoint: str):
         '''
@@ -41,14 +45,12 @@ class APIdiscover:
 
         url = urljoin(self.base_url, endpoint)
         async with self._semaphore:
-            async with ClientSession() as session:
+            async with ClientSession(headers=self._headers) as session:
                 async with session.get(url) as response:
                     if response.status in self.match_codes:
                         logger.info(f'{endpoint}\t{response.status}')
 
                     logger.debug(f'{url}\t{response.status}')
-
-                    res_body = (await response.read()).decode('utf-8')
 
                     await asyncio.sleep(self._delay)
                     return {
@@ -56,9 +58,10 @@ class APIdiscover:
                         "status": response.status,
                         "req_url": str(response.request_info.real_url),
                         "req_method": response.request_info.method,
-                        "req_headers": dict(response.request_info.headers),
+                        "req_headers": dict(**response.request_info.headers),
+                        "res_redirection":str(response.history),
                         "res_headers": dict(response.headers),
-                        "res_body": res_body,
+                        "res_body": (await response.read()).decode('utf-8'),
                     }
 
     async def get_endpoints(self):
@@ -94,6 +97,9 @@ class APIdiscover:
         return save_status
 
     async def start(self):
+        '''
+        start API enumeration
+        '''
         endpoints = await self.get_endpoints()
 
         tasks = []
