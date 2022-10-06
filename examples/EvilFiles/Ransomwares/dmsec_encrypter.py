@@ -12,7 +12,7 @@ PATHS = [
 encrypter = DMSecEncrypter(
     paths=PATHS,
     email='yourgmailid',
-    passwd='yourapppassword'
+    passwd='yourapppassword',
     smtp_server='smtp.gmail.com',
     smtp_port=587,
 )
