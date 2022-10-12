@@ -93,11 +93,13 @@
   - Network Jammer
   - Pkt Sniffer
   - Code Injector
+
 - `For Websites`
   - Login Guesser (Login Bruteforcer)
   - Web Spider
   - Web crawler (detects dirs | subdomains)
   - Web Vulnerablity Scanner
+
 - `For Android`
   - mitm
     - Custom Certificate Pinner
@@ -138,6 +140,14 @@
 
 - Create an issue
 - Fork the repo, update script and create a Pull Request
+
+## Contributing
+
+Refer [CONTRIBUTIONS.md](/.github/CONTRIBUTING.md) for contributing to the project.
+
+## LICENSE
+
+PyHTools is distributed under `MIT` License. Refer [License](/LICENSE) for more information.
 
 ## Connect With Me
 
