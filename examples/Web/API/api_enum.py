@@ -33,7 +33,6 @@ except SyntaxError:
 
 discoverer = APIdiscover(
     base_url=args.url,
-    wordlist_path=args.wordlist_path,
     match_codes=args.match_codes,
     rate_limit=args.rate_limit,
     delay=args.delay,
@@ -42,5 +41,5 @@ discoverer = APIdiscover(
 )
 
 run(
-    discoverer.start()
+    discoverer.start_enum_from_file(wordlist_file=args.wordlist_path)
 )
