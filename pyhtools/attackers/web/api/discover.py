@@ -19,21 +19,18 @@ if os_name == 'nt':
 
 
 class APIdiscover:
-    def __init__(self, base_url: str, wordlist_path: str, match_codes: list[int], rate_limit: int = 20, delay: float = 0.05, output_file_path: str = None, headers: dict = None) -> None:
+    def __init__(self, base_url: str, match_codes: list[int], rate_limit: int = 20, delay: float = 0.05, output_file_path: str = None, headers: dict = None) -> None:
         assert isinstance(base_url, str)
-        assert isinstance(wordlist_path, str) and isfile(wordlist_path)
         assert isinstance(match_codes, list)
         assert isinstance(rate_limit, int)
         assert isinstance(delay, float)
 
         self.base_url = base_url
-        self.wordlist_path = wordlist_path
         self.output_file_path = output_file_path
         self.match_codes = match_codes
         self._delay = delay
         self._semaphore = asyncio.Semaphore(rate_limit)
         self._headers = headers
-
 
     async def check_endpoint(self, endpoint: str):
         '''
@@ -59,27 +56,26 @@ class APIdiscover:
                         "req_url": str(response.request_info.real_url),
                         "req_method": response.request_info.method,
                         "req_headers": dict(**response.request_info.headers),
-                        "res_redirection":str(response.history),
+                        "res_redirection": str(response.history),
                         "res_headers": dict(response.headers),
                         "res_body": (await response.read()).decode('utf-8'),
                     }
 
-    async def get_endpoints(self):
+    async def get_endpoints_from_file(self, wordlist_path: str):
         '''
-        description: returns endpoints from wordlist file
-        returns: list
+        reads endpoints from wordlist file and returns as a list
         '''
+        assert isinstance(wordlist_path, str) and isfile(wordlist_path)
+
         endpoints = None
-        with open(self.wordlist_path, 'r') as f:
+        with open(wordlist_path, 'r') as f:
             endpoints = [str(endpoint).strip() for endpoint in f.readlines()]
 
         return endpoints
 
     async def save_result_to_file(self, results: list[dict], file_path: str,):
         '''
-        description: saves json result to file
-        args: results(list of dict)
-        returns: bool
+        stores json result to file
         '''
         assert isinstance(results, list)
         assert isinstance(file_path, str)
@@ -96,11 +92,43 @@ class APIdiscover:
 
         return save_status
 
-    async def start(self):
+    async def start_enum_from_file(self, wordlist_file: str):
         '''
-        start API enumeration
+        start endpoint enumeration using wordlist
         '''
-        endpoints = await self.get_endpoints()
+        endpoints = await self.get_endpoints_from_file(wordlist_file)
+
+        results = await self.enumerate(endpoints=endpoints)
+
+        if self.output_file_path:
+            await self.save_result_to_file(
+                results=results,
+                file_path=self.output_file_path,
+            )
+
+    async def start_enum_id(self, ending_id: int, param_name: str, starting_id: int = 0):
+        '''
+        starts enumeration based on id in GET request
+        '''
+        assert isinstance(starting_id, int)
+        assert isinstance(ending_id, int)
+        assert isinstance(param_name, str)
+
+        endpoints = [f'{self.base_url}{param_name}={id_val}' for id_val in range(starting_id, ending_id)]
+
+        results = await self.enumerate(endpoints=endpoints)
+
+        if self.output_file_path:
+            await self.save_result_to_file(
+                results=results,
+                file_path=self.output_file_path,
+            )
+
+    async def enumerate(self, endpoints: list):
+        '''
+        start API enumeration and return captured responses as list
+        '''
+        assert isinstance(endpoints, list)
 
         tasks = []
         for endpoint in endpoints:
@@ -111,9 +139,4 @@ class APIdiscover:
             )
 
         results = await asyncio.gather(*tasks)
-
-        if self.output_file_path:
-            await self.save_result_to_file(
-                results=results,
-                file_path=self.output_file_path,
-            )
+        return results
