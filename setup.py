@@ -11,7 +11,7 @@ setup(
     name='PyHTools',
     version='1.1.0',
     author='Dhrumil Mistry',
-    author_email='contact@dmdhrumilmistry.me',
+    author_email='contact@dmdhrumilmistry.tech',
     license='MIT License',
     description='Python Hacking Tools (PyHTools) (pht) is a collection of python written hacking tools consisting of network scanner, arp spoofer and detector, dns spoofer, code injector, packet sniffer, network jammer, email sender, downloader, wireless password harvester credential harvester, keylogger, download&execute, and reverse_backdoor along with website login bruteforce, scraper, web spider etc. PHT also includes malwares which are undetectable by the antiviruses.',
     long_description=long_description,
