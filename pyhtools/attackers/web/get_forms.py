@@ -24,9 +24,12 @@ def get_page_content(url:str):
     return content
 
 
-def get_forms(target_url):
-    target_url = 'http://10.0.2.30/mutillidae/index.php?page=dns-lookup.php'
-
+def fuzz_forms(target_url:str):
+    '''
+    desc: get forms from html page, send post request and return html response 
+    params: target_url (str)
+    returns: str
+    '''
     page_content = get_page_content(target_url)
 
     # remove\r \t \n from the page content
@@ -49,12 +52,16 @@ def get_forms(target_url):
             inp_value = input.get('value')
 
             if inp_type == 'text':
-                inp_value = 'test'
+                inp_value = 'pyhtools-form-test'
+
+            elif inp_type == 'password':
+                inp_value = 'pyhtools-P#$$Wd!!!'
 
             post_data_dict[inp_name]=inp_value
 
         post_response = requests.post(url=post_url, data=post_data_dict)
         post_response_content = remove_escape_seq(str(post_response.content))
         post_content = BeautifulSoup(post_response_content, 'html.parser')
-        print(post_content.prettify())    
+
+        return str(post_content.prettify())
     
