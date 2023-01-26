@@ -10,19 +10,6 @@ aiohttp.resolver.DefaultResolver = aiohttp.resolver.AsyncResolver
 if os_name == 'nt':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-
-def rate_limit(request_func, rate_lim: int = 20, delay: float = 0.05):
-    @wraps(request_func)
-    async def rl_wrapper(url, *args, **kwargs):
-        async with asyncio.Semaphore(rate_lim):
-            async with ClientSession() as session:
-                payload: ClientResponse = request_func(
-                    session, url, *args, **kwargs)
-                await asyncio.sleep(delay)
-                return payload
-    return rl_wrapper
-
-
 class AsyncRequests:
     '''
     AsyncRequests class helps to send HTTP requests.
@@ -61,29 +48,31 @@ class AsyncRequests:
             if is_new_session:
                 await session.close()
 
-            return resp
+        return resp
 
 
 class AsyncRLRequests(AsyncRequests):
     '''
     Send Asynchronous rate limited HTTP requests.
     '''
+
     def __init__(self, rate_limit: int = 20, delay: float = 0.05, headers: dict = None) -> None:
-        assert isinstance(rate_limit, int)
-        assert isinstance(delay, float)
+        assert isinstance(delay, float) or isinstance(delay, int)
+        assert isinstance(rate_limit, float) or isinstance(rate_limit, int)
 
         self._delay = delay
         self._semaphore = asyncio.Semaphore(rate_limit)
         super().__init__(headers)
 
-
-    # TODO: fix rate limit decorator error
-    # @rate_limit
     async def request(self, url: str, method: str = 'GET', session: ClientSession = None, *args, **kwargs) -> ClientResponse:
-        return super().request(url, method, session, *args, **kwargs)
-    
+        async with self._semaphore:
+            response = super().request(url, method, session, *args, **kwargs)
+            await asyncio.sleep(self._delay)
+            return response
+
+
 async def test():
-    req = AsyncRLRequests()
+    req = AsyncRLRequests(delay=4)
     res = await asyncio.gather(asyncio.ensure_future(await req.request('https://httpbin.org/get', method='POST')))
 
     print(type(res), res)
