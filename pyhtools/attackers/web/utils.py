@@ -54,8 +54,6 @@ class AsyncRequests:
                 sent_req = session.options(url, *args, **kwargs)
             case 'DELETE':
                 sent_req = session.delete(url, *args, **kwargs)
-            case 'DELETE':
-                sent_req = session.delete(url, *args, **kwargs)
             
         async with sent_req as resp:
             return resp
