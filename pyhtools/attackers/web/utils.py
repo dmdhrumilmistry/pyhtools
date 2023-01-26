@@ -1,44 +1,45 @@
 from aiohttp import ClientSession, ClientResponse
-from os.path import isfile
-from urllib.parse import urljoin
 from os import name as os_name
 from functools import wraps
 
 
 import asyncio
 import aiohttp.resolver
-import logging
-
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO,
-                    format='[%(asctime)s] [%(levelname)s] - %(message)s')
 
 aiohttp.resolver.DefaultResolver = aiohttp.resolver.AsyncResolver
 if os_name == 'nt':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
-class AsyncRequests:
-    def __init__(self, rate_limit: int = 20, delay: float = 0.05, headers: dict = None) -> None:
-        assert isinstance(rate_limit, int)
-        assert isinstance(delay, float)
+def rate_limit(request_func, rate_lim: int = 20, delay: float = 0.05):
+    @wraps(request_func)
+    async def rl_wrapper(url, *args, **kwargs):
+        async with asyncio.Semaphore(rate_lim):
+            async with ClientSession() as session:
+                payload: ClientResponse = request_func(
+                    session, url, *args, **kwargs)
+                await asyncio.sleep(delay)
+                return payload
+    return rl_wrapper
 
-        self._delay = delay
-        self._semaphore = asyncio.Semaphore(rate_limit)
+
+class AsyncRequests:
+    '''
+    AsyncRequests class helps to send HTTP requests.
+    '''
+
+    def __init__(self, headers: dict = None) -> None:
         self._headers = headers
 
-    async def rate_limit(self, request_func:function):
-            @wraps(request_func)
-            async def wrapper(url, *args, **kwargs):
-                async with self._semaphore:
-                    async with ClientSession() as session:
-                        payload = request_func(session, url, *args, **kwargs)
-                        await asyncio.sleep(self._delay)
-                        return payload
-            return wrapper
+    async def request(self, url: str, method: str = 'GET', session: ClientSession = None, *args, **kwargs) -> ClientResponse:
+        '''
+        Send HTTP requests asynchronously.
+        '''
+        is_new_session = False
+        if not session:
+            session = ClientSession(headers=self._headers)
+            is_new_session = True
 
-
-    async def request(self, session:ClientSession, method:str, url:str, *args, **kwargs):
         match method:
             case 'GET':
                 sent_req = session.get(url, *args, **kwargs)
@@ -54,6 +55,37 @@ class AsyncRequests:
                 sent_req = session.options(url, *args, **kwargs)
             case 'DELETE':
                 sent_req = session.delete(url, *args, **kwargs)
-            
+
         async with sent_req as resp:
+            if is_new_session:
+                await session.close()
+
             return resp
+
+
+class AsyncRLRequests(AsyncRequests):
+    '''
+    Send Asynchronous rate limited HTTP requests.
+    '''
+    def __init__(self, rate_limit: int = 20, delay: float = 0.05, headers: dict = None) -> None:
+        assert isinstance(rate_limit, int)
+        assert isinstance(delay, float)
+
+        self._delay = delay
+        self._semaphore = asyncio.Semaphore(rate_limit)
+        super().__init__(headers)
+
+
+    # TODO: fix rate limit decorator error
+    # @rate_limit
+    async def request(self, url: str, method: str = 'GET', session: ClientSession = None, *args, **kwargs) -> ClientResponse:
+        return super().request(url, method, session, *args, **kwargs)
+    
+async def test():
+    req = AsyncRLRequests()
+    res = await asyncio.gather(asyncio.ensure_future(await req.request('https://httpbin.org/get')))
+
+    print(type(res), res)
+
+if __name__ == '__main__':
+    asyncio.run(test())
