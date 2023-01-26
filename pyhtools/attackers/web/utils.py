@@ -40,6 +40,7 @@ class AsyncRequests:
             session = ClientSession(headers=self._headers)
             is_new_session = True
 
+        method = str(method).upper()
         match method:
             case 'GET':
                 sent_req = session.get(url, *args, **kwargs)
@@ -83,7 +84,7 @@ class AsyncRLRequests(AsyncRequests):
     
 async def test():
     req = AsyncRLRequests()
-    res = await asyncio.gather(asyncio.ensure_future(await req.request('https://httpbin.org/get')))
+    res = await asyncio.gather(asyncio.ensure_future(await req.request('https://httpbin.org/get', method='POST')))
 
     print(type(res), res)
 
