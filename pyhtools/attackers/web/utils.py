@@ -1,6 +1,5 @@
 from aiohttp import ClientSession, ClientResponse
 from os import name as os_name
-from functools import wraps
 
 
 import asyncio
@@ -66,16 +65,16 @@ class AsyncRLRequests(AsyncRequests):
 
     async def request(self, url: str, method: str = 'GET', session: ClientSession = None, *args, **kwargs) -> ClientResponse:
         async with self._semaphore:
-            response = super().request(url, method, session, *args, **kwargs)
+            response = await super().request(url, method, session, *args, **kwargs)
             await asyncio.sleep(self._delay)
             return response
 
 
 async def test():
     req = AsyncRLRequests(delay=4)
-    res = await asyncio.gather(asyncio.ensure_future(await req.request('https://httpbin.org/get', method='POST')))
+    res = await asyncio.gather(asyncio.ensure_future(await req.request('https://httpbin.org/get', method='GET')))
 
-    print(type(res), res)
+    print(res[-1])
 
 if __name__ == '__main__':
     asyncio.run(test())
