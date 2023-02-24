@@ -43,11 +43,22 @@ class AsyncRequests:
             case 'DELETE':
                 sent_req = session.delete(url, *args, **kwargs)
 
-        async with sent_req as resp:
+
+        resp_data = None
+        async with sent_req as response:
+            resp_data = {
+                        "status": response.status,
+                        "req_url": str(response.request_info.real_url),
+                        "req_method": response.request_info.method,
+                        "req_headers": dict(**response.request_info.headers),
+                        "res_redirection": str(response.history),
+                        "res_headers": dict(response.headers),
+                        "res_body": (await response.read()).decode('utf-8'),
+                    }
             if is_new_session:
                 await session.close()
-
-        return resp
+            
+        return resp_data
 
 
 class AsyncRLRequests(AsyncRequests):

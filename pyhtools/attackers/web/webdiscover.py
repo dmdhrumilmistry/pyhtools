@@ -4,7 +4,7 @@ import sys
 import requests
 
 
-from pyhtools.UI.colors import *
+from pyhtools.UI.colors import BRIGHT_YELLOW, BRIGHT_RED
 from threading import Thread
 
 
@@ -29,7 +29,7 @@ class Discoverer:
                 return True
             return False
         except Exception as e:
-            # print(f'{BRIGHT_RED}[-] Request Exception: {e}')
+            print(f'{BRIGHT_RED}[-] Request Exception: {e}')
             return False
 
     @staticmethod
@@ -156,6 +156,6 @@ if __name__ == '__main__':
         else:
             print(f'{BRIGHT_RED}[!] invalid mode. Use -h tag to print help.')
 
-    except KeyboardInterrupt or EOFError:
+    except (KeyboardInterrupt, EOFError):
         print('[!] User Interrupted!')
         sys.exit()

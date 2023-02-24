@@ -1,5 +1,5 @@
 from urllib.parse import urljoin
-from pyhtools.UI.colors import *
+from pyhtools.UI.colors import BRIGHT_YELLOW
 from pyhtools.attackers.web.utils import AsyncRLRequests
 from asyncio import run
 
@@ -25,8 +25,7 @@ class Spider:
         response = await self._client.request(url=url)
         # TODO: figure out how to extract response body content below 
         # only below line needs change, everything else will remain same.
-        # print(response.status, await response.text())
-        content = str(response)
+        content = response.get('res_body')
         print(content)
         return re.findall(r'(?:href=")(.*?)"', content)
 
