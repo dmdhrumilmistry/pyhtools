@@ -1,14 +1,7 @@
-from asyncio import run
 from bs4 import BeautifulSoup
 from html import unescape
 from urllib.parse import urljoin
-
-
-from pyhtools.UI.colors import BRIGHT_YELLOW
-from pyhtools.attackers.web.utils import AsyncRLRequests
-
-import re
-import argparse
+from .utils import AsyncRLRequests
 
 
 class Spider:
@@ -93,15 +86,3 @@ class Spider:
 
         return self.target_links
     
-
-if __name__ == '__main__':
-    # Parse arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-t', '--target', dest='target_url', required=True,
-                        help='url of the target eg: https://example.com')
-    args = parser.parse_args()
-
-    target_url = args.target_url
-    spider = Spider()
-    discovered_links = run(spider.start(target_url=target_url, print_links=True))
-    print(f'[*] Total Links Found: {len(discovered_links)-1}')

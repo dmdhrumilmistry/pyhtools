@@ -42,7 +42,7 @@ def fuzz_forms(target_url:str):
         post_url = urljoin(target_url, action)
         # print(post_url)
         
-        method = form.get('method')
+        # method = form.get('method')
 
         post_data_dict = {}
         inputs = form.find_all('input')

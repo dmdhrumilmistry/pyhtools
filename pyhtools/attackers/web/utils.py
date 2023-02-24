@@ -53,7 +53,7 @@ class AsyncRequests:
                         "req_headers": dict(**response.request_info.headers),
                         "res_redirection": str(response.history),
                         "res_headers": dict(response.headers),
-                        "res_body": (await response.read()).decode('utf-8'),
+                        "res_body": await response.text(),
                     }
             if is_new_session:
                 await session.close()
