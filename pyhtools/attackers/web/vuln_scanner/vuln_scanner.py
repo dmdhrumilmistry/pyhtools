@@ -1,6 +1,6 @@
 import scanner
 import argparse
-from pyhtools.UI.colors import *
+from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_YELLOW
 import sys
 
 

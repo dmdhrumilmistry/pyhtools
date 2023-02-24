@@ -1,8 +1,7 @@
-#!usr/bin/env python3
 import requests
 import os
 import sys
-from pyhtools.UI.colors import *
+from pyhtools.UI.colors import BRIGHT_YELLOW, BRIGHT_WHITE, BRIGHT_RED
 
 def bruteforce_login(target_url:str, wordlist_file:str, post_values:dict):
     # tested on DVWA web app.

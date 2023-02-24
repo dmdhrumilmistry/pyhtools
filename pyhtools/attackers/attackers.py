@@ -4,7 +4,7 @@ import pyhtools.attackers.Network.nwscan as nwscan
 import pyhtools.attackers.Network.machngr as machngr
 import pyhtools.attackers.web.login_guesser as web_login
 
-from pyhtools.UI.colors import *
+from pyhtools.UI.colors import BRIGHT_YELLOW, BRIGHT_WHITE
 from pyhtools.attackers.web.vuln_scanner.scanner import Scanner
 from pyhtools.attackers.web.spider import Spider
 from pyhtools.attackers.web.webdiscover import Discoverer
@@ -67,7 +67,7 @@ def brute_login():
     wordlist_file = input('[+] WORDLIST PATH : ')
     print(BRIGHT_YELLOW +
           '[!] Enter string in post values, eg. {"username":"admin", "password":"", "Login":"submit"} (inspect element in your webbrowser)')
-    post_data = input('[+] POST VALUES : ') .strip()
+    post_data = input('[+] POST VALUES : ').strip()
     post_values = json.loads(post_data)
 
     web_login.bruteforce_login(target_url, wordlist_file, post_values)
