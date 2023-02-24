@@ -1,4 +1,5 @@
 from asyncio import run
+from bs4 import BeautifulSoup
 from html import unescape
 from urllib.parse import urljoin
 
@@ -17,16 +18,26 @@ class Spider:
         self.target_links = set()
         self._client = AsyncRLRequests(rate_limit=rate_limit, delay=delay, headers=headers)
 
-    async def get_links(self, url: str) -> list:
+    async def get_links(self, url: str) -> set:
         '''
         description: extracts links from the whole webpage.
         params: url(str) of the webpage
         returns: links(list) present in the webpage
         '''
         response = await self._client.request(url=url)
-        content = response.get('res_body')
-        # TODO: use beautiful soup instead of regex 
-        return re.findall(r'(?:href=")(.*?)"', content)
+        html = response.get('res_body')
+        if html is None:
+            return set()
+        
+        soup = BeautifulSoup(html, 'html.parser')
+
+        href_links = set()
+        for link in soup.find_all(href=True):
+            href_link = link.get('href')
+            if href_link:
+                href_links.add(href_link)
+
+        return href_links
 
     async def get_target_links(self, url: str, print_link: bool = True):
         '''
@@ -36,7 +47,7 @@ class Spider:
         returns: useful links(list) related to target webpage
         '''
         # extract links from page
-        links:list = await self.get_links(url)
+        links:set = await self.get_links(url)
 
         new_links = set()
         for link in links:
@@ -47,7 +58,6 @@ class Spider:
 
             if link not in self.target_links and url in link:
                 link = unescape(link)
-                self.target_links.add(link)
                 new_links.add(link)
 
                 if print_link:
@@ -71,11 +81,15 @@ class Spider:
             # add url to visited set
             self.target_links.add(current_url)
 
+            # skip scraping static files since it'll slow down process
+            if current_url.endswith(('.css', '.js','.jpeg', '.png','.svg')):
+                continue
+
             # get links from 
             links = await self.get_target_links(current_url, print_link=print_links)
 
             # add new links to queue
-            queue.extend(self.target_links - links)
+            queue.extend(links - self.target_links)
 
         return self.target_links
     
