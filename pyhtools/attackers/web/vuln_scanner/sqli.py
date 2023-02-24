@@ -5,7 +5,7 @@ Project: github.com/dmdhrumilmistry/pyhtools
 License: MIT
 '''
 from argparse import ArgumentParser
-from requests import (get)
+from requests import get
 from sys import exit
 
 
