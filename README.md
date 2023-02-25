@@ -12,6 +12,10 @@
 
 **`NOTE` : The UI hasn't been updated yet with new tools, Refer examples for more information**
 
+## Join Our Discord Community
+
+[![Join our Discord server!](https://invidget.switchblade.xyz/DJrnAg4nv2)](http://discord.gg/DJrnAg4nv2)
+
 ## How To Videos
 
 - Gain access to remote shell over the Internet using HTTP Backdoor
