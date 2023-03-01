@@ -1,14 +1,19 @@
+from asyncio import run
+from pyhtools.UI.colors import BRIGHT_YELLOW, BRIGHT_WHITE
+from pyhtools.attackers.web.vuln_scanner.scanner import Scanner
+from pyhtools.attackers.web.spider import Spider
+from pyhtools.attackers.web.enumerate import Discoverer
+
+
 import json
 import pyhtools.attackers.Network.arpspoofer as arp
 import pyhtools.attackers.Network.nwscan as nwscan
 import pyhtools.attackers.Network.machngr as machngr
 import pyhtools.attackers.web.login_guesser as web_login
 
-from pyhtools.UI.colors import BRIGHT_YELLOW, BRIGHT_WHITE
-from pyhtools.attackers.web.vuln_scanner.scanner import Scanner
-from pyhtools.attackers.web.spider import Spider
-from pyhtools.attackers.web.webdiscover import Discoverer
 
+# Use args/kwargs to rate limit requests
+discoverer = Discoverer()
 
 # NETWORK ATTACKS
 # TODO: Create functions for Network Attackers : codeinjector, dnsspoofer, download replacer, packet_sniffer.
@@ -132,7 +137,7 @@ def webcrawldirs():
     '''
     domain = input('[+] DOMAIN (duckduckgo.com): ')
     wordlist_path = input('[+] WORDLIST PATH: ')
-    Discoverer.check_dirs(domain=domain, wordlist=wordlist_path)
+    run(discoverer.check_dirs(domain=domain, wordlist=wordlist_path))
 
 
 def webcrawlsubdom():
@@ -143,4 +148,4 @@ def webcrawlsubdom():
     '''
     domain = input('[+] DOMAIN (duckduckgo.com) : ')
     wordlist_path = input('[+] WORDLIST PATH : ')
-    Discoverer.check_subdomains(domain=domain, wordlist=wordlist_path)
+    run(discoverer.check_subdomains(domain=domain, wordlist=wordlist_path))
