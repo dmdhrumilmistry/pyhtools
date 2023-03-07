@@ -13,7 +13,6 @@ pynput>=1.7.3
 pytelegrambotapi>=4.0.1
 prettytable>=2.1.0
 psutil>=5.8.0
-pyinstaller
 requests>=2.25.1
 scapy>=2.4.5
 # wmi # for windows process management
