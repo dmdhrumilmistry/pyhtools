@@ -35,7 +35,7 @@ The disclaimer advises users to use the open source project for ethical and legi
 - Install main branch using pip
 
   ```bash
-  pip install git+https://github.com/dmdhrumilmistry/pyhtools.git
+  python3 -m pip install git+https://github.com/dmdhrumilmistry/pyhtools.git
   ```
 
 - Install Release from PyPi
