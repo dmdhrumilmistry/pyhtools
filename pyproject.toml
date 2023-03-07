@@ -34,6 +34,13 @@ linux = ["netfilterqueue"]
 windows = ["wmi"]
 
 
+[tool.poetry.urls]
+"Home" = "https://github.com/dmdhrumilmistry/pyhtools"
+"Bug Tracker" = "https://github.com/dmdhrumilmistry/pyhtools/issues"
+"Support" = "https://github.com/sponsors/dmdhrumilmistry/"
+"PayPal" = "https://paypal.me/dmdhrumilmistry"
+
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
