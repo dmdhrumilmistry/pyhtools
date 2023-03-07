@@ -4,13 +4,19 @@
 
 - Python Hacking Tools (PyHTools) (pht) is a collection of python written hacking tools consisting of network scanner, arp spoofer and detector, dns spoofer, code injector, packet sniffer, network jammer, email sender, downloader, wireless password harvester credential harvester, keylogger, download&execute, and reverse_backdoor along with website login bruteforce, scraper, web spider etc. PHT also includes malwares which are undetectable by the antiviruses.
 
-- The tools provided are for educational purposes only. The developers are no way responsible for misuse of information and tools provided. All the information and tools are meant to help users to learn concepts. Use tools wisely!
-
 - These tools are written in python3, refer installation to install/download tools and its dependencies.
 
 - PyHTools comes with UI, but you can also use command line to use tools individually.
 
 **`NOTE` : The UI hasn't been updated yet with new tools, Refer examples for more information**
+
+
+## Disclaimer
+
+The disclaimer advises users to use the open source project for ethical and legitimate purposes only and refrain from using it for any malicious activities. The creators and contributors of the project are not responsible for any illegal activities or damages that may arise from the misuse of the project. Users are solely responsible for their use of the project and should exercise caution and diligence when using it. Any unauthorized or malicious use of the project may result in legal action and other consequences.
+
+[Read More](./DISCLAIMER.md)
+
 
 ## Join Our Discord Community
 
@@ -35,7 +41,14 @@
 - Install Release from PyPi
 
   ```bash
-  pip install pyhtools
+  # without options
+  python3 -m pip install pyhtools
+
+  # for windows
+  python3 -m pip install pyhtools[windows]
+
+  # for linux
+  python3 -m pip install pyhtools[linux]
   ```
 
 ### Manual Method
@@ -47,6 +60,8 @@
   ```bash
   sudo apt install git python3 -y
   ```
+
+- Install [Poetry](https://python-poetry.org/docs/master#installing-with-the-official-installer)
 
 - clone the repository to your machine
 
@@ -60,10 +75,17 @@
   cd pyhtools
   ```
 
-- install requirements
+- install with poetry
 
   ```bash
-  python3 -m pip install -e .
+  # without options
+  poetry install
+
+  # for windows
+  poetry install -E windows
+
+  # for linux
+  poetry install -E linux
   ```
 
 ## Start PyHTools
@@ -87,16 +109,16 @@
 ### Open In Google Cloud Shell
 
 - Temporary Session  
-  [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2Fdmdhrumilmistry%2Fpyhtools&ephemeral=true&show=terminal&cloudshell_print=./README.md)
-  
+  [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2Fdmdhrumilmistry%2Fpyhtools&ephemeral=true&show=terminal&cloudshell_print=./DISCLAIMER.md)
 - Perisitent Session  
-  [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2Fdmdhrumilmistry%2Fpyhtools&ephemeral=false&show=terminal&cloudshell_print=./README.md)
+  [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2Fdmdhrumilmistry%2Fpyhtools&ephemeral=false&show=terminal&cloudshell_print=./DISCLAIMER.md)
 
 ## Package Tools and Features
 
 ### Attackers
 
 - `For Networks`
+
   - Network Scanner
   - Mac changer
   - ARP Spoofing
@@ -107,6 +129,7 @@
   - Code Injector
 
 - `For Websites`
+
   - Login Guesser (Login Bruteforcer)
   - Web Spider
   - Web crawler (detects dirs | subdomains)

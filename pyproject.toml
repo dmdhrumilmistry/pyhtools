@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "pyhtools"
+version = "1.2.0"
+description = "Python Hacking Tools (PyHTools) (pht) is a collection of python written hacking tools consisting of network scanner, arp spoofer and detector, dns spoofer, code injector, packet sniffer, network jammer, email sender, downloader, wireless password harvester credential harvester, keylogger, download&execute, and reverse_backdoor along with website login bruteforce, scraper, web spider etc. PHT also includes malwares which are undetectable by the antiviruses."
+authors = ["Dhrumil Mistry <contact@dmdhrumilmistry.tech>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiodns = "^3.0.0"
+aiohttp = "^3.8.4"
+beautifulsoup4 = "^4.11.2"
+colorama = "^0.4.6"
+frida-tools = "^12.1.1"
+kamene = "^0.32"
+nuitka = "^1.4.8"
+paramiko = "^3.0.0"
+pure-python-adb = "^0.3.0.dev0"
+pyfiglet = "^0.8.post1"
+pynput = "^1.7.6"
+pytelegrambotapi = "^4.10.0"
+prettytable = "^3.6.0"
+psutil = "^5.9.4"
+requests = "^2.28.2"
+scapy = "^2.5.0"
+zstandard = "^0.20.0"
+netfilterqueue = {version = "^1.1.0", optional = true}
+wmi = {version = "^1.5.1", optional = true}
+
+
+[tool.poetry.extras]
+linux = ["netfilterqueue"]
+windows = ["wmi"]
+
+
+[tool.poetry.urls]
+"Home" = "https://github.com/dmdhrumilmistry/pyhtools"
+"Bug Tracker" = "https://github.com/dmdhrumilmistry/pyhtools/issues"
+"Support" = "https://github.com/sponsors/dmdhrumilmistry/"
+"PayPal" = "https://paypal.me/dmdhrumilmistry"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
