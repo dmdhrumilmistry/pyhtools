@@ -7,6 +7,7 @@ PyHTools version 1.x.x currently supports security patches
 | Version | Supported          |
 | ------- | ------------------ |
 | 1.x.x   | :white_check_mark: |
+| 2.x.x   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
