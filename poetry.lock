@@ -603,17 +603,6 @@ files = [
 ]
 
 [[package]]
-name = "kamene"
-version = "0.32"
-description = "Packet crafting/sending/sniffing, PCAP processing tool, originally forked from scapy"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "kamene-0.32.tar.gz", hash = "sha256:54fd94db09ca3c7a7f1ef38276a83f01905dce9801de84797a0f00b3c99434da"},
-]
-
-[[package]]
 name = "multidict"
 version = "6.0.4"
 description = "multidict implementation"
@@ -1400,4 +1389,4 @@ windows = ["wmi"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "4d97e27ab73f70aacba15423506168da6da18fb493d4b222a9ee697376fbeb46"
+content-hash = "fa6c8975699909525aa9a62f8aae75113eb34ad990700f69ecb36defd3e76890"

@@ -1,7 +1,7 @@
 #!usr/bin/env python3
-import kamene.all as sp
+import scapy.all as sp
 import argparse
-from pyhtools.UI.colors import *
+from pyhtools.UI.colors import BRIGHT_WHITE, BRIGHT_YELLOW, BRIGHT_RED
 
 
 def get_args():
@@ -52,7 +52,7 @@ def print_clients(clients):
     print(BRIGHT_YELLOW + '________________________________________________________\n')
     
 
-def run_nwscan(IP:str):
+def run_nwscan(ip:str):
     '''
     description: starts network scanner for specified ip range or ip.
     params: IP (str)
@@ -60,7 +60,7 @@ def run_nwscan(IP:str):
     '''
     try:
         print(BRIGHT_YELLOW + '[*] Starting Network Scanner....')
-        clients = scan(IP)
+        clients = scan(ip)
         print_clients(clients)
     except Exception as e:
         print(BRIGHT_RED + '[-] Exception : ', e)
