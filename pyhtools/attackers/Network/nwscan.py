@@ -1,7 +1,8 @@
-#!usr/bin/env python3
+from pyhtools.UI.colors import BRIGHT_WHITE, BRIGHT_YELLOW, BRIGHT_RED
+
+
 import scapy.all as sp
 import argparse
-from pyhtools.UI.colors import BRIGHT_WHITE, BRIGHT_YELLOW, BRIGHT_RED
 
 
 def get_args():
