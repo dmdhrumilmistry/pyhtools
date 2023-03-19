@@ -1,4 +1,3 @@
-#!usr/bin/env python3
 import kamene.all as sp
 import argparse
 from pyhtools.UI.colors import *
