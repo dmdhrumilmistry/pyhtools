@@ -4,7 +4,7 @@
 # 2. sudo echo 1 > /proc/sys/net/ipv4/ip_forward
 
 
-import kamene.all as sp
+import scapy.all as sp
 import argparse
 from time import sleep
 from pyhtools.UI.colors import *
