@@ -7,7 +7,7 @@
 import kamene.all as sp
 import argparse
 from time import sleep
-from pyhtools.UI.colors import *
+from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
 from sys import exit
 
 
@@ -44,11 +44,11 @@ def check_args(target_ip, spoof_ip):
     return True
 
 
-def generate_packet(PDST, HWDST, PSRC):
+def generate_packet(pdst, hwdst, psrc):
     '''
     generates spoof packets.
     '''
-    packet = sp.ARP(op=2, pdst=PDST, hwdst=HWDST, psrc=PSRC)
+    packet = sp.ARP(op=2, pdst=pdst, hwdst=hwdst, psrc=psrc)
     return packet
 
 

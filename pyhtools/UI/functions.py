@@ -1,6 +1,9 @@
-from pyhtools.UI.colors import *
 from prettytable import PrettyTable
+from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, BACK_RED_BRIGHT_YELLOW, RESET_COLORS
 from pyhtools.evil_files.malwares.utils import send_mail
+from pyhtools import __version__
+
+
 import pyfiglet
 import os
 import sys
@@ -23,7 +26,7 @@ def banner():
     print(BRIGHT_YELLOW + pyfiglet.figlet_format('PyHTools'))
     print(BRIGHT_YELLOW + '+' + '-'*42 + '+')
 
-    print(BRIGHT_WHITE + '| written by Dhrumil Mistry\tpht v1.0.1 |')
+    print(BRIGHT_WHITE + f'| written by Dhrumil Mistry\tpht v{__version__} |')
     print(BRIGHT_YELLOW + '+' + '-'*42 + '+')
 
 
