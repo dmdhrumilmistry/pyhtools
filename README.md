@@ -102,7 +102,6 @@ The disclaimer advises users to use the open source project for ethical and legi
   pyhtools >> help
   ```
 
-> There may be chances that pyfiglet or kamene will not be installed through requirements.txt, you can install manually using `pip3 install pyfiglet kamene`.  
 > If you're using Termux or windows, then use `pip` instead of `pip3`.  
 > Few features are only for linux os, hence they might not work on windows and require admin priviliges.
 
