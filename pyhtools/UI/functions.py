@@ -1,7 +1,6 @@
 from prettytable import PrettyTable
 from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, BACK_RED_BRIGHT_YELLOW, RESET_COLORS
 from pyhtools.evil_files.malwares.utils import send_mail
-from pyhtools import __version__
 
 
 import pyfiglet
@@ -10,6 +9,7 @@ import sys
 import pyhtools.attackers.attackers as attacker
 import pyhtools.evil_files.malwares.reverse_backdoor.TCP.listener as listener
 
+__version = '2.1.0'
 
 def clrscr():
     if os.name == 'nt':
@@ -25,8 +25,7 @@ def banner():
     clrscr()
     print(BRIGHT_YELLOW + pyfiglet.figlet_format('PyHTools'))
     print(BRIGHT_YELLOW + '+' + '-'*42 + '+')
-
-    print(BRIGHT_WHITE + f'| written by Dhrumil Mistry\tpht v{__version__} |')
+    print(BRIGHT_WHITE + f'| written by dmdhrumilmistry\tpht v{__version} |')
     print(BRIGHT_YELLOW + '+' + '-'*42 + '+')
 
 
