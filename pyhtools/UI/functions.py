@@ -167,10 +167,10 @@ async def run():
                 await attacker.webspider()
 
             elif cmd == 'webcrawldirs':
-                attacker.webcrawldirs()
+                await attacker.webcrawldirs()
 
             elif cmd == 'webcrawlsubdom':
-                attacker.webcrawlsubdom()
+                await attacker.webcrawlsubdom()
 
             elif cmd == 'weblogin':
                 attacker.brute_login()
