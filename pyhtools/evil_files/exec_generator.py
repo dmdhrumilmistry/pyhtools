@@ -4,7 +4,6 @@ description: generates evil file executable
 '''
 from enum import Enum
 from subprocess import call
-from shlex import split
 from os import name as os_name
 
 
@@ -74,4 +73,6 @@ class ExecutableGenerator:
         # linux devices requires patchelf to be installed
         # sudo apt install patchelf 
         command = self.__generate_command()
-        return call(split(command), shell=True)
+
+        # vuln: os command injection
+        return call(command, shell=True)
