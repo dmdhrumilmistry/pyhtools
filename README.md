@@ -170,6 +170,14 @@ The disclaimer advises users to use the open source project for ethical and legi
 - [View How to create a Trojan](./HowTo/Malwares/CreateTrojanPackage.md)
 - [Generator Script](./examples/EvilFiles/generatorScript.py)
 
+`Note`: On linux host machines, user needs to install `patchelf` package. Install using below command.
+
+```bash
+apt/dnf/yum install patchelf
+```
+
+> Above command needs root privileges.
+
 ## Have any Ideas 💡 or issue
 
 - Create an issue

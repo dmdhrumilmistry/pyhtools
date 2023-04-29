@@ -15,7 +15,7 @@ class Compilers(Enum):
 
 class ExecutableGenerator:
     '''
-    creates executable
+    creates executable from python script.
     '''
 
     def __init__(self, file_path: str, output_dir: str = None, icon: str = None, compiler: Compilers = Compilers.DEFAULT, onefile: bool = True, remove_output: bool = True,) -> None:
@@ -26,7 +26,6 @@ class ExecutableGenerator:
         self.__options = {
             'onefile': onefile,
             'standalone': True,
-            'onefile': True,
             'remove-output': remove_output,
             'output-dir': output_dir,
         }
@@ -44,7 +43,14 @@ class ExecutableGenerator:
             self.__options['mingw'] = True
 
     def __generate_command(self):
-        command = 'nuitka '
+        '''
+        generates nuitka command
+        '''
+        if os_name == 'nt':
+            command = 'python -m nuitka '
+        else:
+            command = 'python3 -m nuitka '
+
         for key in self.__options:
             cmd = ''
             value = self.__options[key]
@@ -64,5 +70,7 @@ class ExecutableGenerator:
         return command
 
     def generate_executable(self):
+        # linux devices requires patchelf to be installed
+        # sudo apt install patchelf 
         command = self.__generate_command()
         return call(command.split(), shell=True)
