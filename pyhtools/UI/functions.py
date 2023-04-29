@@ -1,3 +1,4 @@
+from asyncio.exceptions import CancelledError
 from prettytable import PrettyTable
 from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, BACK_RED_BRIGHT_YELLOW, RESET_COLORS
 from pyhtools.evil_files.malwares.utils import send_mail
@@ -122,7 +123,7 @@ def generate_executable():
           '[*] You can use scripts from malwares to manually generate evil files...')
 
 
-def run():
+async def run():
     '''
     start PyHTools
     '''
@@ -163,7 +164,7 @@ def run():
 
             # WEB ATTACKERS
             elif cmd == 'webspider':
-                attacker.webspider()
+                await attacker.webspider()
 
             elif cmd == 'webcrawldirs':
                 attacker.webcrawldirs()
@@ -181,7 +182,7 @@ def run():
                 print(BRIGHT_RED +
                       '[-] Unknown command, use help to view valid commands')
 
-    except (EOFError, KeyboardInterrupt):
+    except (EOFError, KeyboardInterrupt, CancelledError):
         print()
         print(BRIGHT_YELLOW +
               "[\U0001f604] WE ARE NEVER RESPONSIBLE FOR YOUR ACTIONS!")

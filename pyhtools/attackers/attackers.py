@@ -112,7 +112,7 @@ def webvulnscan():
     vuln_scanner.run()
 
 
-def webspider():
+async def webspider():
     '''
     description: maps all the links related to the root url
     params: None
@@ -122,7 +122,7 @@ def webspider():
     spider = Spider()
 
     print(f'{BRIGHT_YELLOW}[*] Starting Spider... Press Ctrl+C to interrupt')
-    discovered_links = spider.start(
+    discovered_links = await spider.start(
         target_url=target_url,
         print_links=True
     )
