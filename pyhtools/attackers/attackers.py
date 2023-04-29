@@ -129,7 +129,7 @@ async def webspider():
     print(f'[*] Total Links Found: {len(discovered_links)}')
 
 
-def webcrawldirs():
+async def webcrawldirs():
     '''
     description: find valid directories of the website using a wordlist
     params: None
@@ -137,10 +137,10 @@ def webcrawldirs():
     '''
     domain = input('[+] DOMAIN (duckduckgo.com): ')
     wordlist_path = input('[+] WORDLIST PATH: ')
-    run(discoverer.check_dirs(domain=domain, wordlist=wordlist_path))
+    await discoverer.check_dirs(domain=domain, wordlist_path=wordlist_path)
 
 
-def webcrawlsubdom():
+async def webcrawlsubdom():
     '''
     description: find valid subdomains of the website using a wordlist
     params: None
@@ -148,4 +148,4 @@ def webcrawlsubdom():
     '''
     domain = input('[+] DOMAIN (duckduckgo.com) : ')
     wordlist_path = input('[+] WORDLIST PATH : ')
-    run(discoverer.check_subdomains(domain=domain, wordlist=wordlist_path))
+    await discoverer.check_subdomains(domain=domain, wordlist_path=wordlist_path)
