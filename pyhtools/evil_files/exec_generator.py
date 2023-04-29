@@ -2,9 +2,10 @@
 module: generator.py
 description: generates evil file executable
 '''
-from subprocess import call
-from os import name as os_name
 from enum import Enum
+from subprocess import call
+from shlex import split
+from os import name as os_name
 
 
 class Compilers(Enum):
@@ -73,4 +74,4 @@ class ExecutableGenerator:
         # linux devices requires patchelf to be installed
         # sudo apt install patchelf 
         command = self.__generate_command()
-        return call(command.split(), shell=True)
+        return call(split(command), shell=True)
