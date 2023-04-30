@@ -26,7 +26,7 @@ def banner():
     clrscr()
     print(BRIGHT_YELLOW + pyfiglet.figlet_format('PyHTools'))
     print(BRIGHT_YELLOW + '+' + '-'*42 + '+')
-    print(BRIGHT_WHITE + f'| written by dmdhrumilmistry\tpht v{__version} |')
+    print(BRIGHT_WHITE + f'| written by dmdhrumilmistry               |')
     print(BRIGHT_YELLOW + '+' + '-'*42 + '+')
 
 
@@ -43,7 +43,7 @@ def print_help():
 
     help.add_row(['clear', 'clear console'])
     help.add_row(['help', 'display help table'])
-    help.add_row(['close pht', 'exit PyHackingTools'])
+    help.add_row(['close', 'exit PyHackingTools'])
 
     help.add_row(['machngr', 'change mac address of the network interface'])
     help.add_row(['arpspoofer', 'spoof the target by arp poisoning'])
@@ -129,11 +129,11 @@ async def run():
     '''
     try:
         while True:
-            cmd = input(BACK_RED_BRIGHT_YELLOW + 'pyhtools >>' +
+            cmd = input(BRIGHT_RED + 'pyhtools >>' +
                         RESET_COLORS + ' ').lower().strip()
 
             # BASIC UI COMMANDS
-            if cmd == 'close pht':
+            if cmd == 'close':
                 break
 
             elif cmd == 'clear':
