@@ -1398,10 +1398,11 @@ cffi = {version = ">=1.11", markers = "platform_python_implementation == \"PyPy\
 cffi = ["cffi (>=1.11)"]
 
 [extras]
+dev = ["portray"]
 linux = ["netfilterqueue"]
 windows = ["wmi"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "fa6c8975699909525aa9a62f8aae75113eb34ad990700f69ecb36defd3e76890"
+content-hash = "c7cbda36ae07fdcc1aabe03bf557fa55cdf20c14f0e4a57833d213004bd504f1"

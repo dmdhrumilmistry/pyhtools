@@ -6,7 +6,9 @@ from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
 
 
 class Scanner:
+    '''Scans for vulnerabilities in the website'''
     def __init__(self, url:str, ignore_links:list) -> None:
+
         self.target_url = url
         
         if ignore_links:
@@ -19,10 +21,12 @@ class Scanner:
 
 
     def get_links(self, url:str)->list:
-        '''
-        description: extracts links from the whole webpage.
-        params: url(str) of the webpage
-        returns: links(list) present in the webpage
+        '''extracts links from the whole webpage.
+        Args:
+            url (str): URL of the webpage
+        
+        Returns: 
+            links (list): list of URLs present in the webpage
         '''
         response = self.session.get(url)
         content = str(response.content)
@@ -30,11 +34,14 @@ class Scanner:
 
 
     def get_target_links(self, url:str):
-        '''
-        description: extracts useful links and prints them which are
+        '''extracts useful links and prints them which are
         only related to the target webpage.
-        params: links(list) from the target webpage
-        returns: useful links(list) related to target webpage
+
+        Args:
+            links (list):  list of links from the target webpage
+
+        Returns:
+            list: useful links as str related to target webpage
         '''
         links = self.get_links(url)
         for link in links:
@@ -51,19 +58,25 @@ class Scanner:
     
 
     def remove_escape_seq(self, content:str)->str:
-        r'''
-        desc: removes \r \t \n from the html parsed content if present.
-        params: content(str)
-        returns: str
+        r'''removes \r \t \n from the html parsed content if present.
+        
+        Args: 
+            content (str): html page content as string
+
+        Returns: 
+            str: escaped html content without \r \t \n chars
         '''
         return content.replace(r'\n','').replace(r'\t','').replace(r'\r','').replace(r"\'","'")
 
 
     def get_page_content(self, url:str)->str:
-        '''
-        desc: extracts html code of the webpage.
-        params: url(str)
-        returns: str
+        '''extracts html code of the webpage
+
+        Args:
+            url (str): URL of the webpage
+
+        Returns:
+            str: Html content as string
         '''
         response = self.session.get(url)
         content = str(response.content)
@@ -72,10 +85,14 @@ class Scanner:
 
 
     def get_forms(self, url:str)->list:
-        '''
-        description: extracts all the forms on the url webpage.
-        params: url(str)
-        returns: forms(list)
+        '''extracts all the forms on the url 
+        webpage using beautiful soup 4
+        
+        Args:
+            url (str): URL of webpage
+
+        Returns: 
+            list: list of forms (bs4.element.ResultSet)
         ''' 
         page_content = self.get_page_content(url)
         page_content = self.remove_escape_seq(page_content)
@@ -84,10 +101,15 @@ class Scanner:
 
 
     def submit_form(self, form, value, url):
-        '''
-        description: submits form with passed value to url passed
-        params: form, value, url
-        returns: contents of the reponse.
+        '''submits form with passed value to url passed
+        
+        Args: 
+            form (dict): webpage form from bs4.element.ResultSet
+            value (str): Form input value to be used while filling form
+            url (str): base url of webpage
+
+        Returns: 
+            str: html contents of the reponse
         '''
         action = form.get('action')
         post_url = urljoin(url, action)
@@ -116,11 +138,14 @@ class Scanner:
         
     
     def is_xss_vulnerable_in_form(self, form, url)->bool:
-        '''
-        description: tests whether the passed form is xss vulnerable or not. 
-        returns True if vulnerable. 
-        params: form, url
-        returns: bool
+        '''tests whether the passed form is xss vulnerable or not. 
+        
+        Args:
+            form (dict): webpage form from bs4.element.ResultSet
+            url (str): base url of webpage
+
+        Returns: 
+            bool: returns True if vulnerable else False
         '''
         test_script_payload = "<scRipt>alert('vulnerable')</sCript>"
         response_content = self.submit_form(form, test_script_payload, url)
@@ -130,11 +155,14 @@ class Scanner:
 
 
     def is_xss_vulnerable_in_link(self, url, payload=None):
-        '''
-        description: tests whether the passed url is xss vulnerable or not. 
-        returns True if vulnerable. 
-        params: form, url, payload
-        returns: bool
+        '''tests whether the passed url is xss vulnerable or not. 
+        
+        Args:
+            url (str): base url of webpage
+            payload (str): XSS payload to be injected in URL during test
+
+        Returns: 
+            bool: returns True if vulnerable else False
         '''
         if payload is None:
             payload = "<scRipt>alert('vulnerable')</sCript>"
@@ -147,8 +175,13 @@ class Scanner:
 
 
     def run(self):
-        '''
-        Starts the scanner.
+        '''Starts the scanner
+
+        Args:
+            None
+
+        Returns: 
+            None
         '''
         try:
             try:
