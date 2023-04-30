@@ -10,9 +10,17 @@ import sys
 import pyhtools.attackers.attackers as attacker
 import pyhtools.evil_files.malwares.reverse_backdoor.TCP.listener as listener
 
-__version = '2.1.0'
+__version = '2.2.2'
 
 def clrscr():
+    '''Clears UI screen
+    
+    Args:
+        None
+
+    Returns:
+        None
+    '''
     if os.name == 'nt':
         os.system('cls')
     elif os.name == 'posix':
@@ -20,8 +28,13 @@ def clrscr():
 
 
 def banner():
-    '''
-    prints PyHTools Banner
+    '''prints PyHTools Banner on UI Screen
+
+    Args:
+        None
+
+    Returns:
+        None
     '''
     clrscr()
     print(BRIGHT_YELLOW + pyfiglet.figlet_format('PyHTools'))
@@ -70,8 +83,17 @@ def print_help():
 
 
 def send_mail_to(email, password, receiver, subject, body) -> bool:
-    '''
-    send mail
+    '''sends mail to receivers
+
+    Args:
+        email (str): email of the sender
+        password (str): password of sender
+        receiver (str): receviever's email address
+        subject (str): email subject
+        body (str): email text content
+
+    Returns:
+        bool: returns True if email was sent successfully, else returns False
     '''
     print(BRIGHT_WHITE + '[*] Sending email...')
     msg = f'Subject: {subject}\n{body}'
@@ -82,8 +104,13 @@ def send_mail_to(email, password, receiver, subject, body) -> bool:
 
 
 def listener_option():
-    '''
-    executes commands to run listener option.
+    '''accepts inputs from user to run reverse TCP backdoor and starts listeners
+
+    Args:
+        None
+
+    Returns:
+        None
     '''
     host = input('[+] LHOST : ')
     port = int(input('[+] LPORT : '))
@@ -92,8 +119,13 @@ def listener_option():
 
 
 def sendmail_option():
-    '''
-    executes commands to run send mail option.
+    '''Accepts inputs from user to send email
+
+    Args:
+        None
+
+    Returns:
+        None
     '''
     email = input('[+] gmail acc : ')
     password = input('[+] password : ')
@@ -107,15 +139,25 @@ def sendmail_option():
 
 
 def machngr_option():
-    '''
-    executes commands to change mac address
+    '''executes commands to change mac address
+    
+    Args:
+        None
+
+    Returns:
+        None
     '''
     attacker.mac_changer()
 
 
 def generate_executable():
-    '''
-    executes commands to generate executables   
+    '''executes commands to generate executables. Work in Progress
+
+    Args:
+        None
+
+    Returns:
+        None
     '''
     print(BRIGHT_YELLOW +
           '[-] Currently this feature is under test... Will update soon...')
@@ -124,8 +166,14 @@ def generate_executable():
 
 
 async def run():
-    '''
-    start PyHTools
+    '''starts PyHTools UI, interacts with user and executes appropriate 
+    functions based on command 
+
+    Args:
+        None
+
+    Returns:
+        None
     '''
     try:
         while True:
