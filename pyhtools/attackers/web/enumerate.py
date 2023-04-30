@@ -19,8 +19,15 @@ class Discoverer:
         self._requester = AsyncRLRequests(*args, **kwargs)
 
     async def _filter_request(self, url: str, status_codes: list[int] = [200, 403, 500]):
-        '''
-        prints url if reponse status code matches code from status_codes.
+        '''prints url if reponse status code matches code from status_codes.
+        
+        Args:
+            url (str): URL of website   
+            status_codes (list): list of integer containing HTTP response  
+            status codes, which detects that directory/subdomain exists
+
+        Returns:
+            None
         '''
         response = await self._requester.request(url=url)
         
@@ -28,8 +35,16 @@ class Discoverer:
             print(url, response.get('status'))
 
     async def check_dirs(self, domain: str, wordlist_path: str, status_codes: list[int] = [200, 403, 500]):
-        '''
-        enumerate website directories
+        '''enumerate website directories
+
+        Args:
+            domain (str): domain of the target
+            wordlist_path (str): path of wordlist file
+            status_codes (list): list of integer containing HTTP response  
+            status codes, which detects that directory exists
+
+        Returns:
+            None
         '''
         if not domain.endswith('/'):
             domain += '/'
@@ -50,8 +65,16 @@ class Discoverer:
         await gather(*tasks)
 
     async def check_subdomains(self, domain: str, wordlist_path: str, status_codes: list[int] = [200, 403, 500]):
-        '''
-        enumerate website subdomains
+        '''enumerate website subdomains
+
+        Args:
+            domain (str): domain of the target
+            wordlist_path (str): path of wordlist file
+            status_codes (list): list of integer containing HTTP response  
+            status codes, which detects that directory exists
+
+        Returns:
+            None
         '''
         domain = domain.replace('https://', '').replace('http://', '')
         subdomains = read_file_lines(wordlist_path)

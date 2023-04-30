@@ -26,7 +26,7 @@ class APIdiscover:
         '''APIdiscover constructor
     
         Args:
-            base_url (str): weburl of API
+            base_url (str): weburl of API  
             match_codes (list): list of integer containing HTTP response status codes, which detects that endpoint exists
             rate_limit (int): number of concurrent requests at the same time
             delay (float): delay between consecutive requests
