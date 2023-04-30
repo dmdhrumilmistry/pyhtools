@@ -15,11 +15,27 @@ class AsyncRequests:
     '''
 
     def __init__(self, headers: dict = None) -> None:
+        '''AsyncRequests class constructor
+        
+        Args:
+            headers (dict): overrides default headers while sending HTTP requests
+        
+        Returns:
+            None
+        '''
         self._headers = headers
 
     async def request(self, url: str, method: str = 'GET', session: ClientSession = None, *args, **kwargs) -> ClientResponse:
-        '''
-        Send HTTP requests asynchronously.
+        '''Send HTTP requests asynchronously
+
+        Args:
+            url (str): URL of the webpage/endpoint
+            method (str): HTTP methods (default: GET) supports GET, POST, 
+            PUT, HEAD, OPTIONS, DELETE
+            session (aiohttp.ClientSession): aiohttp Client Session for sending requests
+        
+        Returns:
+            dict: returns request and response data as dict
         '''
         is_new_session = False
         if not session:
@@ -67,6 +83,16 @@ class AsyncRLRequests(AsyncRequests):
     '''
 
     def __init__(self, rate_limit: int = 20, delay: float = 0.05, headers: dict = None) -> None:
+        '''AsyncRLRequests constructor
+
+        Args:
+            rate_limit (int): number of concurrent requests at the same time
+            delay (float): delay between consecutive requests
+            headers (dict): overrides default headers while sending HTTP requests
+
+        Returns:
+            None
+        '''
         assert isinstance(delay, float) or isinstance(delay, int)
         assert isinstance(rate_limit, float) or isinstance(rate_limit, int)
 
@@ -75,17 +101,28 @@ class AsyncRLRequests(AsyncRequests):
         super().__init__(headers)
 
     async def request(self, url: str, method: str = 'GET', session: ClientSession = None, *args, **kwargs) -> ClientResponse:
+        '''Send HTTP requests asynchronously with rate limit and delay between the requests
+
+        Args:
+            url (str): URL of the webpage/endpoint
+            method (str): HTTP methods (default: GET) supports GET, POST, 
+            PUT, HEAD, OPTIONS, DELETE
+            session (aiohttp.ClientSession): aiohttp Client Session for sending requests
+        
+        Returns:
+            dict: returns request and response data as dict
+        '''
         async with self._semaphore:
             response = await super().request(url, method, session, *args, **kwargs)
             await asyncio.sleep(self._delay)
             return response
 
 
-async def test():
-    req = AsyncRLRequests(delay=4)
-    res = await asyncio.gather(asyncio.ensure_future(await req.request('https://httpbin.org/get', method='GET')))
+# async def test():
+#     req = AsyncRLRequests(delay=4)
+#     res = await asyncio.gather(asyncio.ensure_future(await req.request('https://httpbin.org/get', method='GET')))
 
-    print(res[-1])
+#     print(res[-1])
 
-if __name__ == '__main__':
-    asyncio.run(test())
+# if __name__ == '__main__':
+#     asyncio.run(test())
