@@ -1,6 +1,6 @@
 from asyncio.exceptions import CancelledError
 from prettytable import PrettyTable
-from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, BACK_RED_BRIGHT_YELLOW, RESET_COLORS
+from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, RESET_COLORS
 from pyhtools.evil_files.malwares.utils import send_mail
 
 
@@ -60,7 +60,7 @@ def print_help():
 
     # help.add_row(['',''])
 
-    help.add_row(['listener', 'start listener on specific LHOST and LPORT'])
+    help.add_row(['listener', 'start reverse TCP listener on specific LHOST and LPORT'])
     help.add_row(['sendmail', 'send mail to specific email address'])
 
     help.add_row(
