@@ -4,19 +4,25 @@ from urllib.parse import urljoin
 
 # Beta Tool
 def remove_escape_seq(content:str)->str:
-    '''
-    desc: removes \r \t \n from the html parsed content if present.
-    params: content(str)
-    returns: str
+    '''removes \r \t \n from the html parsed content if present.
+    
+    Args: 
+        content (str): html content of webpage
+
+    Returns: 
+        str: returns escaped html code
     '''
     return content.replace(r'\n','').replace(r'\t','').replace(r'\r','')
 
 
 def get_page_content(url:str):
-    '''
-    desc: extracts html code of the webpage.
-    params: url(str)
-    returns: str
+    '''extracts html code of the webpage 
+    
+    Args: 
+        url (str): webpage URL
+
+    Returns: 
+        str: HTML content of the webpage
     '''
     response = requests.get(url)
     content = str(response.content)
@@ -25,10 +31,13 @@ def get_page_content(url:str):
 
 
 def fuzz_forms(target_url:str):
-    '''
-    desc: get forms from html page, send post request and return html response 
-    params: target_url (str)
-    returns: str
+    '''get forms from html page, send post request and return html response 
+    
+    Args: 
+        target_url (str): webpage URL containing forms
+
+    Returns: 
+        str: returns html content of page after sending fuzzed form request
     '''
     page_content = get_page_content(target_url)
 

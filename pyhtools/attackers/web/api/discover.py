@@ -19,7 +19,23 @@ if os_name == 'nt':
 
 
 class APIdiscover:
+    '''
+    Class to discover API endpoints
+    '''
     def __init__(self, base_url: str, match_codes: list[int], rate_limit: int = 20, delay: float = 0.05, output_file_path: str = None, headers: dict = None) -> None:
+        '''APIdiscover constructor
+    
+        Args:
+            base_url (str): weburl of API  
+            match_codes (list): list of integer containing HTTP response status codes, which detects that endpoint exists
+            rate_limit (int): number of concurrent requests at the same time
+            delay (float): delay between consecutive requests
+            output_file_path (str): file path to store results in json format
+            headers (dict): overrides default headers while sending HTTP requests
+
+        Returns:
+            None
+        '''
         assert isinstance(base_url, str)
         assert isinstance(match_codes, list)
         assert isinstance(rate_limit, int)
@@ -32,11 +48,15 @@ class APIdiscover:
         self._semaphore = asyncio.Semaphore(rate_limit)
         self._headers = headers
 
-    async def check_endpoint(self, endpoint: str):
-        '''
-        description: checks if endpoint is valid or not, returns dict containing endpoint information
-        args: endpoint(str): api endpoint
-        returns: dict or None
+    async def check_endpoint(self, endpoint: str) -> dict:
+        '''checks if endpoint is valid or not using HTTP Get request
+        returns dict containing endpoint information
+        
+        Args: 
+            endpoint(str): api endpoint
+
+        Returns: 
+            dict: contains HTTP request and response data
         '''
         assert isinstance(endpoint, str)
 
@@ -62,8 +82,13 @@ class APIdiscover:
                     }
 
     async def get_endpoints_from_file(self, wordlist_path: str):
-        '''
-        reads endpoints from wordlist file and returns as a list
+        '''reads endpoints from wordlist file and returns as a list
+
+        Args:
+            wordlist_path (str): path of wordlist file
+        
+        Returns:
+            list: list of str containing endpoints
         '''
         assert isinstance(wordlist_path, str) and isfile(wordlist_path)
 
@@ -74,8 +99,15 @@ class APIdiscover:
         return endpoints
 
     async def save_result_to_file(self, results: list[dict], file_path: str,):
-        '''
-        stores json result to file
+        '''stores json result to file
+
+        Args:
+            file_path (str): path to output file
+            results (list): list of HTTP response (dict) 
+        
+        Returns:
+            bool: returns True if file was saved else False in case 
+            of any exception
         '''
         assert isinstance(results, list)
         assert isinstance(file_path, str)
@@ -95,6 +127,12 @@ class APIdiscover:
     async def start_enum_from_file(self, wordlist_file: str):
         '''
         start endpoint enumeration using wordlist
+
+        Args:
+            wordlist_file(str): path of wordlist file
+        
+        Returns:
+            None
         '''
         endpoints = await self.get_endpoints_from_file(wordlist_file)
 
@@ -107,8 +145,15 @@ class APIdiscover:
             )
 
     async def start_enum_id(self, ending_id: int, param_name: str, starting_id: int = 0):
-        '''
-        starts enumeration based on id in GET request
+        '''starts enumeration based on id in GET request
+
+        Args:
+            ending_id (int): object id after which enumeration should stop
+            param_name (str): GET param
+            starting_id (int): object id from which enumeration should start
+
+        Returns:
+            None
         '''
         assert isinstance(starting_id, int)
         assert isinstance(ending_id, int)
@@ -125,8 +170,14 @@ class APIdiscover:
             )
 
     async def enumerate(self, endpoints: list):
-        '''
-        start API enumeration and return captured responses as list
+        '''start API enumeration and return captured responses as list
+
+        Args:
+            endpoints (list): contains list of endpoints as str
+
+        Returns:
+            results (list): list of results containing dict of 
+            endpoint information
         '''
         assert isinstance(endpoints, list)
 

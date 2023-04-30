@@ -4,6 +4,16 @@ import sys
 from pyhtools.UI.colors import BRIGHT_YELLOW, BRIGHT_WHITE, BRIGHT_RED
 
 def bruteforce_login(target_url:str, wordlist_file:str, post_values:dict):
+    '''Bruteforces login requests on a website
+
+    Args:
+        target_url (str): URL of login page
+        wordlist_file (str): path of wordlist file
+        post_values (dict): dict containing key value pairs of POST data
+
+    Returns:
+        None
+    '''
     # tested on DVWA web app.
     # target_url = "http://10.0.2.30/dvwa/login.php"
     # wordlist_file = "full_path_to_wordlist"

@@ -5,10 +5,14 @@ import sys
 
 
 def get_args():
-    '''
-    description: get arguments from the user.
-    params: None
-    returns: dictionary of arguments.
+    '''get arguments from the user and return as dict containing
+    target_url, ignore_links, login_link, and login_details
+    
+    Args:
+        None
+    
+    Returns:
+        dict: user arguments
     '''
     parser = argparse.ArgumentParser(description='Web Application Vulnerability Scanner')
     parser.add_argument('-t', '--target-url',dest='target_url',help='root url of the target website', required=True)

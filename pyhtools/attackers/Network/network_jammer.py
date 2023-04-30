@@ -1,5 +1,3 @@
-#!usr/bin/env python
-
 #########################################################################
 # Author : Dhrumil Mistry
 #########################################################################
@@ -19,6 +17,12 @@ def forward_packets():
     '''
     configures the mitm for incoming request packets
     into a queue.
+
+    Args:
+        None
+
+    Returns: 
+        None
     '''
 
     # executing the following command
@@ -33,7 +37,13 @@ def forward_packets():
 def reset_config():
     '''
     resets the configurations changed while exectution of the program to 
-    its original configuration.
+    its original configuration
+
+    Args:
+        None
+
+    Returns: 
+        None
     '''
     call('sudo iptables --flush', shell=True)
 
@@ -41,35 +51,52 @@ def reset_config():
 def process_packet(packet):
     '''
     process received packet, everytime a packet is received.
-    prints the packet received in the queue.
+    prints the packet received in the queue and drops packet
+
+    Args:
+        packet (scapy.IP): IP packet from netfiterqueue/iptables 
+
+    Returns: 
+        None
     '''
     print(packet)
     packet.drop()
     
 
-############################### Main ############################### 
+def run():
+    '''Start network jammer
 
-print('[*] configuring packet receiver...')
+    Args:
+        None
 
-forward_packets()
-print('[*] packet receiver configured successfully.\n')
+    Returns:
+        None
+    '''
+    print('[*] configuring packet receiver...')
 
-print('[*] Creating Queue to start receiving packets.')
-try:
-    queue = netfilterqueue.NetfilterQueue()
-   # Bind queue with queue-number 0
-    queue.bind(0, process_packet)
-    queue.run()
+    forward_packets()
+    print('[*] packet receiver configured successfully.\n')
 
-except OSError as e:
-    print('[-] Run script with root priviliges.')
-    print(e)
+    print('[*] Creating Queue to start receiving packets.')
+    try:
+        queue = netfilterqueue.NetfilterQueue()
+    # Bind queue with queue-number 0
+        queue.bind(0, process_packet)
+        queue.run()
 
-except Exception:
-    print('[-] An Exception occurred while creating queue.\n', Exception)
+    except OSError as e:
+        print('[-] Run script with root priviliges.')
+        print(e)
 
-finally:
-    print('[*] Restoring previous configurations.. please be patient...')
-    reset_config()
+    except Exception:
+        print('[-] An Exception occurred while creating queue.\n', Exception)
 
-    print('[-] Program stopped.')
+    finally:
+        print('[*] Restoring previous configurations.. please be patient...')
+        reset_config()
+
+        print('[-] Program stopped.')
+
+
+if __name__ == '__main__':
+    run()

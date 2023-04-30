@@ -5,17 +5,34 @@ from .utils import AsyncRLRequests
 
 
 class Spider:
+    '''
+    class Spider used to extract links from website's webpage
+    '''
     def __init__(self, rate_limit:int=100, delay:int=0.0001, headers:dict=None) -> None:
+        '''
+        Spider constructor
+
+        Args:
+            rate_limit (int): number of concurrent requests at the same time 
+            delay (float): delay between consecutive requests 
+            headers (dict): overrides default headers while sending HTTP requests 
+
+        Returns:
+            None
+        '''
         # list to save links on the whole webpage
         # to avoid repetition
         self.target_links = set()
         self._client = AsyncRLRequests(rate_limit=rate_limit, delay=delay, headers=headers)
 
     async def get_links(self, url: str) -> set:
-        '''
-        description: extracts links from the whole webpage.
-        params: url(str) of the webpage
-        returns: links(list) present in the webpage
+        '''extracts links from the whole webpage
+
+        Args: 
+            url (str): URL of the webpage
+
+        Returns: 
+            list: list of links present in the webpage
         '''
         response = await self._client.request(url=url)
         html = response.get('res_body')
@@ -33,11 +50,14 @@ class Spider:
         return href_links
 
     async def get_target_links(self, url: str, print_link: bool = True):
-        '''
-        description: extracts useful links and prints them which are
-        only related to the target webpage.
-        params: links(list) from the target webpage
-        returns: useful links(list) related to target webpage
+        '''extracts useful links and prints them which are
+        only related to the target webpage
+
+        Args: 
+            links (list): list of all links from the target webpage
+
+        Returns:
+            list: returns useful links list related to target webpage
         '''
         # extract links from page
         links:set = await self.get_links(url)
@@ -59,8 +79,14 @@ class Spider:
         return new_links
 
     async def start(self, target_url:str, print_links: bool = True):
-        '''
-        description: starts spider
+        '''starts spider
+
+        Args:
+            target_url (str): URL of the target website
+            print_links (bool): if True prints links found on console
+        
+        Returns:
+            list: list of links found by spider
         '''
         queue = [target_url]
         while queue:

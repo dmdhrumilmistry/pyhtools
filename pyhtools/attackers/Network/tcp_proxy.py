@@ -10,7 +10,16 @@ logging.basicConfig(level=logging.DEBUG,
 
 
 class TCProxy:
+    '''TCP proxy'''
     def __init__(self, filepath: str = None) -> None:
+        '''TCProxy class constructor
+        
+        Args: 
+            filepath: path to file for storing captured data
+
+        Returns: 
+            None
+        '''
         self.__file_name = filepath
 
         if self.__file_name and os.path.isfile(self.__file_name):
@@ -24,7 +33,14 @@ class TCProxy:
                 f'Captured data will be saved in file {self.__file_name}')
 
     def receive_from(self, conn: socket.socket):
-        '''Accepts socket data and returns data from the buffer'''
+        '''Accepts socket data and returns data from the buffer
+        
+        Args:
+            conn (socket.socket): socket connection for reception
+
+        Returns:
+            bytes: returns received data
+        '''
         conn.settimeout(5)
         try:
             buff = b''
@@ -39,7 +55,14 @@ class TCProxy:
 
     @staticmethod
     def handler(func):
-        '''Use for packet modification'''
+        '''decorator used for packet modification
+        
+        Args:
+            func (function): method function to be wrapped 
+
+        Returns:
+            function: wrapped function with error handling
+        '''
         @wraps(func)
         def wrapper(*args, **kwargs):
             res = None
@@ -53,15 +76,37 @@ class TCProxy:
 
     @handler
     def request_handler(self, buff: bytes):
-        '''manipulate buffer data before sending request to remote host'''
+        '''manipulate buffer data before sending request to remote host
+        
+        Args:
+            buff (bytes): received data
+
+        Returns:
+            bytes: received data after handling request
+        '''
         return buff
 
     @handler
     def response_handler(self, buff: bytes):
-        '''manipulate buffer data after receiving from remote host'''
+        '''manipulate buffer data after receiving from remote host
+        
+        Args:
+            buff (bytes): received data
+
+        Returns:
+            bytes: received data after handling request
+        '''
         return buff
 
     def __write_data(self, data):
+        '''Write Data to file
+        
+        Args:
+            data (bytes): data to be written to the file
+        
+        Returns:
+            None
+        '''
         if not isinstance(data, bytes):
             data = bytes(data, encoding='utf-8')
 
@@ -70,6 +115,18 @@ class TCProxy:
                 f.write(data)
 
     def proxy_handler(self, client_sock: socket.socket, remote_host: str, remote_port: int, receive_first: bool, v4: bool = True):
+        '''handles proxy connections
+        
+        Args:
+            client_sock (socket.socket): client TCP socket connection
+            remote_host (str): IP address of the remote host
+            remote_port (int): port of remote host
+            receive_first (bool): if True proxy will start receiving data else it'll send
+            v4 (bool): if True uses IP v4 address else IP v6
+
+        Returns:
+            None
+        '''
         address_family = socket.AF_INET if v4 else socket.AF_INET6
         remote_sock = socket.socket(address_family, socket.SOCK_STREAM)
         remote_sock.connect((remote_host, remote_port))
@@ -113,6 +170,20 @@ class TCProxy:
                 break
 
     def serve_proxy(self,  remote_host: str, remote_port: int, host: str = '0.0.0.0', port: int = 8080, max_conns: int = 5, receive_first: bool = False, v4: bool = True):
+        '''Starts Proxy Server
+        
+        Args:
+            remote_host (str): IP address of the remote host
+            remote_port (int): port of remote host
+            host (str): ip address of binding interface (default = '0.0.0.0', listens on all interfaces)
+            port (int): port address of binding interface
+            max_conns (int): maximum number of connections to listen for
+            receive_first (bool): if True proxy will start receiving data else it'll send
+            v4 (bool): if True uses IP v4 address else IP v6
+
+        Returns:
+            None
+        '''
         address_family = socket.AF_INET if v4 else socket.AF_INET6
         server = socket.socket(address_family, socket.SOCK_STREAM)
         server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
