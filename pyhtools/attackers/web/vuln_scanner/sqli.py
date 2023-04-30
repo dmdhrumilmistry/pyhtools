@@ -10,10 +10,13 @@ from sys import exit
 
 
 def is_url_valid(url: str) -> bool:
-    '''
-    desc: checks if url is valid, returns True if url is valid else False
-    params: url (str): url of the target
-    returns: bool
+    '''checks if url is valid
+    
+    Args: 
+        url (str): url of the target
+    
+    Returns:
+        bool: returns True if url is valid else False
     '''
     is_valid = False
     if 'http://' in url or 'https://' in url:
@@ -26,10 +29,13 @@ def is_url_valid(url: str) -> bool:
 
 
 def is_vulnerable(url: str) -> bool:
-    '''
-    desc: tests whether app is vulnerable to the url, returns True if vulnerable else returns False
-    params: url (str): url of the target
-    returns: bool
+    '''tests whether app is vulnerable to the url
+
+    Args: 
+        url (str): url of the target
+    
+    Returns: 
+        bool: returns True if vulnerable else returns False
     '''
     response = get(url=url)
     content = response.content.lower()
@@ -41,10 +47,13 @@ def is_vulnerable(url: str) -> bool:
 
 
 def enumerate_tests(url):
-    '''
-    desc: tests application for various SQL injection methods
-    params: url (str): url of the target
-    returns: None
+    '''tests application for various SQL injection methods
+    
+    Args: 
+        url (str): url of the target
+    
+    Returns: 
+        None
     '''
     vuln_links = 0
     sqli_payloads = ["'", "'--",
