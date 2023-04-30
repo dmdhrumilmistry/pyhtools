@@ -6,10 +6,13 @@ from pyhtools.UI.colors import *
 
 
 def get_args():
-	'''
-	description: get arguments from the command line.
-	params: None
-	returns: interface(str) 
+	'''get arguments from the command line.
+	
+	Args:
+		None
+	
+	Returns: 
+		str: network interface
 	'''
 	parser = argparse.ArgumentParser(description='Packet Sniffer')
 	parser.add_argument('-i', '--interface', dest='interface', help='choose interface')
@@ -22,10 +25,13 @@ def get_args():
 
 
 def check_args(intrfce):
-	'''
-	description: checks if the passed arguments are valid. if valid returns True.
-	params: intrfce(str)
-	returns: bool
+	'''checks if the passed arguments are valid. if valid returns True.
+	
+	Args:
+		intrfce (str): network inferface on which sniffing action is be performed
+
+	Returns: 
+		bool: returns True if args are valid else False
 	'''
 	if not intrfce:
 		exit(BRIGHT_RED + "[-] Please enter interface argument, use -h or --help for more info")
@@ -33,20 +39,26 @@ def check_args(intrfce):
 
 
 def get_url(packet):
-	'''
-	description: extract url from the packet.
-	params: packet
-	returns: url(str)
+	'''extract url from the packet
+
+	Args: 
+		packet (scapy.IP): scapy packet
+
+	Returns: 
+		str: URL inside the HTTP packet
 	'''
 	print('IN GET URL')
 	return str(packet[http.HTTPRequest].Host + packet[http.HTTPRequest].Path, encoding='utf-8')
 
 
 def get_login_info(packet):
-	'''
-	description: extract login information from the sniffed packet.
-	params: packet
-	returns: url with login information
+	'''extract login information from the sniffed packet.
+	
+	Args: 
+		packet (scapy.IP): scapy packet
+
+	Returns: 
+		str: URL with login information
 	'''
 	if packet.haslayer(sp.Raw):
 			load = str(packet[sp.Raw].load,encoding='utf-8')
@@ -57,10 +69,13 @@ def get_login_info(packet):
 
 
 def sniffer(intrfce, args_status):
-	'''
-	description: sniffs packets over the network.
-	params: intrfce, args_status
-	returns: None
+	'''sniffs packets over the network.
+	Args: 
+		intrfce (str): network interface for sniffing action
+		args_status (bool): True if cli args are valid else False
+
+	Returns: 
+		None
 	'''
 	try:
 		if args_status:
@@ -71,10 +86,13 @@ def sniffer(intrfce, args_status):
 
 
 def process_sniffed_pkt(packet):
-	'''
-	description: analyzes the captured packet for login information.
-	params: packet
-	returns: None
+	'''analyze the captured packet for login information.
+	
+	Args: 
+		packet (scapy.IP): scapy packet
+
+	Returns: 
+		None
 	'''
 	if packet.haslayer(http.HTTPRequest):
 		

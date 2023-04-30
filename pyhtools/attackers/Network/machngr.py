@@ -10,10 +10,13 @@ import os
 
 
 def get_arguments():
-    '''
-    description: get arguments from the console.
-    params: None
-    returns: Interface, new_mac
+    '''get arguments from the cli
+
+    Args:
+        None
+
+    Returns: 
+        tuple: contains (interface, new_mac)
     '''
     parser = argparse.ArgumentParser(description='Mac Changer')
 
@@ -35,10 +38,13 @@ def get_arguments():
 
 
 def generate_random_mac() -> str:
-    '''
-    description: generates and returns a random mac address
-    params: None
-    returns: str
+    '''generates and returns a random mac address
+
+    Args:
+        None
+
+    Returns: 
+        str: New MAC Address
     '''
     rand_mac = '00'
     for _ in range(5):
@@ -48,11 +54,14 @@ def generate_random_mac() -> str:
 
 
 def check_args(intrfc, new_mac):
-    '''
-    decription: checks if args are valid, prints appropriate error and exit.
-    Returns True if all parsed arguments are valid. 
-    params: interfce(interface), new_mac
-    returns: bool
+    '''checks if args are valid, prints appropriate error and exit
+
+    Args:
+        intrfc (str): network interface whose MAC address needs to be changed
+        new_mac (str): new MAC address for the network interface
+
+    Returns: 
+        bool: Returns True if all parsed arguments are valid
     '''
     if not intrfc:
         exit(BRIGHT_RED +
@@ -64,10 +73,14 @@ def check_args(intrfc, new_mac):
 
 
 def change_mac(intrfc, new_mac):
-    '''
-    decription: changes mac address of the interface. returns True if mac changes successfully.
-    params: interface, new_mac
-    returns: True or exits program.
+    '''changes mac address of the interface. returns True if mac changes successfully.
+    
+    Args:
+        intrfc (str): network interface whose MAC address needs to be changed
+        new_mac (str): new MAC address for the network interface
+
+    Returns: 
+        bool: Returns True if MAC address is changed successfully else exits program
     '''
     if check_args(intrfc, new_mac):
         try:
@@ -82,19 +95,27 @@ def change_mac(intrfc, new_mac):
 
 
 def check_mac_change(intrfc, new_mac, mac_change_status):
+    '''checks if mac address has been changed
+
+    Args:
+        intrfc (str): network interface whose MAC address needs to be changed
+        new_mac (str): new MAC address for the network interface
+
+    Returns: 
+        bool: Returns True if MAC address was changed successfully else False
     '''
-    description: checks if mac address has been changed
-    params: interface, new_mac, mac_change_status
-    returns: None
-    '''
+    status = False
+
     if mac_change_status:
         ifconfig_result = subprocess.check_output(['sudo', 'ifconfig', intrfc])
         mac_regex = r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w"
         mac_check_result = re.search(mac_regex, str(ifconfig_result))
+        
         if mac_check_result:
             if mac_check_result.group(0) == new_mac:
                 print(BRIGHT_YELLOW + f'[+] {intrfc}  MAC successfully changed\n',
                       BRIGHT_WHITE + f'\r[+] Current Mac: {mac_check_result.group(0)}')
+                status = True
             else:
                 print(
                     BRIGHT_RED + f"[-] {intrfc} MAC is not changed/ error while reading MAC address please try again")
@@ -103,8 +124,18 @@ def check_mac_change(intrfc, new_mac, mac_change_status):
         else:
             print(BRIGHT_RED + "[-] MAC not found")
 
+    return status
 
 def run_macchanger(interface, new_mac):
+    '''run mac changer commands based on OS
+    
+    Args:
+        intrfc (str): network interface whose MAC address needs to be changed
+        new_mac (str): new MAC address for the network interface
+
+    Returns: 
+        None
+    '''
     if os.name == 'posix':
         INTERFACE, NEW_MAC = interface, new_mac
         MAC_CHANGE_STATUS = change_mac(INTERFACE, NEW_MAC)

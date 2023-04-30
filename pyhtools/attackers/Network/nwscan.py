@@ -6,10 +6,13 @@ import argparse
 
 
 def get_args():
-    '''
-    description: get arguments from the command line.
-    params: None
-    returns: str
+    '''get arguments from the command line.
+    
+    Args:
+        None
+
+    Returns: 
+        str: IP address/range
     '''
     parser = argparse.ArgumentParser(description='search for other devices on the network')
     parser.add_argument('-ip', help='ip or ip range of the target device')
@@ -19,10 +22,13 @@ def get_args():
 
 
 def scan(ip):
-    '''
-    description: scans ip range for clients and returns discovered clients list.
-    params: ip (str)
-    returns: clients (list)
+    '''scans ip range for clients and returns discovered clients list.
+    
+    Args: 
+        ip (str): IP address/range of client to be discovered
+
+    Returns: 
+        list: IP addresses of discovered network clients  
     '''
     print(BRIGHT_WHITE + f'[*] Discovering Clients {ip}')
     arp_req = sp.ARP(pdst=ip)
@@ -38,10 +44,13 @@ def scan(ip):
 
 
 def print_clients(clients):
-    '''
-    description: prints discovered clients on the network ip range.
-    params: clients(list)
-    returns: None
+    '''prints discovered clients on the network ip range.
+    
+    Args: 
+        clients (list): list of discovered ip addresses
+
+    Returns: 
+        None
     '''
     print(BRIGHT_YELLOW + '________________________________________________________')
     print(BRIGHT_YELLOW + 'IP\t\t\tMAC Address')
@@ -54,10 +63,13 @@ def print_clients(clients):
     
 
 def run_nwscan(ip:str):
-    '''
-    description: starts network scanner for specified ip range or ip.
-    params: IP (str)
-    returns: None
+    '''starts network scanner for specified ip range or ip.
+    
+    Args: 
+        ip (str): IP address/range of scan target
+
+    Returns: 
+        None
     '''
     try:
         print(BRIGHT_YELLOW + '[*] Starting Network Scanner....')
