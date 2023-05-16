@@ -18,7 +18,7 @@ class ExecutableGenerator:
     creates executable from python script.
     '''
 
-    def __init__(self, file_path: str, output_dir: str = None, icon: str = None, compiler: Compilers = Compilers.DEFAULT, onefile: bool = True, remove_output: bool = True,) -> None:
+    def __init__(self, file_path: str, output_dir: str = None, icon: str = None, compiler: Compilers = Compilers.DEFAULT, onefile: bool = True, remove_output: bool = True, window_uac_perms:bool=False) -> None:
         # file options
         self.__file = file_path
 
@@ -33,6 +33,7 @@ class ExecutableGenerator:
         # os based options
         if os_name == 'nt':
             self.__options['icon'] = icon
+            self.__options['windows-uac-admin'] = window_uac_perms
         else:
             icon = None
 
