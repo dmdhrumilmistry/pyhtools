@@ -76,4 +76,4 @@ class ExecutableGenerator:
         command = self.__generate_command()
 
         # vuln: os command injection
-        return call(command, shell=True)
+        return call(command, shell=True, )
