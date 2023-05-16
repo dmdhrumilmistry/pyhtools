@@ -1,0 +1,34 @@
+site_name: PyHTools Docs
+
+
+theme:
+  name: "material"
+
+
+plugins:
+  - mkdocstrings
+
+
+nav:
+  - How To Docs:
+    
+    - Malwares:
+      - Packaging Trojan: HowTo/Malwares/CreateTrojanPackage.md
+      - Reverse Backdoors:
+        - HTTP: HowTo/Malwares/ReverseBackdoor-HTTP.md
+        - TCP: HowTo/Malwares/ReverseBackdoor-TCP.md
+      - Send Email: HowTo/Malwares/SendEmail.md
+      - Telegram Attacks:
+        - Data Harvester: HowTo/Malwares/TelegramDataHarvester.md
+        - Remote Code Executer: HowTo/Malwares/TelegramRemoteCodeExecuter.md
+      - Wifi Password Harvester: HowTo/Malwares/WirelessProfileHarvester.md
+    
+    - Ransomwares:
+      - DMSec: HowTo/Ransomwares/DMSec.md
+
+    - Web:
+      - VulnScanner: HowTo/Web/vuln-scanner.md
+
+  - Code Documentation:
+    - Attackers Documentation: 
+      - Web Attackers: code-docs/web-attackers.md

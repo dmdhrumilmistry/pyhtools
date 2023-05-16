@@ -1,7 +1,5 @@
 # How to use DMSecRansomware
 
-#### **Author**: [Dhrumil Mistry](https://github.com/dmdhrumilmistry)
-
 ## Encrypting data
 - Turn on 2FA in attacker's gmail account.
 - Create app password
