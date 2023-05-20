@@ -46,6 +46,12 @@ def banner():
 def print_help():
     '''
     prints commands with their brief description.
+
+    Args:
+        None
+    
+    Returns:
+        None
     '''
     print(BRIGHT_WHITE + 'Python Hacking Tools (PyHTools) (pht)')
 
