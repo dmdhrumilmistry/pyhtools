@@ -96,6 +96,8 @@ nav:
       - Android Attackers: code-docs/android-attackers.md
       - Network Attackers: code-docs/network-attackers.md
       - Web Attackers: code-docs/web-attackers.md
+    
+    - Detectors Documentation: code-docs/detectors.md
 
 # Customization
 extra:
