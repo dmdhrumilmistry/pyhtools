@@ -14,6 +14,7 @@ exe = ExecutableGenerator(
     onefile = True, # creates single exe file
     remove_output = True, # deletes all compiled files and retains only exe
     window_uac_perms=True, # asks user for admin rights on windows (only for windows machine)   
+    disable_console=True,
 )
 
 return_code = exe.generate_executable()
