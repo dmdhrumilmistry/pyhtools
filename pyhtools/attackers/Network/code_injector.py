@@ -10,11 +10,11 @@
 #########################################################################
 
 from subprocess import call
-import netfilterqueue
-import scapy.all as scapy
 from re import search, sub
 from pyhtools.UI.colors import *
 
+import scapy.all as scapy
+import netfilterqueue
 
 ############################### Functions ############################### 
 def forward_packets():

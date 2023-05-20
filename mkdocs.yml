@@ -93,8 +93,9 @@ nav:
 
   - Code Documentation:
     - Attackers Documentation: 
+      - Android Attackers: code-docs/android-attackers.md
+      - Network Attackers: code-docs/network-attackers.md
       - Web Attackers: code-docs/web-attackers.md
-
 
 # Customization
 extra:

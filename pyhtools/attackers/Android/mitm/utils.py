@@ -2,6 +2,15 @@ import asyncio
 
 
 async def run(cmd):
+    '''run shell command and prints
+    stdout and stderr to console
+
+    Args:
+        cmd (str): command to be executed
+
+    Returns:
+        None
+    '''
     proc = await asyncio.create_subprocess_shell(
         cmd,
         stdout=asyncio.subprocess.PIPE,
