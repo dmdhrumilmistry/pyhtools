@@ -8,6 +8,14 @@ logging.basicConfig(level=logging.INFO,
 
 
 def read_file_lines(file_path: str) -> list[str]:
+    '''reads file and returns as list of str
+    
+    Args:
+        file_path (str): path of file to be read
+
+    Returns:
+        list: lines read from file as list of str 
+    '''
     lines = []
 
     if isfile(file_path):

@@ -92,6 +92,10 @@ nav:
       - VulnScanner: HowTo/Web/vuln-scanner.md
 
   - Code Documentation:
+    - PyHTools Modules: code-docs/pyhtools.md
+
+    - UI Documentation: code-docs/ui-doc.md
+  
     - Attackers Documentation: 
       - Android Attackers: code-docs/android-attackers.md
       - Network Attackers: code-docs/network-attackers.md
