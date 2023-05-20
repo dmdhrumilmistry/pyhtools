@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 
 class SpoofDetector:
     '''
-    ARP spoofer to perform Local MITM attacks
+    SpoofDetector class to detect Local MITM attacks
     '''
 
     def __init__(self, interface: str) -> None:
