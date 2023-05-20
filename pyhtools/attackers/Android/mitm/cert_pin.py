@@ -13,18 +13,30 @@ logging.basicConfig(level=logging.DEBUG,
 
 
 class PinCertificateExceptions:
-    '''
-    Pin Certificate Exception Class
-    '''
+    '''Pin Certificate Exception Class'''
     class ServerNotRunning(Exception):
-        pass
-
+        '''Server Not Running Exception Class'''
     class NoDevicesFound(Exception):
-        pass
+        '''No Devices Found Exception Class'''
 
 
 class PinCertificate:
     def __init__(self, apk_path: str,  package_name: str, cert_path: str, frida_binary_path: str, frida_script_path: str, device_name: str, host: str = '127.0.0.1', port: int = 5037,):
+        '''Pin Certificate class
+        
+        Args:
+            apk_path (str): apk file path
+            package_name (str): package name of apk file
+            cert_path (str): file path of certificate to be installed
+            frida_binary_path (str): file path of frida binary file
+            frida_script_file (str): file path of cert installer script to be executed in frida after frida installation
+            device_name (str): name of device for adb connection
+            host (str): adb host ip
+            port (int): adb host port
+
+        Returns:
+            None (None): None
+        '''
         # check data types
         assert type(apk_path) == str
         assert type(package_name) == str
@@ -68,11 +80,27 @@ class PinCertificate:
         self.device = self.get_device()
 
     def get_device(self):
+        '''Get adb device
+        
+        Args:
+            None
+
+        Returns:
+            ppadb.device.Device: returns specified adb device
+        '''
         _ = self.get_adb_devices()
         device: Device = self._adb.device(self.__device_name)
         return device
 
     def get_adb_devices(self):
+        '''returns lis of all adb devices
+        
+        Args:
+            None
+
+        Returns:
+            list: list of connected adb devices
+        '''
         try:
             devices: list[Device] = self._adb.devices()
             if len(devices) == 0:
@@ -85,6 +113,14 @@ class PinCertificate:
                 "ADB Server is not running, start using `adb start-server`")
 
     def get_frida_devices(self):
+        '''Get list of devices running frida
+
+        Args:
+            None:
+
+        Returns:
+            list: list of adb connected devices running frida server
+        '''
         devices = frida.enumerate_devices()
         if len(devices) == 0:
             raise PinCertificateExceptions.NoDevicesFound(
@@ -93,6 +129,14 @@ class PinCertificate:
         return devices
 
     def install_apk(self, force_install: bool = True):
+        '''Installs apk on device
+        
+        Args:
+            force_install (bool): if True then uninstalls apk if already installed then installs apk again
+
+        Returns:
+            bool: True if installed successfully else False
+        '''
         if self.device.is_installed(self.__package_name) and force_install:
             self.device.uninstall(self.__package_name)
 
@@ -100,12 +144,29 @@ class PinCertificate:
 
         if self.device.is_installed(self.__package_name):
             return True
+        
         return False
 
     def start_frida(self):
-        asyncio.run(utils.run(f'adb shell /data/local/tmp/frida-server &'))
+        '''Starts Frida server on target device
+        
+        Args:
+            None
+        
+        Returns:
+            None
+        '''
+        asyncio.run(utils.run('adb shell /data/local/tmp/frida-server &'))
 
     def pin_certificate(self):
+        '''Starts certificate pinning procedure to the apk
+
+        Args:
+            None
+
+        Returns:
+            None
+        '''
         logging.info("Starting Certificate Pinning Procedure..")
 
         # get device
@@ -113,7 +174,7 @@ class PinCertificate:
         logging.info(f'Connected to {self.__device_name} device')
 
         # install apk
-        logging.info(f'Installing package')
+        logging.info('Installing package')
         if self.install_apk():
             logging.info(
                 f'{basename(self.__apk_path)} APK installation completed successfully')

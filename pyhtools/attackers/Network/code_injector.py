@@ -10,11 +10,11 @@
 #########################################################################
 
 from subprocess import call
-import netfilterqueue
-import scapy.all as scapy
 from re import search, sub
 from pyhtools.UI.colors import *
 
+import scapy.all as scapy
+import netfilterqueue
 
 ############################### Functions ############################### 
 def forward_packets():
@@ -100,7 +100,7 @@ def process_packet(packet):
                 tampered_load = tampered_load.encode('utf-8', 'ignore')
                 print(tampered_load)
 
-                content_len_search = search("(?:Content-Length:\s)(\d*)", load)
+                content_len_search = search(r"(?:Content-Length:\s)(\d*)", load)
                 if content_len_search and b'text/html' in load:
                     content_len = content_len_search.group(1)
                     new_content_len = int(content_len) + len(inj_code)
