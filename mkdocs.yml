@@ -1,15 +1,77 @@
 site_name: PyHTools Docs
+site_author: dmdhrumilmistry
+repo_name: dmdhrumilmistry/pyhtools
 
+copyright: Copyright &copy; 2020 - 2023 Dhrumil Mistry
 
 theme:
   name: "material"
-
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - content.tooltips
+    # - header.autohide
+    # - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    # - navigation.instant
+    # - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    # - toc.integrate
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 
 plugins:
   - mkdocstrings
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
 
+markdown_extensions:
+  # for syntax highlighting
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+
+  # for content tabs
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true 
+
+  # for icons and emos
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
 
 nav:
+  - Home: index.md
+
   - How To Docs:
     
     - Malwares:
@@ -32,3 +94,25 @@ nav:
   - Code Documentation:
     - Attackers Documentation: 
       - Web Attackers: code-docs/web-attackers.md
+
+
+# Customization
+extra:
+  annotate:
+    json: [.s2]
+  # analytics:
+    # provider: google
+    # property: !ENV GOOGLE_ANALYTICS_KEY
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/dmdhrumilmistry
+    # - icon: fontawesome/brands/gitter
+      # link: https://gitter.im/dmdhrumilmistry
+    # - icon: fontawesome/brands/docker
+      # link: https://hub.docker.com/r/dmdhrumilmistry/pyhtools/
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/pyhtools/
+    - icon: fontawesome/brands/mastodon
+      link: https://fosstodon.org/@dmdhrumilmistry
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/dmdhrumilmistry
