@@ -5,10 +5,15 @@ description: generates evil file executable
 from enum import Enum
 from subprocess import call
 from os import name as os_name
-import logging
+# from nuitka.Tracing import options_logger
 
-nuitka_logger = logging.getLogger('nuitka')
-nuitka_logger.disabled = True
+# supress options 
+# options_logger.is_quiet = True 
+# above changes are redundant here,
+# since, nuitka will load Tracing module on its own.
+# Hence, changes are required in nuitka module as shown below
+# options_logger = OurLogger("Nuitka-Options", quiet=True)
+
 
 class Compilers(Enum):
     DEFAULT = 0
