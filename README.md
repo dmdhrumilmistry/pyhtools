@@ -17,6 +17,13 @@ The disclaimer advises users to use the open source project for ethical and legi
 
 [Read More](./DISCLAIMER.md)
 
+### Notice
+
+To comply with PyPi's [Acceptable Use Policy](https://pypi.org/policy/acceptable-use-policy/)
+
+All Evil files are moved to another repository: [pyhtools-evil-files](https://github.com/dmdhrumilmistry/pyhtools-evil-files)
+
+Never use provided resources for malicious purpose.
 
 ## Join Our Discord Community
 
