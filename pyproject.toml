@@ -29,12 +29,16 @@ wmi = {version = "^1.5.1", optional = true}
 mkdocs = {version = "^1.4.3", optional = true}
 mkdocstrings = {extras = ["python"], version = "^0.21.2", optional = true}
 mkdocs-material = {version = "^9.1.12", optional = true}
+packaging = {version = "^23.1", optional = true}
+pyhtools-evil-files = {git = "https://github.com/dmdhrumilmistry/pyhtools-evil-files.git", rev = "main", optional = true}
 
 
 [tool.poetry.extras]
 linux = ["netfilterqueue"]
 windows = ["wmi"]
 docs = ["mkdocs", "mkdocstrings", "mkdocs-material"]
+dev = ["packaging"]
+evil = ["pyhtools-evil-files"]
 
 
 [tool.poetry.urls]

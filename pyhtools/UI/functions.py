@@ -1,16 +1,14 @@
 from asyncio.exceptions import CancelledError
 from prettytable import PrettyTable
 from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, RESET_COLORS
-from pyhtools.evil_files.malwares.utils import send_mail
+from pyhtools_evil_files.malwares.utils import send_mail
 
 
 import pyfiglet
 import os
 import sys
 import pyhtools.attackers.attackers as attacker
-import pyhtools.evil_files.malwares.reverse_backdoor.TCP.listener as listener
-
-__version = '2.2.2'
+import pyhtools_evil_files.malwares.reverse_backdoor.TCP.listener as listener
 
 def clrscr():
     '''Clears UI screen
