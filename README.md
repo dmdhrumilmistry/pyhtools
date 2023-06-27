@@ -11,6 +11,14 @@
 **`NOTE` : The UI hasn't been updated yet with new tools, Refer examples for more information**
 
 
+## PyPi Downloads
+|Period|Count|
+|:----:|:---:|
+|Weekly|[![Downloads](https://static.pepy.tech/personalized-badge/pyhtools?period=week&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pyhtools)|
+|Monthy|[![Downloads](https://static.pepy.tech/personalized-badge/pyhtools?period=month&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pyhtools)|
+|Total|[![Downloads](https://static.pepy.tech/personalized-badge/pyhtools?period=totalPu&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pyhtools)|
+
+
 ## Disclaimer
 
 The disclaimer advises users to use the open source project for ethical and legitimate purposes only and refrain from using it for any malicious activities. The creators and contributors of the project are not responsible for any illegal activities or damages that may arise from the misuse of the project. Users are solely responsible for their use of the project and should exercise caution and diligence when using it. Any unauthorized or malicious use of the project may result in legal action and other consequences.
