@@ -16,7 +16,7 @@
 |:----:|:---:|
 |Weekly|[![Downloads](https://static.pepy.tech/personalized-badge/pyhtools?period=week&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pyhtools)|
 |Monthy|[![Downloads](https://static.pepy.tech/personalized-badge/pyhtools?period=month&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pyhtools)|
-|Total|[![Downloads](https://static.pepy.tech/personalized-badge/pyhtools?period=totalPu&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pyhtools)|
+|Total|[![Downloads](https://static.pepy.tech/personalized-badge/pyhtools?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pyhtools)|
 
 
 ## Disclaimer
