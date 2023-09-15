@@ -28,6 +28,7 @@ mkdocstrings = {extras = ["python"], version = "^0.21.2", optional = true}
 mkdocs-material = {version = "^9.1.12", optional = true}
 packaging = {version = "^23.1", optional = true}
 pyhtools-evil-files = {git = "https://github.com/dmdhrumilmistry/pyhtools-evil-files.git", rev = "main", optional = true}
+frida-tools = "^12.2.1"
 
 
 [tool.poetry.extras]
