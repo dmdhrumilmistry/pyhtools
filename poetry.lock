@@ -483,6 +483,43 @@ files = [
 ]
 
 [[package]]
+name = "frida"
+version = "16.1.4"
+description = "Dynamic instrumentation toolkit for developers, reverse-engineers, and security researchers"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "frida-16.1.4-cp37-abi3-macosx_10_9_x86_64.whl", hash = "sha256:8acc2cd8c8e0dc2c4ae86bdf2c76aeef6f92e98f43857048f9f8e3757e523701"},
+    {file = "frida-16.1.4-cp37-abi3-macosx_11_0_arm64.whl", hash = "sha256:0f58fa6c483f8ab00bcd5267cc1bfd1e9469112d09e942061b72e6ef96606738"},
+    {file = "frida-16.1.4-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c7b1a20d481f4f323fc0cd99c1af4a5430421f4e220cb850f0a766fa4f192deb"},
+    {file = "frida-16.1.4-cp37-abi3-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:1a0b963a7d17f016b5aa403b8b4ef07191dc70848e2e6cf9a06f5a0d32bc7f96"},
+    {file = "frida-16.1.4-cp37-abi3-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:7bb70b3fbf775f010485479701a309ad29674644eda10a86a43b3844021c8cb5"},
+    {file = "frida-16.1.4-cp37-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:a1c658e75b451c11ff8393a206d3b50dd2cfccf7188f5947da57b5ee6d3da157"},
+    {file = "frida-16.1.4-cp37-abi3-win32.whl", hash = "sha256:9d980dd79c99ea79c279000b53de475208ce636a973f47b18c4e90e11381297f"},
+    {file = "frida-16.1.4-cp37-abi3-win_amd64.whl", hash = "sha256:3f75a99a4e4258ced12e6241e50f2df65add0baebdb484f8139d8d5255f1c698"},
+    {file = "frida-16.1.4.tar.gz", hash = "sha256:b2d3a22f8422cd9379ee2a3ca870e50cdb1706cfa48be9587bf835d63e51e582"},
+]
+
+[package.dependencies]
+typing-extensions = {version = "*", markers = "python_version < \"3.11\""}
+
+[[package]]
+name = "frida-tools"
+version = "12.2.1"
+description = "Frida CLI tools"
+optional = false
+python-versions = "*"
+files = [
+    {file = "frida-tools-12.2.1.tar.gz", hash = "sha256:8cddd0b331feb05723b1f395b89492be01e233209598d83df1ab8af2c14bb7cb"},
+]
+
+[package.dependencies]
+colorama = ">=0.2.7,<1.0.0"
+frida = ">=16.0.9,<17.0.0"
+prompt-toolkit = ">=2.0.0,<4.0.0"
+pygments = ">=2.0.2,<3.0.0"
+
+[[package]]
 name = "frozenlist"
 version = "1.4.0"
 description = "A list-like structure which implements collections.abc.MutableSequence"
@@ -1019,6 +1056,20 @@ wcwidth = "*"
 tests = ["pytest", "pytest-cov", "pytest-lazy-fixture"]
 
 [[package]]
+name = "prompt-toolkit"
+version = "3.0.39"
+description = "Library for building powerful interactive command lines in Python"
+optional = false
+python-versions = ">=3.7.0"
+files = [
+    {file = "prompt_toolkit-3.0.39-py3-none-any.whl", hash = "sha256:9dffbe1d8acf91e3de75f3b544e4842382fc06c6babe903ac9acb74dc6e08d88"},
+    {file = "prompt_toolkit-3.0.39.tar.gz", hash = "sha256:04505ade687dc26dc4284b1ad19a83be2f2afe83e7a828ace0c72f3a1df72aac"},
+]
+
+[package.dependencies]
+wcwidth = "*"
+
+[[package]]
 name = "psutil"
 version = "5.9.5"
 description = "Cross-platform lib for process and system monitoring in Python."
@@ -1150,7 +1201,7 @@ files = [
 name = "pygments"
 version = "2.16.1"
 description = "Pygments is a syntax highlighting package written in Python."
-optional = true
+optional = false
 python-versions = ">=3.7"
 files = [
     {file = "Pygments-2.16.1-py3-none-any.whl", hash = "sha256:13fc09fa63bc8d8671a6d247e1eb303c4b343eaee81d861f3404db2935653692"},
@@ -1636,7 +1687,7 @@ files = [
 name = "typing-extensions"
 version = "4.7.1"
 description = "Backported and Experimental Type Hints for Python 3.7+"
-optional = true
+optional = false
 python-versions = ">=3.7"
 files = [
     {file = "typing_extensions-4.7.1-py3-none-any.whl", hash = "sha256:440d5dd3af93b060174bf433bccd69b0babc3b15b1a8dca43789fd7f61514b36"},
@@ -1909,4 +1960,4 @@ windows = ["wmi"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4.0"
-content-hash = "fe821f79be3d87ea57589130cb4a883c8ae7626a666afb1a88b1100efa5b8d70"
+content-hash = "1b25400ec6d6add9106a806be2cfac6641fbf738f52543f9526470dc8e0e187e"
