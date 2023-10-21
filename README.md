@@ -10,14 +10,13 @@
 
 **`NOTE` : The UI hasn't been updated yet with new tools, Refer examples for more information**
 
-
 ## PyPi Downloads
+
 |Period|Count|
 |:----:|:---:|
 |Weekly|[![Downloads](https://static.pepy.tech/personalized-badge/pyhtools?period=week&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pyhtools)|
 |Monthy|[![Downloads](https://static.pepy.tech/personalized-badge/pyhtools?period=month&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pyhtools)|
 |Total|[![Downloads](https://static.pepy.tech/personalized-badge/pyhtools?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads)](https://pepy.tech/project/pyhtools)|
-
 
 ## Disclaimer
 
@@ -64,6 +63,9 @@ Never use provided resources for malicious purpose.
 
   # for linux
   python3 -m pip install pyhtools[linux]
+
+  # with evil packages
+  python3 -m pip install pyhtools[evil]
   ```
 
 ### Manual Method
@@ -101,6 +103,9 @@ Never use provided resources for malicious purpose.
 
   # for linux
   poetry install -E linux
+
+  # with evil packages
+  poetry install -E evil
   ```
 
 ## Start PyHTools

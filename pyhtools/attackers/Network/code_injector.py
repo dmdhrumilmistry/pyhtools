@@ -160,5 +160,5 @@ def run():
         print(BRIGHT_RED + '[-] Program stopped.')
 
 if __name__ == '__main__':
-    inj_code:str='<script>alert("Payload Added!!")</script>')
+    inj_code:str='<script>alert("Payload Added!!")</script>'
     run()
