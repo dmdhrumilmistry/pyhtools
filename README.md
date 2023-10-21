@@ -30,6 +30,12 @@ To comply with PyPi's [Acceptable Use Policy](https://pypi.org/policy/acceptable
 
 All Evil files are moved to another repository: [pyhtools-evil-files](https://github.com/dmdhrumilmistry/pyhtools-evil-files)
 
+Install Evil packages using below command:
+
+```bash
+python3 -m pip install git+https://github.com/dmdhrumilmistry/pyhtools-evil-files.git
+```
+
 Never use provided resources for malicious purpose.
 
 ## Join Our Discord Community
@@ -63,9 +69,6 @@ Never use provided resources for malicious purpose.
 
   # for linux
   python3 -m pip install pyhtools[linux]
-
-  # with evil packages
-  python3 -m pip install pyhtools[evil]
   ```
 
 ### Manual Method
@@ -103,9 +106,6 @@ Never use provided resources for malicious purpose.
 
   # for linux
   poetry install -E linux
-
-  # with evil packages
-  poetry install -E evil
   ```
 
 ## Start PyHTools
