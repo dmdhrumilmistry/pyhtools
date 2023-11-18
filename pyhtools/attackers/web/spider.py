@@ -1,14 +1,15 @@
 from bs4 import BeautifulSoup
 from html import unescape
 from urllib.parse import urljoin
-from .utils import AsyncRLRequests
+from .utils import AsyncRequests
 
 
 class Spider:
     '''
     class Spider used to extract links from website's webpage
     '''
-    def __init__(self, rate_limit:int=100, delay:int=0.0001, headers:dict=None) -> None:
+
+    def __init__(self, rate_limit: int = 100, delay: int = 0.0001, headers: dict = None) -> None:
         '''
         Spider constructor
 
@@ -23,7 +24,8 @@ class Spider:
         # list to save links on the whole webpage
         # to avoid repetition
         self.target_links = set()
-        self._client = AsyncRLRequests(rate_limit=rate_limit, delay=delay, headers=headers)
+        self._client = AsyncRequests(
+            rate_limit=rate_limit, delay=delay, headers=headers)
 
     async def get_links(self, url: str) -> set:
         '''extracts links from the whole webpage
@@ -38,7 +40,7 @@ class Spider:
         html = response.get('res_body')
         if html is None:
             return set()
-        
+
         soup = BeautifulSoup(html, 'html.parser')
 
         href_links = set()
@@ -60,7 +62,7 @@ class Spider:
             list: returns useful links list related to target webpage
         '''
         # extract links from page
-        links:set = await self.get_links(url)
+        links: set = await self.get_links(url)
 
         new_links = set()
         for link in links:
@@ -78,13 +80,13 @@ class Spider:
 
         return new_links
 
-    async def start(self, target_url:str, print_links: bool = True):
+    async def start(self, target_url: str, print_links: bool = True):
         '''starts spider
 
         Args:
             target_url (str): URL of the target website
             print_links (bool): if True prints links found on console
-        
+
         Returns:
             list: list of links found by spider
         '''
@@ -101,14 +103,13 @@ class Spider:
             self.target_links.add(current_url)
 
             # skip scraping static files since it'll slow down process
-            if current_url.endswith(('.css', '.js','.jpeg', '.png','.svg')):
+            if current_url.endswith(('.css', '.js', '.jpeg', '.png', '.svg')):
                 continue
 
-            # get links from 
+            # get links from
             links = await self.get_target_links(current_url, print_link=print_links)
 
             # add new links to queue
             queue.extend(links - self.target_links)
 
         return self.target_links
-    

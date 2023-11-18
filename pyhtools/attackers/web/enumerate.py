@@ -1,6 +1,6 @@
 from asyncio import ensure_future, gather, run
 from urllib.parse import urljoin
-from pyhtools.attackers.web.utils import AsyncRLRequests
+from pyhtools.attackers.web.utils import AsyncRequests
 from pyhtools.utils import read_file_lines
 
 import logging
@@ -16,11 +16,11 @@ class Discoverer:
     '''
 
     def __init__(self, *args, **kwargs) -> None:
-        self._requester = AsyncRLRequests(*args, **kwargs)
+        self._requester = AsyncRequests(*args, **kwargs)
 
     async def _filter_request(self, url: str, status_codes: list[int] = [200, 403, 500]):
         '''prints url if reponse status code matches code from status_codes.
-        
+
         Args:
             url (str): URL of website   
             status_codes (list): list of integer containing HTTP response  
@@ -30,7 +30,7 @@ class Discoverer:
             None
         '''
         response = await self._requester.request(url=url)
-        
+
         if isinstance(response, dict) and response.get('status') in status_codes:
             print(url, response.get('status'))
 
