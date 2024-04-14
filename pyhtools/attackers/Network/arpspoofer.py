@@ -5,7 +5,7 @@
 
 
 import scapy.all as sp
-import argparse
+import argparse, os
 from time import sleep
 from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
 from sys import exit
@@ -223,5 +223,9 @@ def run_spoofer(target_ip, spoof_ip, perform_mitm):
 
 
 if __name__ == '__main__':
-    TARGET_IP, SPOOF_IP, MITM = get_args()
-    run_spoofer(TARGET_IP, SPOOF_IP, MITM)
+    if os.getuid() != 0:
+        raise SystemExit(BRIGHT_RED + '[!] Error: Permission Denied. Administrator privileges required.')
+    else:
+        print(BRIGHT_WHITE + '[+] Admin Privileges Confirmed.')
+        TARGET_IP, SPOOF_IP, MITM = get_args()
+        run_spoofer(TARGET_IP, SPOOF_IP, MITM)
