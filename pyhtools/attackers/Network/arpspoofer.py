@@ -226,6 +226,6 @@ if __name__ == '__main__':
     if os.getuid() != 0:
         raise SystemExit(BRIGHT_RED + '[!] Error: Permission Denied. Administrator privileges required.')
     else:
-        print(BRIGHT_WHITE + '[+] Admin Privileges Confirmed.')
+        print(BRIGHT_WHITE + '[+] Administrator Privileges Confirmed.')
         TARGET_IP, SPOOF_IP, MITM = get_args()
         run_spoofer(TARGET_IP, SPOOF_IP, MITM)
