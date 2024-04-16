@@ -223,7 +223,8 @@ def run_spoofer(target_ip, spoof_ip, perform_mitm):
 
 
 if __name__ == '__main__':
-    if os.getuid() != 0:
+    from os import getuid
+    if getuid() != 0:
         raise SystemExit(BRIGHT_RED + '[!] Error: Permission Denied. Administrator privileges required.')
     else:
         print(BRIGHT_WHITE + '[+] Administrator Privileges Confirmed.')
