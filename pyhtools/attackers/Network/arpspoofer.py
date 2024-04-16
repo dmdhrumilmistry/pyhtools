@@ -5,7 +5,7 @@
 
 
 import scapy.all as sp
-import argparse, os
+import argparse
 from time import sleep
 from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
 from sys import exit
