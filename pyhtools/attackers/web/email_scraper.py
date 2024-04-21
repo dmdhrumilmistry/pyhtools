@@ -18,7 +18,6 @@ class EmailScraper:
     Methods:
         scrape: scrapes emails based on url argument.
         export: exports a .txt file containing scrape results.
-        
     '''
     parser = ap.ArgumentParser()
     parser.add_argument('url', help='url to base email search on.')
@@ -33,7 +32,8 @@ class EmailScraper:
         self.EMAILS = set()
     
     def scrape(self):
-        '''Scrape web for emails, then asks user if they want to export to text file.
+        '''
+        Scrape web for emails, then asks user if they want to export to text file.
         
         Returns:
             set: returns set of scrapped emails.
@@ -86,7 +86,8 @@ class EmailScraper:
              print(BRIGHT_RED + '[-] No Emails Found.')
        
     def export(self, path):
-        '''Export emails to a .txt file and save in user-specified directory.
+        '''
+        Export emails to a .txt file and save in user-specified directory.
 
         Args:
             path (str): path to directory user wants to save emails file inside.
