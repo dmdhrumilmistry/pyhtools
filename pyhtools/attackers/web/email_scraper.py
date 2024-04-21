@@ -1,21 +1,43 @@
-from bs4 import BeautifulSoup
+import argparse as ap
+from collections import deque
+from urllib import parse
 import requests, re, lxml
 from requests import exceptions
-from urllib import parse
-from collections import deque
+from bs4 import BeautifulSoup
+from datetime import date
 from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
 
-##----------------Author: astralm0nke on GitHub-----------------##
 class EmailScraper:
-    USER_URL = str(input('[+] Specify Target URL to Scan: '))
-    USER_COUNT = int(input('[+] Specify Count Limit: '))
-    COUNT = 0
-    URLS = deque([USER_URL])
-    SCRAPPED_URLS = set()
-    EMAILS = set()
+    '''
+    EmailScraper class scrapes web for real email addresses based on user-specified URL.
     
-# Main function to scrape emails
+    Args:
+        url (str): url used to scrape emails from web.
+        count (int): number of emails user wants scraper to find.
+    
+    Methods:
+        scrape: scrapes emails based on url argument.
+        export: exports a .txt file containing scrape results.
+        
+    '''
+    parser = ap.ArgumentParser()
+    parser.add_argument('url', help='url to base email search on.')
+    parser.add_argument('count', help='number of emails to scrape.', type=int)
+    args = parser.parse_args()
+    def __init__(self):
+        self.USER_URL = self.args.url
+        self.USER_COUNT = self.args.count
+        self.COUNT = 0
+        self.URLS = deque([self.USER_URL])
+        self.SCRAPPED_URLS = set()
+        self.EMAILS = set()
+    
     def scrape(self):
+        '''Scrape web for emails, then asks user if they want to export to text file.
+        
+        Returns:
+            set: returns set of scrapped emails.
+        '''
         try:
             while len(self.URLS):
                 self.COUNT += 1
@@ -61,14 +83,19 @@ class EmailScraper:
             else:
                 pass
         else:
-             print(BRIGHT_RED + '[-] No Emails Found. Womp-Womp!')
+             print(BRIGHT_RED + '[-] No Emails Found.')
+       
+    def export(self, path):
+        '''Export emails to a .txt file and save in user-specified directory.
 
-# Export emails to a text document, creates file if not found.        
-    def export(self):
-        path = str(input('Please specify the path to save file: '))
-        from datetime import date
-        with open(file=path + f'scraped_emails_{date.today()}.txt', mode='w+') as f:
-            f.write(f'Emails Scrapped from {self.USER_URL} on {date.today()}')
+        Args:
+            path (str): path to directory user wants to save emails file inside.
+
+        Returns:
+            .txt file: exports text file containing emails.
+        '''
+        with open(file=str(path) + f'scraped_emails_{date.today()}.txt', mode='w+') as f:
+            f.write(f'Emails Scrapped from {self.USER_URL} on {date.today()}\n')
             for addr in self.EMAILS:
-                f.write(addr)
+                f.write(addr + '\n')
             f.close()
