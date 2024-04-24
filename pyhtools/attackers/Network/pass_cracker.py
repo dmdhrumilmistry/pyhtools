@@ -18,7 +18,7 @@ class HashCracker:
     parser = ap.ArgumentParser()
     parser.add_argument('mode', help='hash type to decrypt.')
     parser.add_argument('path', help='path to passwords file.')
-    parser.add_argument('hash', help='hash value to decrypt.', type=int)
+    parser.add_argument('hash', help='hash value to decrypt.')
     args = parser.parse_args()
     
     def __init__(self):
