@@ -1,4 +1,3 @@
-import argparse as ap
 from collections import deque
 from urllib import parse
 import requests, re, lxml
@@ -6,7 +5,7 @@ from requests import exceptions
 from bs4 import BeautifulSoup
 from datetime import date
 from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW
-
+    
 class EmailScraper:
     '''
     EmailScraper class scrapes web for real email addresses based on user-specified URL.
@@ -19,13 +18,10 @@ class EmailScraper:
         scrape: scrapes emails based on url argument.
         export: exports a .txt file containing scrape results.
     '''
-    parser = ap.ArgumentParser()
-    parser.add_argument('url', help='url to base email search on.')
-    parser.add_argument('count', help='number of emails to scrape.', type=int)
-    args = parser.parse_args()
+    
     def __init__(self):
-        self.USER_URL = self.args.url
-        self.USER_COUNT = self.args.count
+        self.USER_URL = None
+        self.USER_COUNT = 0
         self.COUNT = 0
         self.URLS = deque([self.USER_URL])
         self.SCRAPPED_URLS = set()
@@ -38,6 +34,7 @@ class EmailScraper:
         Returns:
             set: returns set of scrapped emails.
         '''
+        
         try:
             while len(self.URLS):
                 self.COUNT += 1
@@ -70,6 +67,7 @@ class EmailScraper:
                         link = path + link
                     if not link in self.URLS and not link in self.SCRAPPED_URLS:
                         self.URLS.append(link)
+                        
         except KeyboardInterrupt:
             print(BRIGHT_YELLOW + '[-] Closing Program')
             
@@ -95,6 +93,7 @@ class EmailScraper:
         Returns:
             .txt file: exports text file containing emails.
         '''
+        
         with open(file=str(path) + f'scraped_emails_{date.today()}.txt', mode='w+') as f:
             f.write(f'Emails Scrapped from {self.USER_URL} on {date.today()}\n')
             for addr in self.EMAILS:

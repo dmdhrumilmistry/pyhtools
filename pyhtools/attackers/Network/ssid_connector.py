@@ -1,7 +1,6 @@
-import argparse as ap
 from wireless import Wireless
 from pyhtools.UI.colors import *
-
+    
 class Connector():
     '''
     Connector class tries to bruteforce a connection with a network from given SSID using a passwords file.
@@ -12,9 +11,6 @@ class Connector():
     Methods:
     connect: attempts ssid connection.
     '''
-    parser = ap._ArgumentParser()
-    parser.add_argument('path', help='path to directory containing passwords file.')
-    args = parser.parse_args()
     
     def __init__(self):
         self.passwords = self.args.path
@@ -33,6 +29,7 @@ class Connector():
         Args:
             ssid: network name to attempt connection.
         '''
+        
         with open(self.passwords, 'r') as f:
             print(BRIGHT_YELLOW + '[-_] Attempting connection...')
             for line in f.readlines():

@@ -1,4 +1,3 @@
-import argparse as ap
 import hashlib
 from pyhtools.UI.colors import *
 
@@ -14,13 +13,7 @@ class HashCracker:
     Methods:
         crack : Cracks hashed value by bruteforcing plaintext passwords through user-specific algorithm.
     '''
-    
-    parser = ap.ArgumentParser()
-    parser.add_argument('mode', help='hash type to decrypt.')
-    parser.add_argument('path', help='path to passwords file.')
-    parser.add_argument('hash', help='hash value to decrypt.')
-    args = parser.parse_args()
-    
+
     def __init__(self):
         self.mode = self.args.mode
         self.path = self.args.path
