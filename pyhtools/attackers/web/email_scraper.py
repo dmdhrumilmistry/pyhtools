@@ -94,7 +94,7 @@ class EmailScraper:
             .txt file: exports text file containing emails.
         '''
         
-        with open(file=str(path) + f'scraped_emails_{date.today()}.txt', mode='w+') as f:
+        with open(file=str(path) + f'scraped_emails_{date.today()}.txt', mode='w+', encoding='utf-8') as f:
             f.write(f'Emails Scrapped from {self.USER_URL} on {date.today()}\n')
             for addr in self.EMAILS:
                 f.write(addr + '\n')
