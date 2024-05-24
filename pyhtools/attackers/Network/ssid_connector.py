@@ -1,5 +1,5 @@
 from wireless import Wireless
-from pyhtools.UI.colors import *
+from pyhtools.UI.colors import BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_WHITE
     
 class Connector():
     '''

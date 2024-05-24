@@ -27,9 +27,12 @@ class EmailScraper:
         self.SCRAPPED_URLS = set()
         self.EMAILS = set()
     
-    def scrape(self):
+    def scrape(self, export_choice):
         '''
         Scrape web for emails, then asks user if they want to export to text file.
+        
+        Args:
+            еxport_choice: type 'Y' to export, 'N' otherwise.
         
         Returns:
             set: returns set of scrapped emails.
@@ -75,7 +78,6 @@ class EmailScraper:
             print(BRIGHT_WHITE + '[!] Emails Found!')
             for addr in (self.EMAILS):
                 print(addr)
-            export_choice = str(input('Export scrapped emails to text doc? (Y/N)'))
             if export_choice == 'Y':
                 self.export()
             else:
