@@ -1913,16 +1913,6 @@ files = [
 ]
 
 [[package]]
-name = "wireless"
-version = "0.3.3"
-description = "A dead simple, cross-platform Python library to connect to wireless networks."
-optional = false
-python-versions = "*"
-files = [
-    {file = "wireless-0.3.3.tar.gz", hash = "sha256:8d2ab4746d39688caa7e659704e83872d5530cca6cec0982cb8a7bd6590d13fc"},
-]
-
-[[package]]
 name = "wmi"
 version = "1.5.1"
 description = "Windows Management Instrumentation"
@@ -2120,4 +2110,4 @@ windows = ["wmi"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4.0"
-content-hash = "9242cd61f2b73121bca760dbafeca5e4e92b6438c1484b53f0d5598ecec4eb04"
+content-hash = "1583306f450629c41a4222a867f9c9f57329c9587f7b8d0ffccfbe5d7cbbe048"

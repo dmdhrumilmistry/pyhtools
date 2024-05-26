@@ -29,7 +29,6 @@ mkdocs-material = {version = "^9.1.12", optional = true}
 packaging = {version = "^23.1", optional = true}
 frida-tools = "^12.2.1"
 lxml = "^5.2.2"
-wireless = "^0.3.3"
 
 
 [tool.poetry.extras]
