@@ -1,4 +1,3 @@
-from asyncio import run
 from pyhtools.UI.colors import BRIGHT_YELLOW, BRIGHT_WHITE
 from pyhtools.attackers.web.vuln_scanner.scanner import Scanner
 from pyhtools.attackers.web.spider import Spider
