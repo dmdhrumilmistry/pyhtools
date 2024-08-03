@@ -70,7 +70,7 @@ def print_help():
     # help_table.add_row(['',''])
 
     help_table.add_row(['clear', 'clear console'])
-    help_table.add_row(['help_table', 'display help_table table'])
+    help_table.add_row(['help', 'display help_table table'])
     help_table.add_row(['close', 'exit PyHackingTools'])
 
     help_table.add_row(['machngr', 'change mac address of the network interface'])
@@ -188,7 +188,7 @@ async def run_command(cmd: str):
         case 'clear':
             clrscr()
 
-        case 'help_table':
+        case 'help':
             print_help()
 
         # MALWARES
