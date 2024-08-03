@@ -1,18 +1,17 @@
 [tool.poetry]
 name = "pyhtools"
-version = "2.3.4"
+version = "2.4.0"
 description = "Python Hacking Tools (PyHTools) (pht) is a collection of python written hacking tools consisting of network scanner, arp spoofer and detector, dns spoofer, code injector, packet sniffer, network jammer, email sender, downloader, wireless password harvester credential harvester, keylogger, download&execute, and reverse_backdoor along with website login bruteforce, scraper, web spider etc. PHT also includes malwares which are undetectable by the antiviruses."
 authors = ["Dhrumil Mistry <contact@dmdhrumilmistry.tech>"]
 license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<4.0"
+python = ">=3.10,<4.0"
 aiodns = "^3.0.0"
 aiohttp = "^3.8.4"
 beautifulsoup4 = "^4.11.2"
 colorama = "^0.4.6"
-paramiko = "^3.0.0"
 pure-python-adb = "^0.3.0.dev0"
 pyfiglet = "^0.8.post1"
 pynput = "^1.7.6"
@@ -28,6 +27,9 @@ mkdocstrings = {extras = ["python"], version = "^0.21.2", optional = true}
 mkdocs-material = {version = "^9.1.12", optional = true}
 packaging = {version = "^23.1", optional = true}
 frida-tools = "^12.2.1"
+lxml = "^5.2.2"
+setuptools = "^72.1.0"
+pyhtools-evil-files = {git = "https://github.com/dmdhrumilmistry/pyhtools-evil-files.git", tag="v1.0.0"}
 
 
 [tool.poetry.extras]

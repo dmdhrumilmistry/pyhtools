@@ -1,28 +1,39 @@
+from os import name, system
+
 from asyncio.exceptions import CancelledError
 from prettytable import PrettyTable
-from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, RESET_COLORS
+from pyfiglet import figlet_format
+
 from pyhtools_evil_files.malwares.utils import send_mail
+from pyhtools_evil_files.malwares.reverse_backdoor.TCP.listener import Listener
 
+from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, RESET_COLORS
+# TODO: remove pyhtools/attackers/attackers.py and add it to pyhtools/attackers/__init__.py
+from pyhtools.attackers.attackers import (
+    mac_changer,
+    arpspoofer,
+    nw_scan,
+    webspider,
+    webcrawldirs,
+    webcrawlsubdom,
+    brute_login,
+    webvulnscan,
+)
 
-import pyfiglet
-import os
-import sys
-import pyhtools.attackers.attackers as attacker
-import pyhtools_evil_files.malwares.reverse_backdoor.TCP.listener as listener
 
 def clrscr():
     '''Clears UI screen
-    
+
     Args:
         None
 
     Returns:
         None
     '''
-    if os.name == 'nt':
-        os.system('cls')
-    elif os.name == 'posix':
-        os.system('clear')
+    if name == 'nt':
+        system('cls')
+    elif name == 'posix':
+        system('clear')
 
 
 def banner():
@@ -35,9 +46,9 @@ def banner():
         None
     '''
     clrscr()
-    print(BRIGHT_YELLOW + pyfiglet.figlet_format('PyHTools'))
+    print(BRIGHT_YELLOW + figlet_format('PyHTools'))
     print(BRIGHT_YELLOW + '+' + '-'*42 + '+')
-    print(BRIGHT_WHITE + f'| written by dmdhrumilmistry               |')
+    print(BRIGHT_WHITE + '| written by dmdhrumilmistry               |')
     print(BRIGHT_YELLOW + '+' + '-'*42 + '+')
 
 
@@ -47,43 +58,43 @@ def print_help():
 
     Args:
         None
-    
+
     Returns:
         None
     '''
     print(BRIGHT_WHITE + 'Python Hacking Tools (PyHTools) (pht)')
 
-    help = PrettyTable(['Command', 'Description'])
-    help.align['Command'] = 'c'
-    help.align['Description'] = 'l'
-    # help.add_row(['',''])
+    help_table = PrettyTable(['Command', 'Description'])
+    help_table.align['Command'] = 'c'
+    help_table.align['Description'] = 'l'
+    # help_table.add_row(['',''])
 
-    help.add_row(['clear', 'clear console'])
-    help.add_row(['help', 'display help table'])
-    help.add_row(['close', 'exit PyHackingTools'])
+    help_table.add_row(['clear', 'clear console'])
+    help_table.add_row(['help', 'display help_table table'])
+    help_table.add_row(['close', 'exit PyHackingTools'])
 
-    help.add_row(['machngr', 'change mac address of the network interface'])
-    help.add_row(['arpspoofer', 'spoof the target by arp poisoning'])
-    help.add_row(['nwscan', 'scan for ip range in the network'])
+    help_table.add_row(['machngr', 'change mac address of the network interface'])
+    help_table.add_row(['arpspoofer', 'spoof the target by arp poisoning'])
+    help_table.add_row(['nwscan', 'scan for ip range in the network'])
 
-    help.add_row(
+    help_table.add_row(
         ['webspider', 'maps all the links which are related to root url on the website'])
-    help.add_row(
+    help_table.add_row(
         ['webcrawldirs', 'scan for valid directories of the website using a wordlist'])
-    help.add_row(
+    help_table.add_row(
         ['webcrawlsubdom', 'scan for valid subdomains of the website using a wordlist'])
-    help.add_row(['weblogin', 'bruteforce webpage login'])
-    help.add_row(['webvulnscan', 'scan for vulnerabilities on the website'])
+    help_table.add_row(['weblogin', 'bruteforce webpage login'])
+    help_table.add_row(['webvulnscan', 'scan for vulnerabilities on the website'])
 
-    # help.add_row(['',''])
+    # help_table.add_row(['',''])
 
-    help.add_row(['listener', 'start reverse TCP listener on specific LHOST and LPORT'])
-    help.add_row(['sendmail', 'send mail to specific email address'])
+    help_table.add_row(['listener', 'start reverse TCP listener on specific LHOST and LPORT'])
+    help_table.add_row(['sendmail', 'send mail to specific email address'])
 
-    help.add_row(
+    help_table.add_row(
         ['gen exe', 'generate executables of reverse backdoor, keylogger, etc.'])
 
-    print(help)
+    print(help_table)
 
 
 def send_mail_to(email, password, receiver, subject, body) -> bool:
@@ -103,8 +114,10 @@ def send_mail_to(email, password, receiver, subject, body) -> bool:
     msg = f'Subject: {subject}\n{body}'
     if send_mail(email, receiver, password, msg):
         print(BRIGHT_YELLOW + '[\u2714] Mail Sent')
-    else:
-        print(BRIGHT_RED + '[\u274c] Unable to send mail.')
+        return True
+
+    print(BRIGHT_RED + '[\u274c] Unable to send mail.')
+    return False
 
 
 def listener_option():
@@ -118,7 +131,7 @@ def listener_option():
     '''
     host = input('[+] LHOST : ')
     port = int(input('[+] LPORT : '))
-    lsnr = listener.Listener(host, port)
+    lsnr = Listener(host, port)
     lsnr.run()
 
 
@@ -144,14 +157,14 @@ def sendmail_option():
 
 def machngr_option():
     '''executes commands to change mac address
-    
+
     Args:
         None
 
     Returns:
         None
     '''
-    attacker.mac_changer()
+    mac_changer()
 
 
 def generate_executable():
@@ -169,6 +182,55 @@ def generate_executable():
           '[*] You can use scripts from malwares to manually generate evil files...')
 
 
+async def run_command(cmd: str):
+    # BASIC UI COMMANDS
+    match cmd:
+        case 'clear':
+            clrscr()
+
+        case 'help':
+            print_help()
+
+        # MALWARES
+        case 'listener':
+            listener_option()
+
+        case 'sendmail':
+            sendmail_option()
+
+        case 'gen exe':
+            generate_executable()
+
+        # NETWORK ATTACKERS
+        case 'machngr':
+            machngr_option()
+
+        case 'arpspoofer':
+            arpspoofer()
+
+        case 'nwscan':
+            nw_scan()
+
+        # WEB ATTACKERS
+        case 'webspider':
+            await webspider()
+
+        case 'webcrawldirs':
+            await webcrawldirs()
+
+        case 'webcrawlsubdom':
+            await webcrawlsubdom()
+
+        case 'weblogin':
+            brute_login()
+
+        case 'webvulnscan':
+            webvulnscan()
+
+        case _:
+            print(BRIGHT_RED + '[-] Unknown command, use help_table to view valid commands')
+
+
 async def run():
     '''starts PyHTools UI, interacts with user and executes appropriate 
     functions based on command 
@@ -181,65 +243,17 @@ async def run():
     '''
     try:
         while True:
-            cmd = input(BRIGHT_RED + 'pyhtools >>' +
-                        RESET_COLORS + ' ').lower().strip()
-
-            # BASIC UI COMMANDS
+            cmd = input(BRIGHT_RED + 'pyhtools >>' + RESET_COLORS + ' ').lower().strip()
             if cmd == 'close':
                 break
-
-            elif cmd == 'clear':
-                clrscr()
-
-            elif cmd == 'help':
-                print_help()
-
-            # MALWARES
-            elif cmd == 'listener':
-                listener_option()
-
-            elif cmd == 'sendmail':
-                sendmail_option()
-
-            elif cmd == 'gen exe':
-                generate_executable()
-
-            # NETWORK ATTACKERS
-            elif cmd == 'machngr':
-                machngr_option()
-
-            elif cmd == 'arpspoofer':
-                attacker.arpspoofer()
-
-            elif cmd == 'nwscan':
-                attacker.nw_scan()
-
-            # WEB ATTACKERS
-            elif cmd == 'webspider':
-                await attacker.webspider()
-
-            elif cmd == 'webcrawldirs':
-                await attacker.webcrawldirs()
-
-            elif cmd == 'webcrawlsubdom':
-                await attacker.webcrawlsubdom()
-
-            elif cmd == 'weblogin':
-                attacker.brute_login()
-
-            elif cmd == 'webvulnscan':
-                attacker.webvulnscan()
-
-            else:
-                print(BRIGHT_RED +
-                      '[-] Unknown command, use help to view valid commands')
+            await run_command(cmd)
 
     except (EOFError, KeyboardInterrupt, CancelledError):
         print()
         print(BRIGHT_YELLOW +
               "[\U0001f604] WE ARE NEVER RESPONSIBLE FOR YOUR ACTIONS!")
         print(BRIGHT_RED + '[-] Closing PHT....')
-        sys.exit(0)
+        exit(0)
 
 
 if __name__ == '__main__':

