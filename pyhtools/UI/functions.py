@@ -1,14 +1,18 @@
+from os import name, system
+
 from asyncio.exceptions import CancelledError
 from prettytable import PrettyTable
 from pyhtools.UI.colors import BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, RESET_COLORS
-from pyhtools_evil_files.malwares.utils import send_mail
+try:
+    from pyhtools_evil_files.malwares.utils import send_mail
+    from pyhtools_evil_files.malwares.reverse_backdoor.TCP.listener import Listener
+except ModuleNotFoundError:
+    print(BRIGHT_RED + '[!] evil module not found. Install using command: pip install git+https://github.com/dmdhrumilmistry/pyhtools-evil-files.git')
+    exit(-1)
 
 
 import pyfiglet
-import os
-import sys
 import pyhtools.attackers.attackers as attacker
-import pyhtools_evil_files.malwares.reverse_backdoor.TCP.listener as listener
 
 def clrscr():
     '''Clears UI screen
@@ -19,10 +23,10 @@ def clrscr():
     Returns:
         None
     '''
-    if os.name == 'nt':
-        os.system('cls')
-    elif os.name == 'posix':
-        os.system('clear')
+    if name == 'nt':
+        system('cls')
+    elif name == 'posix':
+        system('clear')
 
 
 def banner():
@@ -118,7 +122,7 @@ def listener_option():
     '''
     host = input('[+] LHOST : ')
     port = int(input('[+] LPORT : '))
-    lsnr = listener.Listener(host, port)
+    lsnr = Listener(host, port)
     lsnr.run()
 
 
@@ -239,7 +243,7 @@ async def run():
         print(BRIGHT_YELLOW +
               "[\U0001f604] WE ARE NEVER RESPONSIBLE FOR YOUR ACTIONS!")
         print(BRIGHT_RED + '[-] Closing PHT....')
-        sys.exit(0)
+        exit(0)
 
 
 if __name__ == '__main__':

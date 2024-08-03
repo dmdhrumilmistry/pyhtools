@@ -2,11 +2,11 @@
 
 ![PyHTools Logo](https://i.ibb.co/CtwVV5T/Py-HTools-without-bg-cropped.png)
 
-- Python Hacking Tools (PyHTools) (pht) is a collection of python written hacking tools consisting of network scanner, arp spoofer and detector, dns spoofer, code injector, packet sniffer, network jammer, email sender, downloader, wireless password harvester credential harvester, keylogger, download&execute, and reverse_backdoor along with website login bruteforce, scraper, web spider etc. PHT also includes malwares which are undetectable by the antiviruses.
+* Python Hacking Tools (PyHTools) (pht) is a collection of python written hacking tools consisting of network scanner, arp spoofer and detector, dns spoofer, code injector, packet sniffer, network jammer, email sender, downloader, wireless password harvester credential harvester, keylogger, download&execute, and reverse_backdoor along with website login bruteforce, scraper, web spider etc. PHT also includes malwares which are undetectable by the antiviruses.
 
-- These tools are written in python3, refer installation to install/download tools and its dependencies.
+* These tools are written in python3, refer installation to install/download tools and its dependencies.
 
-- PyHTools comes with UI, but you can also use command line to use tools individually.
+* PyHTools comes with UI, but you can also use command line to use tools individually.
 
 **`NOTE` : The UI hasn't been updated yet with new tools, Refer examples for more information**
 
@@ -44,79 +44,92 @@ Never use provided resources for malicious purpose.
 
 ## How To Videos
 
-- Gain access to remote shell over the Internet using HTTP Backdoor
+* Gain access to remote shell over the Internet using HTTP Backdoor
 
   [![YT Thumbnail](https://img.youtube.com/vi/Wg-PiywAqyw/maxresdefault.jpg)](https://youtu.be/Wg-PiywAqyw)
 
 ## Installation
 
-### Using pip
+### Virtual Env Setup
 
-- Install main branch using pip
+It is advised to use virtual environment for any installation.
+
+* Create virtual environment
 
   ```bash
-  python3 -m pip install git+https://github.com/dmdhrumilmistry/pyhtools.git
+  python -m venv .venv
   ```
 
-- Install Release from PyPi
+* Activate venv
 
   ```bash
-  # without options
-  python3 -m pip install pyhtools
+  source .venv/bin/activate
+  ```
 
+### Using pip
+
+* Install main branch using pip
+
+  ```bash
+  # platform independent (but it doesn't support few features)
+  python -m pip install git+https://github.com/dmdhrumilmistry/pyhtools.git@main#egg=pyhtools
+
+  ## OS Specific Installations
   # for windows
-  python3 -m pip install pyhtools[windows]
+  python -m pip install git+https://github.com/dmdhrumilmistry/pyhtools.git@main#egg=pyhtools[windows]
 
   # for linux
-  python3 -m pip install pyhtools[linux]
+  python -m pip install git+https://github.com/dmdhrumilmistry/pyhtools.git@main#egg=pyhtools[linux]
   ```
 
 ### Manual Method
 
-- Open terminal
+* Open terminal
 
-- Install git package
+* Install [git](https://git-scm.com/) and [python3](https://python.org) (>=3.10) package
+
+* Install [Poetry](https://python-poetry.org/docs/#installation)
 
   ```bash
-  sudo apt install git python3 -y
+  curl -sSL https://install.python-poetry.org | python3 -
   ```
 
-- Install [Poetry](https://python-poetry.org/docs/master#installing-with-the-official-installer)
-
-- clone the repository to your machine
+* clone the repository to your machine
 
   ```bash
   git clone https://github.com/dmdhrumilmistry/pyhtools.git
   ```
 
-- Change directory
+* Change directory
 
   ```bash
   cd pyhtools
   ```
 
-- install with poetry
+* Install with poetry 
 
   ```bash
   # without options
-  poetry install
+  poetry install --sync
 
   # for windows
-  poetry install -E windows
+  poetry install --sync -E windows
 
   # for linux
-  poetry install -E linux
+  poetry install --sync -E linux
   ```
+
+  > Run above commands in virtual env
 
 ## Start PyHTools
 
-- run pyhtools.py
+* run pyhtools.py
 
   ```bash
-  python3 -m pyhtools
+  python -m pyhtools
   ```
 
-- to get all the commands use `help`
+* to get all the commands use `help`
 
   ```bash
   pyhtools >> help
@@ -127,68 +140,68 @@ Never use provided resources for malicious purpose.
 
 ### Open In Google Cloud Shell
 
-- Temporary Session  
+* Temporary Session  
   [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2Fdmdhrumilmistry%2Fpyhtools&ephemeral=true&show=terminal&cloudshell_print=./DISCLAIMER.md)
-- Perisitent Session  
+* Perisitent Session  
   [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2Fdmdhrumilmistry%2Fpyhtools&ephemeral=false&show=terminal&cloudshell_print=./DISCLAIMER.md)
 
 ## Package Tools and Features
 
 ### Attackers
 
-- `For Networks`
+* `For Networks`
 
-  - Network Scanner
-  - Mac changer
-  - ARP Spoofing
-  - DNS spoofing
-  - Downloads Replacer
-  - Network Jammer
-  - Pkt Sniffer
-  - Code Injector
+  * Network Scanner
+  * Mac changer
+  * ARP Spoofing
+  * DNS spoofing
+  * Downloads Replacer
+  * Network Jammer
+  * Pkt Sniffer
+  * Code Injector
 
-- `For Websites`
+* `For Websites`
 
-  - Login Guesser (Login Bruteforcer)
-  - Web Spider
-  - Web crawler (detects dirs | subdomains)
-  - Web Vulnerablity Scanner
+  * Login Guesser (Login Bruteforcer)
+  * Web Spider
+  * Web crawler (detects dirs | subdomains)
+  * Web Vulnerablity Scanner
 
-- `For Android`
-  - mitm
-    - Custom Certificate Pinner
+* `For Android`
+  * mitm
+    * Custom Certificate Pinner
 
 ### Detectors
 
-- ARP Spoof Detector
+* ARP Spoof Detector
 
 ### Malwares/Trojans/Payloads/Ransomwares/Worms
 
-- Email Sender (reporter)
-- Downloader
-- Wireless Password Harvester
-- Credential Harvester
-- Keylogger (dlogs)
-- Reverse Backdoors
-  - TCP
-  - HTTP
-- Download and Execute
-- Telegram Data Harvester
-- DMSecRansomware
-- Telegram Remote Code Executor
-- DirCloner
+* Email Sender (reporter)
+* Downloader
+* Wireless Password Harvester
+* Credential Harvester
+* Keylogger (dlogs)
+* Reverse Backdoors
+  * TCP
+  * HTTP
+* Download and Execute
+* Telegram Data Harvester
+* DMSecRansomware
+* Telegram Remote Code Executor
+* DirCloner
 
 > **NOTE:** Do not upload/send/report malwares to anti virus services such as `VirusTotal`. This will make program detectable
 
 ## Project Updates
 
-- [View](https://github.com/users/dmdhrumilmistry/projects/2/views/1)
+* [View](https://github.com/users/dmdhrumilmistry/projects/2/views/1)
 
 ## How to Package a Evil Files
 
-- [Example Script](./examples/EvilFiles)
-- [View How to create a Trojan](./HowTo/Malwares/CreateTrojanPackage.md)
-- [Generator Script](./examples/EvilFiles/generatorScript.py)
+* [Example Script](./examples/EvilFiles)
+* [View How to create a Trojan](./HowTo/Malwares/CreateTrojanPackage.md)
+* [Generator Script](./examples/EvilFiles/generatorScript.py)
 
 `Note`: On linux host machines, user needs to install `patchelf` package. Install using below command.
 
@@ -200,8 +213,8 @@ apt/dnf/yum install patchelf
 
 ## Have any Ideas 💡 or issue
 
-- Create an issue
-- Fork the repo, update script and create a Pull Request
+* Create an issue
+* Fork the repo, update script and create a Pull Request
 
 ## Contributing
 

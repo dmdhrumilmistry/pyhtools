@@ -7,12 +7,11 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<4.0"
+python = ">=3.10,<4.0"
 aiodns = "^3.0.0"
 aiohttp = "^3.8.4"
 beautifulsoup4 = "^4.11.2"
 colorama = "^0.4.6"
-paramiko = "^3.0.0"
 pure-python-adb = "^0.3.0.dev0"
 pyfiglet = "^0.8.post1"
 pynput = "^1.7.6"
@@ -29,6 +28,8 @@ mkdocs-material = {version = "^9.1.12", optional = true}
 packaging = {version = "^23.1", optional = true}
 frida-tools = "^12.2.1"
 lxml = "^5.2.2"
+setuptools = "^72.1.0"
+pyhtools-evil-files = {git = "https://github.com/dmdhrumilmistry/pyhtools-evil-files.git", tag="v1.0.0"}
 
 
 [tool.poetry.extras]
