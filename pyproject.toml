@@ -28,7 +28,7 @@ mkdocs-material = {version = "^9.1.12", optional = true}
 packaging = {version = "^23.1", optional = true}
 frida-tools = "^12.2.1"
 lxml = "^5.2.2"
-setuptools = "^72.1.0"
+setuptools = ">=72.1,<79.0"
 pyhtools-evil-files = {git = "https://github.com/dmdhrumilmistry/pyhtools-evil-files.git", tag="v1.0.0"}
 
 
