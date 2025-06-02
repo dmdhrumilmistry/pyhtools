@@ -224,6 +224,9 @@ Refer [CONTRIBUTIONS.md](/.github/CONTRIBUTING.md) for contributing to the proje
 
 PyHTools is distributed under `MIT` License. Refer [License](/LICENSE) for more information.
 
+## GitAds Sponsored
+[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=dmdhrumilmistry/pyhtools@github)](https://gitads.dev/v1/ad-track?source=dmdhrumilmistry/pyhtools@github)
+
 ## Connect With Me
 
 |                                                                                                                       |                                                       Platforms                                                       |                                                                                                                                        |
